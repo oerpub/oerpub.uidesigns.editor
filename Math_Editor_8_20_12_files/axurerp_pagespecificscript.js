@@ -273,6 +273,8 @@ if (true) {
 
 	SetPanelState('u332', 'pd2u332','none','',500,'none','',500);
 
+	BringToFront("u93");
+
 }
 });
 gv_vAlignTable['u336'] = 'center';document.getElementById('u337_img').tabIndex = 0;
