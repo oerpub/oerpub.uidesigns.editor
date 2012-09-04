@@ -3635,7 +3635,7 @@ div {
 .u193_container {
     position:absolute;
     left:-2px;
-    top:-5px;
+    top:-3px;
     width:76px;
     height:22px;
 }
@@ -6245,6 +6245,346 @@ div {
     top:8px;
     width:56px;
     height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+#u339 {
+    position:absolute;
+    left:511px;
+    top:180px;
+    width:412px;
+    height:182px;
+    overflow:hidden;
+}
+
+#pd0u339 {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:412px;
+    height:182px;
+    
+}
+
+.u340_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u340_normal.png');
+}
+
+.u340_container {
+    position:absolute;
+    left:1px;
+    top:1px;
+    width:389px;
+    height:155px;
+}
+
+#u340_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:395px;
+    height:161px;
+}
+
+.u341 {
+    position:absolute;
+    left:2px;
+    top:70px;
+    width:385px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u342_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u342_normal.png');
+}
+
+.u342_container {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:389px;
+    height:13px;
+}
+
+#u342_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:395px;
+    height:19px;
+}
+
+.u343 {
+    position:absolute;
+    left:2px;
+    top:-2px;
+    width:385px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u344_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u344_normal.png');
+}
+
+.u344_container {
+    position:absolute;
+    left:7px;
+    top:3px;
+    width:10px;
+    height:8px;
+}
+
+#u344_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:16px;
+    height:14px;
+}
+
+.u345 {
+    position:absolute;
+    left:2px;
+    top:-4px;
+    width:6px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u346_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u346_normal.png');
+}
+
+.u346_container {
+    position:absolute;
+    left:23px;
+    top:3px;
+    width:10px;
+    height:8px;
+}
+
+#u346_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:16px;
+    height:14px;
+}
+
+.u347 {
+    position:absolute;
+    left:2px;
+    top:-4px;
+    width:6px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u348_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u348_normal.png');
+}
+
+.u348_container {
+    position:absolute;
+    left:39px;
+    top:3px;
+    width:10px;
+    height:8px;
+}
+
+#u348_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:16px;
+    height:14px;
+}
+
+.u349 {
+    position:absolute;
+    left:2px;
+    top:-4px;
+    width:6px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u350 {
+    position:absolute;
+    left:138px;
+    top:2px;
+    width:112px;
+    height:12px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u351_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u351_normal.png');
+}
+
+.u351_container {
+    position:absolute;
+    left:0px;
+    top:14px;
+    width:389px;
+    height:142px;
+}
+
+#u351_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:395px;
+    height:148px;
+}
+
+.u352 {
+    position:absolute;
+    left:2px;
+    top:4px;
+    width:385px;
+    height:135px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u353 {
+    position:absolute;
+    left:84px;
+    top:96px;
+    width:100px;
+    height:20px;
+    ;
+    ;
+    text-align: center;;
+    font-family:'Arial';
+    font-size: 13px;
+    color:#000000;
+    font-style:normal;
+    font-weight:normal;
+    text-decoration:none;
+    
+}
+
+.u354 {
+    position:absolute;
+    left:214px;
+    top:95px;
+    width:100px;
+    height:20px;
+    ;
+    ;
+    text-align: center;;
+    font-family:'Arial';
+    font-size: 13px;
+    color:#000000;
+    font-style:normal;
+    font-weight:normal;
+    text-decoration:none;
+    
+}
+
+.u355_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u355_normal.png');
+}
+
+.u355_container {
+    position:absolute;
+    left:314px;
+    top:131px;
+    width:50px;
+    height:12px;
+}
+
+#u355_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:56px;
+    height:18px;
+}
+
+.u356 {
+    position:absolute;
+    left:2px;
+    top:-2px;
+    width:46px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u357_normal {
+    background-image: url('../Math_Editor_8_20_12_files/u357_normal.png');
+}
+
+.u357_container {
+    position:absolute;
+    left:300px;
+    top:129px;
+    width:60px;
+    height:15px;
+}
+
+#u357_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:66px;
+    height:21px;
+}
+
+.u358 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:56px;
+    height:14px;
     ;
     ;
     ;
