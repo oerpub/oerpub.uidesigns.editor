@@ -1,4 +1,4 @@
-for(var i = 0; i < 235; i++) { var scriptId = 'u' + i; window[scriptId] = document.getElementById(scriptId); }
+for(var i = 0; i < 237; i++) { var scriptId = 'u' + i; window[scriptId] = document.getElementById(scriptId); }
 
 $axure.eventManager.pageLoad(
 function (e) {
@@ -182,6 +182,6 @@ gv_vAlignTable['u51'] = 'top';HookHover('u52', false);
 gv_vAlignTable['u53'] = 'top';HookHover('u54', false);
 gv_vAlignTable['u55'] = 'top';HookHover('u56', false);
 gv_vAlignTable['u57'] = 'top';HookHover('u58', false);
-gv_vAlignTable['u59'] = 'top';HookHover('u60', false);
+gv_vAlignTable['u59'] = 'top';gv_vAlignTable['u236'] = 'top';HookHover('u60', false);
 gv_vAlignTable['u61'] = 'top';HookHover('u62', false);
 gv_vAlignTable['u63'] = 'top';gv_vAlignTable['u65'] = 'top';gv_vAlignTable['u69'] = 'top';
