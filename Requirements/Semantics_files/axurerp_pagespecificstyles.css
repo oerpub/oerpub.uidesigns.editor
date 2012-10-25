@@ -2820,26 +2820,8 @@ div {
 
 .u158 {
     position:absolute;
-    left:415px;
-    top:41px;
-    width:100px;
-    height:19px;
-    ;
-    ;
-    text-align: center;;
-    font-family:'Arial';
-    font-size: 13px;
-    color:#000000;
-    font-style:normal;
-    font-weight:normal;
-    text-decoration:none;
-    
-}
-
-.u159 {
-    position:absolute;
-    left:285px;
-    top:40px;
+    left:193px;
+    top:39px;
     width:100px;
     height:19px;
     ;
@@ -2854,56 +2836,38 @@ div {
     
 }
 
-#u160 {
+#u159 {
     position:absolute;
-    left:31px;
-    top:42px;
-    width:165px;
+    left:328px;
+    top:38px;
+    width:256px;
     height:25px;
     overflow:hidden;
 }
 
-#pd1u160 {
+#pd1u159 {
     position:absolute;
     left:0px;
     top:0px;
-    width:165px;
+    width:256px;
+    height:25px;
+    
+}
+
+#pd0u159 {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:256px;
     height:25px;
     
 }
 
 .u161 {
     position:absolute;
-    left:29px;
-    top:1px;
-    width:100px;
-    height:19px;
-    ;
-    ;
-    text-align: center;;
-    font-family:'Arial';
-    font-size: 13px;
-    color:#000000;
-    font-style:normal;
-    font-weight:normal;
-    text-decoration:none;
-    
-}
-
-#pd0u160 {
-    position:absolute;
-    left:0px;
-    top:0px;
-    width:165px;
-    height:25px;
-    
-}
-
-.u163 {
-    position:absolute;
     left:16px;
     top:0px;
-    width:146px;
+    width:202px;
     height:15px;
     ;
     ;
