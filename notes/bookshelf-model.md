@@ -1,6 +1,6 @@
 # Bookshelf Model for Creating and Finding Book Repos
 
-Because non coder authors won't understand book repository, we are considering a "bookshelf" model. At the same time,
+Because non-coder authors won't understand book repository, we are considering a "bookshelf" model. At the same time,
 it is advantageous to use the term repositoryy in concert with shelf so that technical authors know how to find their books
 on github or using git also.
 
@@ -12,7 +12,7 @@ Something like
 
 Sign in to the Book Editor
 
-{user id} {password} ([or use advanced login with oauth](www.google.com))
+[*author id*]  \[*password*\] ([or use advanced login with oauth](www.google.com))
 
 [No thanks, I just want to demo](www.google.com) - This takes you to the demo book only.
 
@@ -26,7 +26,7 @@ Choose Bookshelf
 
 or 
 
-[enter author id] [enter bookshelf (repository) id]  -- Eventually this can become the "Choose Bookshelf" menu illustrated
+[*author id*] [*bookshelf (repository) id*]  -- Eventually this can become the "Choose Bookshelf" menu illustrated
 below under Change Bookshelf.
 
 [Continue]
