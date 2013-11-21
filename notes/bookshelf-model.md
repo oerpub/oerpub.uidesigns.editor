@@ -12,9 +12,9 @@ Something like
 
 Sign in to the Book Editor
 
-[*author id*]  \[*password*\] ([or use advanced login with oauth](www.google.com))
+[*author id*]  \[*password*\] ([or use advanced login with oauth](http://www.google.com))
 
-[No thanks, I just want to demo](www.google.com) - This takes you to the demo book only.
+[No thanks, I just want to demo](http://www.google.com) - This takes you to the demo book only.
 
 [Sign in]
 
@@ -22,7 +22,7 @@ and then the next page:
 
 Choose Bookshelf
 
-[Start with the demo book]
+[Start with the demo book](http://www.google.com)
 
 or 
 
