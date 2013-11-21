@@ -10,7 +10,7 @@ on github or using git also.
 The login page needs to  have a way to select the book repo you want to open. 
 Something like
 
-Sign in to the Book Editor
+**Sign in to the Book Editor**
 
 [*author id*]  \[*password*\] ([or use advanced login with oauth](http://www.google.com))
 
@@ -20,7 +20,7 @@ Sign in to the Book Editor
 
 and then the next page:
 
-Choose Bookshelf
+**Choose Bookshelf**
 
 [Start with the demo book](http://www.google.com)
 
