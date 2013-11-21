@@ -26,7 +26,7 @@ Choose Bookshelf
 
 or 
 
-[*author id*] [*bookshelf (repository) id*]  -- Eventually this can become the "Choose Bookshelf" menu illustrated
+[*owner id*] [*bookshelf (repository) id*]  -- Eventually this can become the "Choose Bookshelf" menu illustrated
 below under Change Bookshelf.
 
 [Continue]
@@ -45,7 +45,7 @@ Things to include
  * a list of recent book(s)
  * a way to request a list of book repos in your account
  * a way to request a list of books in someone else's account (for now you have to know their id)
- * a way to specify both [user id] [bookshelf id]
+ * a way to specify both [owner id] [bookshelf id]
 
 Selection of a different branch needs to be in an advanced thing and more hidden for now.
 
