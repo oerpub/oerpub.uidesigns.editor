@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+<!--
+    <script src="helper_files/swordpush.js"></script>
+-->
+    <script src="helper_files/swordpush-max-04.js"></script>
+
+    <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+
+<!--
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+-->
+    <link rel="stylesheet" href="helper_files/main-max-03.css" type="text/css" media="screen" charset="utf-8" />
+
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+<script type="text/javascript">
+
+$(window).resize(function(){
+  $("iframe").width($(window).width() - 53);              
+});
+
+$(document).ready(function(){
+
+/* Moved this portion back directly into the file because 'headerh' wasn't always correctly calculated when done from the external file. */
+
+  var winh = $(window).height();
+  var headerh = $("#header-container").outerHeight();
+  var wfnh = $("#workflownav-wrap").outerHeight();
+  var contentp = parseInt($("#content").css("paddingTop"));
+  var contentp = contentp + parseInt($("#content").css("paddingBottom"));
+  var phwh = $("#pageheader-wrap").outerHeight();
+  var ma = $("#module-actions .advanced").outerWidth();
+
+  // Make the iframe fit exactly inside the remaining space
+/*
+  $("iframe").height(winh - headerh - wfnh - contentp - phwh + 5);
+*/
+  $("iframe").width($(window).width() - 53);              
+
+  // Give the page's header the correct top margin (since the elements above it are in a fixed position)
+  $("#content").css({'margin-top': headerh + wfnh})
+
+});
+
+function resizeIframe(newHeight) // Taken from SchizoDuckie at http://stackoverflow.com/questions/525992/resize-iframe-height-according-to-content-height-in-it
+{
+    $('iframe').css("height", parseInt(newHeight,10) + 10 + 'px');
+}
+
+
+</script>
+
+  </head>
+
+  <body>
+    
+    
+  <div id="header-wrap">
+    <div id="header-container">
+
+      <div id="header-functions">
+        <div id="expertmode">
+          <span id="expand-advanced" style="display: inline;">
+            &#171;
+          </span>
+          <span id="basic-message" style="display: none;">
+            <span class="link-like">Switch to advanced mode</span>
+          </span>
+          <span id="advanced-message" style="display: none;">
+            You are in advanced mode. 
+            <span class="link-like">Return to basic mode.</span>
+          </span>
+        </div>
+        <div id="status">
+          <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+          <a href="#" target="_top">Sign out.</a>
+        </div>
+      </div>
+
+      <div id="header">
+        <img class="cnxlogo" src="helper_files/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="workflownav-wrap">
+    <div id="workflownav-container">
+<!--
+      <div id="back-steps">
+        <input type="button" class="button" value="&#171; Back" id="back-to-chooser"
+               title="Return to the previous page"/>
+      </div>
+-->
+      <div id="forward-steps">
+        <input type="button" class="button forward-button" value="Work on another document" 
+               title="Return to the home page to create, edit, or adapt more modules"/>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+      <div id="content">
+
+
+        <div id="pageheader-wrap">
+
+          <div id="module-actions">
+            <div class="advanced" style="display: none;">
+              <h2 class="advanced-label">
+                Advanced
+              </h2>
+              <strong>Module actions: </strong>
+              <a title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+                 id="download-copy" href="#asdfaasdf" style="color: black; text-decoration: none;">
+               <span class="button" style="margin-left: 0;">Download a copy</span>
+              </a>
+            </div>
+          </div>
+
+                    <div id="page-title">
+                        <h1>
+                            Success
+                        </h1>
+                    </div>
+
+                    <p>
+                        <span class="metatitle">"Cooking with SPAM"</span> was successfully uploaded to Connexions.
+                    </p>
+
+                    <p>
+                        <span class="highlight">It is not published yet!</span>
+                    </p>
+
+                    <p>
+                        <span>To publish and share your module, you must sign the Open Content License at Connexions and then click "Agree":</span>
+                    </p>
+
+                    <iframe src="license-iframe-01.html">
+                    </iframe>
+<!--
+                    <ol>
+                        
+                        <li>
+                            You must <a href="http://cnx.org/Members/starkenbury/module.2012-06-19.7683877984/module_publish" class="external" target="_blank">sign the 
+Open Content License</a> at Connexions and then click "Publish".
+                        </li>
+                        
+                        
+                    </ol>
+-->
+
+        </div>
+
+
+
+        <div id="footer">
+          <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div id="featuredlinks" style="display: none;">
+
+        <strong>
+            Create a new Featured Link for this module
+        </strong>
+
+        <div class="fl-controls">
+
+                <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Link title</span>:
+                        </th>
+                        <td colspan="2">
+                                <div></div>
+                                <input name="title" size="30" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                             <span>Type</span>:
+                         </th>
+                         <td colspan="2">
+                             <select name="category">
+                                 <option value="example">Example</option>
+                                 <option value="prerequisite">Prerequisite</option>
+                                 <option value="supplemental">Supplemental</option>
+                             </select>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Strength</span>:
+                        </th>
+                        <td colspan="2">
+                            <select name="strength">
+                                <option value="3"> 3 : Strongly related link </option>
+                                <option value="2"> 2 : Related link </option>
+                                <option value="1"> 1 : Weakly related link </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radiourl" value="url" class="noborder" checked="checked" type="radio">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>Enter either a URL ...</span>
+                        </th>
+                        <td colspan="2">
+                                <div></div>
+                                <input name="url" size="30" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radioid" value="id" class="noborder" type="radio">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>... or a Connexions ID</span>:
+                        </th>
+                        <td colspan="2" style="padding-bottom: 1em; padding-right: 0.5em;">
+                                <div></div>
+                                <input name="connexions_id" size="8" type="text">
+                                <span style="padding: 0pt 0.25em; font-weight: bold;">
+                                    <span>Version</span> 
+                                    <span style="font-weight: normal;">(<span>optional</span>)</span>
+                                </span>:
+                                <input name="version" size="3" type="text">
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+
+                <div style="text-align: center; margin: .5em 0;">
+                  <span class="button" id="submit-featuredlinks">Add New Link</span> 
+                  <span class="button" id="cancel-featuredlinks">Cancel</span>
+                </div>
+
+      </div>
+
+    </div>
+
+<div id="featuredlinks-edit" style="display: none;">
+        <strong>
+            Edit this Featured Link
+        </strong>
+
+        <div class="link-controls" style="margin: 1em 0 0;">
+
+
+                <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Link title</span>:
+                        </th>
+                        <td colspan="2">
+                                <div></div>
+                                <input name="title" size="30" type="text" value="Minor Keys">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                             <span>Type</span>:
+                         </th>
+                         <td colspan="2">
+                             <select name="category">
+                                 <option value="example">Example</option>
+                                 <option value="prerequisite">Prerequisite</option>
+                                 <option value="supplemental" selected="selected">Supplemental</option>
+                             </select>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Strength</span>:
+                        </th>
+                        <td colspan="2">
+                            <select name="strength">
+                                <option value="3" selected="selected"> 3 : Strongly related link </option>
+                                <option value="2"> 2 : Related link </option>
+                                <option value="1"> 1 : Weakly related link </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radiourl" value="url" class="noborder" type="radio">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>Enter either a URL ...</span>
+                        </th>
+                        <td colspan="2">
+                                <div></div>
+                                <input name="url" size="30" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radioid" value="id" class="noborder" type="radio" checked="checked">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>... or a Connexions ID</span>:
+                        </th>
+                        <td colspan="2" style="padding-bottom: 1em; padding-right: 0.5em;">
+                                <div></div>
+                                <input name="connexions_id" size="8" type="text" value="m10856">
+                                <span style="padding: 0pt 0.25em; font-weight: bold;">
+                                    <span>Version</span> 
+                                    <span style="font-weight: normal;">(<span>optional</span>)</span>
+                                </span>:
+                                <input name="version" size="3" type="text">
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+                <div style="text-align: center; margin: .5em 0;">
+                  <span class="button" id="submit-featuredlinks-edit">Save Changes</span> 
+                  <span class="button" id="cancel-featuredlinks-edit">Cancel</span>
+                </div>
+        </div>              
+
+    </div>
+
+    <div id="featuredlinks-help" style="display: none;">
+
+      <div>
+         <span class="button" id="close-featuredlinks-help">Close X</span>
+      </div>
+
+      <strong>About Featured Links</strong>
+
+      <p>
+        "Featured Links" provide a way for authors to prominently display links in their modules.  
+        These can be links to example, supplemental, or prerequisite materials, such as other modules, outside resources, or files for downloading. 
+        They are featured in a special box in the upper-right-hand corner of the module when viewed online, as seen in this example:
+      </p>
+      <div style="text-align: center;">
+        <img src="helper_files/featured-links-02.png"/>
+      </div>
+
+    </div>
+
+
+
+  </body>
+</html>
+
+
+

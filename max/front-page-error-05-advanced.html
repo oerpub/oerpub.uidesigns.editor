@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+<!--
+    <script src="helper_files/swordpush.js"></script>
+-->
+    <script src="helper_files/swordpush-max-03.js"></script>
+
+    <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+
+<!--
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+-->
+    <link rel="stylesheet" href="helper_files/main-max-03.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+/* Moved this portion back directly into the file because 'headerh' wasn't always correctly calculated when done from the external file. */
+
+  var winh = $(window).height();
+  var headerh = $("#header-container").outerHeight();
+  var wfnh = $("#workflownav-wrap").outerHeight();
+  var contentp = parseInt($("#content").css("paddingTop"));
+  var contentp = contentp + parseInt($("#content").css("paddingBottom"));
+  var phwh = $("#pageheader-wrap").outerHeight();
+  var ma = $("#module-actions .advanced").outerWidth();
+
+  // Make the iframe fit exactly inside the remaining space
+  $("iframe").height(winh - headerh - wfnh - contentp - phwh + 5);
+  $("iframe").width($(window).width() - 53);
+
+  // Give the page's header the correct top margin (since the elements above it are in a fixed position)
+  $("#content").css({'margin-top': headerh + wfnh});
+
+
+// Only here for the purposes of this mock-up
+  $("#expertmode").toggle(function(){
+    $("#advanced-message").hide();
+    $("#expand-advanced").show();
+    $(this).removeClass("expert-activated");
+    $(".advanced").hide();
+  }, function(){
+    $("#advanced-message").show();
+    $("#basic-message").hide();
+    $(this).addClass("expert-activated");
+    $(".advanced").show();
+    $("#expand-advanced").hide();
+  });
+
+
+});
+
+/* Below just for this mock-up */
+
+function keyDown(event) {
+  if ($(this).value != '') {
+    $('#url-submit').removeAttr('disabled');
+  }
+  if (event.keyCode == 13) {
+    $('#file-submit').removeAttr('disabled');
+    $('#file-submit').click();
+    $('#url-submit').removeAttr('disabled');
+  }
+}
+
+</script>
+
+<style type="text/css">
+
+.create-new-list li{
+  margin-left: 0;
+}
+
+</style>
+
+  </head>
+
+  <body>
+    
+    
+  <div id="header-wrap">
+
+    <div id="header-container">
+
+      <div id="header-functions">
+        <div id="expertmode">
+          <span id="expand-advanced" style="display: none;">
+            &#171;
+          </span>
+          <span id="basic-message" style="display: none;">
+            <span class="link-like">Switch to advanced mode</span>
+          </span>
+          <span id="advanced-message" style="display: inline;">
+            You are in advanced mode. 
+            <span class="link-like">Return to basic mode.</span>
+          </span>
+        </div>
+        <div id="status">
+<!--
+          <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+          <a href="#" target="_top">Sign out.</a>
+-->
+        </div>
+      </div>
+
+      <div id="header">
+        <img class="cnxlogo" src="helper_files/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+      <div id="content">
+
+
+        <div id="left-column-wrap">
+          <div id="left-column">
+
+            <div class="splashbox">
+              <p>Please sign in using your <strong>Connexions username and password</strong>.</p>
+
+            <div class="advanced" style="display: block;">
+              <h2 class="advanced-label">
+                Advanced
+              </h2>
+              <div class="formlabel">
+                <label for="url">Change repository</label>
+              </div>
+              <div class="forminfo">Enter service document URL</div>
+              <div class="formfield">
+                <input type="text" name="url" style="width: 25em;" value="http://cnx.org/sword/servicedocument"/>
+              </div>
+            </div>
+
+              <div class="error" style="display: block;">
+                <span class="errortext">Invalid username or password. Please try again.</span>
+              </div>
+
+              <table>
+                <tr>
+                  <td><div class="formlabel"><label for="username">Username</label></div></td>
+                  <td><div class="formfield"><input type="text" name="username"/></div></td>
+                </tr>
+                <tr>
+                  <td><div class="formlabel"><label for="password">Password</label></div></td>
+                  <td><div class="formfield"><input type="password" name="password"/></div></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right" id="log-in">
+                    <input class="button" id="form.submitted" name="form.submitted" type="submit" value="Log in" />
+                  </td>
+                </tr>
+              </table>
+              <p>
+                If you do not yet have an account, go to
+                <a class="external" href="http://cnx.org/join_form">the Connexions site</a>
+                to create one.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div id="right-column-wrap">
+          <div id="right-column">
+
+            <h1>
+              About the Connexions Importer
+            </h1>
+
+            <p>
+              The Connexions Importer allows you to quickly create content in the 
+              <a class="external" href="http://cnx.org/">Connexions</a> repository by sharing existing educational documents you have created.
+            </p>
+            <ul>
+              <li>
+                If you do not yet have an account, go to the <a class="external" href="http://cnx.org/join_form">Connexions site</a> to create one. 
+              </li>
+              <li>
+                Then, come back here, login, and upload new content from a Word, Open Office, or Google Doc.
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+        <div id="footer">
+          <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  </body>
+</html>
+
+
+

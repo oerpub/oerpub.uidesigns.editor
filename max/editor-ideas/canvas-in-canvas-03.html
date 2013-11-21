@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cnx="http://cnx.rice.edu/cnxml" xmlns:tal="http://xml.zope.org/namespaces/tal" xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:m="http://www.w3.org/1998/Math/MathML" class="ext-strict">
+  <head>
+    <!-- base href="http://cnx.org/content/m10865/latest/" -->
+    <title>Linear and Time-Invariant Systems</title>
+    <link rel="stylesheet" type="text/css" href="content_files/ext-all.css"/>
+    <link type="text/css" href="content_files/document.css" media="screen" title="newlook" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="content_files/print.css" media="print"/>
+    <script type="text/javascript" src="content_files/rhaptosutils.js"> </script>
+<!--
+    <script type="text/javascript" src="content_files/choose-style.js"> </script>
+    <script type="text/javascript" src="content_files/toggler.js"> </script>
+-->
+    <script type="text/javascript" src="content_files/exercise.js"> </script>
+    <script type="text/javascript" src="content_files/qml_1-0.js"> </script>
+<!--
+    <script type="text/javascript" src="content_files/ext.js"> </script>
+    <script type="text/javascript" src="content_files/dynamic.js"> </script>
+    <script type="text/javascript" src="content_files/transMenus0_9_2.js"> </script>
+    <script type="text/javascript" src="content_files/toc.js"> </script>
+    <script type="text/javascript" src="content_files/register_function.js"> </script>
+    <script type="text/javascript" src="content_files/login.js"> </script>
+-->
+
+<script type="text/javascript" src="content_files/jquery-1.5.1.min.js"></script>
+
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+    <link rel="source" title="Source" type="text/xml" href="http://cnx.org/content/m10865/2.11/source"/>
+    <link rel="module" title="Module" type="text/xml" href="http://cnx.org/content/m10865/latest/"/>
+    <link rel="previous" href="http://cnx.org/content/m11641/latest/" title="Enharmonic Spelling"/>
+    <link rel="up" href="http://cnx.org/content/col10714/1.1" title="Music Fundamentals 1: Pitch and Major Scales and Keys"/>
+    <link rel="meta" type="application/rdf+xml" href="http://cnx.org/content/m10865/latest/content_license"/>
+    <link id="cnx_annotea" title="Annotea Server" type="text/xml" href="http://cnx.org/content/col10714/1.1/annotations" rel="annotea read"/>
+<!--[if IE]>
+	  <object id="objIEAnnoteaActiveXCtrl" classid="clsid:3EC733C9-32C0-45FA-BAE4-EA62E96800AA"></object>
+	  <script type="text/javascript" language="JavaScript" src="/js/ie-annotations.js"> </script>
+	  <![endif]-->
+    <link rel="search" title="Search this site" href="http://cnx.org/content/search"/>
+    <link rel="search" title="Connexions" href="http://cnx.org/opensearchdescription" type="application/opensearchdescription+xml"/>
+    <script type="text/javascript" src="http://cnx.org/++resource++mathjax/MathJax.js">
+            MathJax.Hub.Config({
+                extensions: ["mml2jax-bugfix.js"],
+                menuSettings: {zoom:"Click"},
+                "HTML-CSS": {scale:110},
+                jax: ["input/MathML","output/HTML-CSS"]
+            });
+            if(location.href.split("#").length != 1) {
+              MathJax.Hub.Register.StartupHook("End", function() {location.href = location.href; });
+            }
+        </script>
+
+<script>
+
+
+$(document).ready(function(){
+
+  $('.canvas').click(function(e){
+    // Run through all the "canvases" and "turn them off"
+    $('.canvas').each(function(i){
+      $(this).removeClass('active');
+      $(this).addClass('inactive');
+      $(this).removeClass('inactive-hover');
+    });
+    // Same with the "drag me" bars
+    $('.canvas-buddy').each(function(i){
+      $(this).hide();
+    });
+    // Now "turn on" the current canvas that was just clicked on
+    $(this).removeClass('inactive');
+    $(this).addClass('active');
+    $(this).children().children('.canvas-buddy').show();
+    // For fun pretend that there is a blinking cursor where you clicked
+    var cursorX = e.pageX - this.offsetLeft + 'px';
+    var cursorY = e.pageY - this.offsetTop - 5 + 'px';
+    $(this).css('background-position', cursorX + ' ' + cursorY);
+    // Don't go up the tree looking for other "canvases" also clicked on
+    e.stopPropagation();
+  });
+
+  $('html').click(function(e){
+    $('.canvas').each(function(i){
+      $(this).removeClass('active');
+      $(this).removeClass('inactive');
+      $(this).removeClass('inactive-hover');
+    });
+    $('.canvas-buddy').each(function(i){
+      $(this).hide();
+    });
+    $('.special-canvas').removeClass('inactive');
+//    $('.special-canvas').addClass('active');
+  });
+
+  $('.canvas-wrap').hover(function(e){
+    if ( !$(this).children().hasClass('active') && !$(this).parents('.canvas').not('.special-canvas').hasClass('active') ) {
+//    if (!$(*).hasClass('active')) {
+
+      $('.canvas-buddy').each(function(i){
+        $(this).hide();
+      });
+      $('.canvas').each(function(i){
+        $(this).removeClass('inactive-hover');
+      });
+      $(this).children().addClass('inactive-hover');
+      $(this).children().children().children('.canvas-buddy').show();
+      e.stopPropagation();
+
+    }
+      e.stopPropagation();
+  }, function(e){
+    if ( !$(this).children().hasClass('active') ) {
+      if ($(this).parents('.canvas')) {
+        $(this).closest('.canvas').children().children('.canvas-buddy').show();
+        $(this).closest('.canvas').not('.special-canvas').addClass('inactive-hover');
+      }
+      $(this).children().children().children('.canvas-buddy').hide();
+      $(this).children().removeClass('inactive-hover');
+/*
+      $('.canvas').each(function(i){
+        $(this).removeClass('inactive-hover');
+      });
+*/
+    }
+  });
+
+  $('.remove-element').click(function(e){
+     var c = confirm('Are you sure you want to remove this element?');
+     if (c == true) {
+       $(this).closest('.canvas-wrap').hide("slow", function(){ $(this).remove(); });
+     }
+  });
+
+
+});
+
+
+</script>
+
+
+<style type="text/css">
+
+body{
+/*
+  background-color: #f5f5f5;
+*/
+}
+
+.canvas-wrap{
+  margin: 2em 0;
+  padding-right: 20px;
+}
+
+.canvas{
+  border: 1px solid #fff;
+}
+
+.canvas-inner{
+  padding: 1em;
+  position: relative;
+}
+
+.special-canvas{
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.inactive{
+/*
+  border: 1px solid #4d90fe;
+  background-color: #f5f5f5;
+  box-shadow: -2px -2px 3px #ccc;
+*/
+  border: 1px dashed #bbb;
+  background-color: #fafafa;
+}
+
+.inactive-hover{
+  border: 1px solid #bbb;
+  background-color: white;
+}
+
+.active{
+  border: 1px solid #4d90fe;
+/*
+  border-right-color: #bbb;
+*/
+  box-shadow: 2px 2px 3px #ccc inset;
+  background-color: white;
+  background-image: url('source-files/cursor-01.gif');
+  background-repeat: no-repeat;
+  background-position: .75em 1em;
+}
+
+.special-canvas.inactive{
+/*
+  box-shadow: none;
+*/
+  border-color: #ccc;
+}
+
+.inactive .inactive{
+/*
+  border-color: #bbb;
+  box-shadow: none;
+*/
+}
+
+.inactive .active .inactive{
+/*
+  border-color: #4d90fe;
+  box-shadow: -2px -2px 3px #ccc;
+*/
+}
+
+.equation-number{
+  right: 1em;
+  top: 40%;
+}
+
+.canvas-buddy{
+  background-color: #ddd;
+//  box-shadow: 0 -2px 3px #ccc;
+  width: 20px;
+  position: absolute;
+  right: -22px;
+  top: -1px;
+  height: 100%;
+  text-align: center;
+  border: 1px solid #bbb;
+  border-left-width: 0;
+  cursor: move;
+  text-transform: uppercase;
+  line-height: 1.1em;
+  display: none;
+  color: #666;
+  overflow: hidden;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.remove-element{
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
+}
+.drag-element{
+  position: absolute;
+  top: 45%;
+  right: 2px;
+  cursor: move;
+}
+.edit-element{
+  position: absolute;
+  bottom: 2px;
+  right: 1px;
+  cursor: pointer;
+}
+.edit-element img{
+  width: 16px;
+  height: 16px;
+}
+
+.active>div>.canvas-buddy{
+  display: block;
+  border-color: #4d90fe;
+}
+
+.cnx_label{
+  cursor: default;
+}
+
+.add-solution, .active .inactive .add-solution{
+  margin: -.75em 0 0 4em;
+  visibility: hidden;
+}
+
+.active .add-solution, .inactive-hover .add-solution{
+  visibility: visible;
+}
+
+</style>
+
+  </head>
+  <body id="cnx_module" class="ext-gecko ext-gecko2">
+
+
+<div style="width: 680px; margin: 2em;">
+
+  <p style="font-style: italic; margin-bottom: 1.5em;">
+  The blinking cursor effect doesn't work that great (it's just a background-image hack, so it often doesn't line up with actual text), but is just intended to give an 
+  idea of how the editor might kind of feel.
+  </p>
+  <p style="font-style: italic; margin-bottom: 1.5em;">
+  Some of the hover behavior isn't exactly as it should be, but is mostly as intended.
+  </p>
+
+  <div style="height: 35px; overflow: hidden;">
+    <img src="source-files/redactor-toolbar.png"/>
+  </div>
+
+    <div class="canvas special-canvas" style="width: 678px; height: 500px; overflow: auto; padding: 0; margin: 0;">
+
+
+      <div style="padding: 1.5em;">
+
+        <div id="cnx_module_header">
+
+          <h1>Linear and Time-Invariant Systems</h1>
+
+        </div>
+
+        <div xmlns:md="http://cnx.rice.edu/mdml/0.4" xmlns:qml="http://cnx.rice.edu/qml/1.0" xmlns:mod="http://cnx.rice.edu/#moduleIds" xmlns:bib="http://bibtexml.sf.net/" id="cnx_main">
+
+
+
+
+
+  <p class="para" id="para1"> 
+    A signal's complexity is not related to how wiggly it is. Rather, a signal 
+    expert looks for ways of decomposing a given signal into a  <em class="emphasis">sum of 
+    simpler signals</em>, which we term the <dfn class="term">signal decomposition</dfn>. 
+    Though we will never compute a signal's complexity, it essentially equals the 
+    number of terms in its decomposition. In writing a signal as a sum of component 
+    signals, we can change the component signal's gain by multiplying it by a constant 
+    and by delaying it. More complicated decompositions could contain derivatives 
+    or integrals of simple signals. In short, signal decomposition amounts to 
+    thinking of the signal as the output of a linear system having simple signals as 
+    its inputs. We would build such a system, but envisioning the signal's components
+    helps understand the signal's structure. Furthermore, you can readily compute a
+    linear system's output to an input decomposed as a superposition of simple signals.
+  </p>
+
+<div class="canvas-wrap">
+  <div class="canvas" id="ex1">
+<div class="canvas-inner">
+<!--
+<div class="canvas-buddy">d r a g &nbsp; m e</div>
+-->
+<div class="canvas-buddy">
+  <a class="remove-element" href="#" title="Remove this element">
+    <img src="content_files/remove-element-01.png"/>
+  </a>
+  <a class="edit-element" href="#" title="Edit options for this element">
+    <img src="content_files/options-02.png" style=""/>
+  </a>
+  <a class="drag-element" href="#" title="Drag this element to another location">
+    <img src="content_files/drag-element-03.png"/>
+  </a>
+</div>
+<h2 class="example-header"><span class="cnx_label">Example 1</span></h2><div class="example-contents"><p class="para" 
+id="paraex1">
+      As an example of signal complexity, we can express the pulse  
+      <span class="MathJax" role="textbox" aria-readonly="true" style=""><nobr><span class="math" id="MathJax-Span-22"><span style="display: inline-block; position: 
+relative; width: 2.338em; height: 0px; font-size: 139%;"><span style="position: absolute; top: -2.858em; left: 0em; clip: rect(1.927em, 1000em, 3.289em, -0.578em);"><span 
+class="mrow" id="MathJax-Span-23"><span class="mrow" id="MathJax-Span-24"><span class="mrow" id="MathJax-Span-25"><span class="mrow" id="MathJax-Span-26"><span class="mi" 
+id="MathJax-Span-27"/><span class="msub" id="MathJax-Span-28"><span style="display: inline-block; position: relative; width: 1.229em; height: 0px;"><span style="position: 
+absolute; top: -2.858em; left: 0em; clip: rect(2.236em, 1000em, 3.232em, -0.578em);"><span class="mi" id="MathJax-Span-29" style="font-family: MathJax_Math; font-style: 
+italic;">p</span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span><span style="position: absolute; top: -2.629em; left: 0.555em;"><span 
+class="mi" id="MathJax-Span-30" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">?</span><span style="display: inline-block; width: 0px; height: 
+2.858em;"/></span></span></span><span class="mi" id="MathJax-Span-31"/></span><span class="mo" id="MathJax-Span-32"/><span class="mfenced" id="MathJax-Span-33"><span 
+class="mo" id="MathJax-Span-34" style=""><span style="font-family: MathJax_Main;">(</span></span><span class="mrow" id="MathJax-Span-35"><span class="mi" 
+id="MathJax-Span-36" style="font-family: MathJax_Math; font-style: italic;">t</span></span><span class="mo" id="MathJax-Span-37" style=""><span style="font-family: 
+MathJax_Main;">)</span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span></span><span style="border-left: 0em 
+solid; display: inline-block; overflow: hidden; width: 0px; height: 1.393em; vertical-align: -0.349em;"/></span></nobr></span><script type="math/mml" 
+id="MathJax-Element-1">&lt;math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"&gt;&lt;semantics&gt;&lt;mrow&gt;
+        &lt;mrow&gt;&lt;mrow&gt;&lt;mi&gt;&lt;/mi&gt;&lt;msub&gt;
+              &lt;mi&gt;p&lt;/mi&gt;
+              &lt;mi&gt;?&lt;/mi&gt;
+            &lt;/msub&gt;&lt;mi&gt;&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mfenced open="(" close=")" 
+separators=","&gt;&lt;mrow&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfenced&gt;&lt;/mrow&gt;
+      &lt;/mrow&gt;&lt;annotation-xml encoding="MathML-Content"&gt;&lt;apply&gt;
+          &lt;ci type="fn"&gt;
+            &lt;msub&gt;
+              &lt;mi&gt;p&lt;/mi&gt;
+              &lt;mi&gt;?&lt;/mi&gt;
+            &lt;/msub&gt;
+          &lt;/ci&gt;
+          &lt;ci&gt;t&lt;/ci&gt;
+        &lt;/apply&gt;&lt;/annotation-xml&gt;&lt;/semantics&gt;&lt;/math&gt;</script>
+      as a sum of delayed unit steps.
+<div class="canvas-wrap">
+      <div class="equation canvas" id="eq1">
+<div class="canvas-inner">
+<div class="canvas-buddy">
+  <a class="remove-element" href="#" title="Remove this element">
+    <img src="content_files/remove-element-01.png"/>
+  </a>
+  <a class="edit-element" href="#" title="Edit options for this element">
+    <img src="content_files/options-02.png" style=""/>
+  </a>
+  <a class="drag-element" href="#" title="Drag this element to another location">
+    <img src="content_files/drag-element-03.png"/>
+  </a>
+</div>
+<div class="equation-contents"> 
+        <div class="MathJax_Display" style="width: 100%; position: relative; text-align: center;" role="textbox" aria-readonly="true"><span class="MathJax" 
+style=""><nobr><span class="math" id="MathJax-Span-38"><span style="display: inline-block; position: relative; width: 10.37em; height: 0px; font-size: 139%;"><span 
+style="position: absolute; top: -2.858em; left: 0em; clip: rect(1.927em, 1000em, 3.289em, -0.578em);"><span class="mrow" id="MathJax-Span-39"><span class="mrow" 
+id="MathJax-Span-40"><span class="mrow" id="MathJax-Span-41"><span class="mrow" id="MathJax-Span-42"><span class="mrow" id="MathJax-Span-43"><span class="mi" 
+id="MathJax-Span-44"/><span class="msub" id="MathJax-Span-45"><span style="display: inline-block; position: relative; width: 1.229em; height: 0px;"><span style="position: 
+absolute; top: -2.858em; left: 0em; clip: rect(2.236em, 1000em, 3.232em, -0.578em);"><span class="mi" id="MathJax-Span-46" style="font-family: MathJax_Math; font-style: 
+italic;">p</span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span><span style="position: absolute; top: -2.629em; left: 0.555em;"><span 
+class="mi" id="MathJax-Span-47" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">?</span><span style="display: inline-block; width: 0px; height: 
+2.858em;"/></span></span></span><span class="mi" id="MathJax-Span-48"/></span><span class="mo" id="MathJax-Span-49"/><span class="mfenced" id="MathJax-Span-50"><span 
+class="mo" id="MathJax-Span-51" style=""><span style="font-family: MathJax_Main;">(</span></span><span class="mrow" id="MathJax-Span-52"><span class="mi" 
+id="MathJax-Span-53" style="font-family: MathJax_Math; font-style: italic;">t</span></span><span class="mo" id="MathJax-Span-54" style=""><span style="font-family: 
+MathJax_Main;">)</span></span></span></span></span><span class="mrow" id="MathJax-Span-55" style="padding-left: 0.278em;"><span class="mo" id="MathJax-Span-56" 
+style="font-family: MathJax_Main;">=</span></span><span class="mrow" id="MathJax-Span-57" style="padding-left: 0.278em;"><span class="mrow" id="MathJax-Span-58"><span 
+class="mrow" id="MathJax-Span-59"><span class="mrow" id="MathJax-Span-60"><span class="mi" id="MathJax-Span-61" style="font-family: MathJax_Math; font-style: 
+italic;">u</span></span><span class="mo" id="MathJax-Span-62"/><span class="mfenced" id="MathJax-Span-63"><span class="mo" id="MathJax-Span-64" style=""><span 
+style="font-family: MathJax_Main;">(</span></span><span class="mrow" id="MathJax-Span-65"><span class="mi" id="MathJax-Span-66" style="font-family: MathJax_Math; 
+font-style: italic;">t</span></span><span class="mo" id="MathJax-Span-67" style=""><span style="font-family: MathJax_Main;">)</span></span></span></span><span class="mo" 
+id="MathJax-Span-68" style="font-family: MathJax_Main; padding-left: 0.222em;">-</span><span class="mrow" id="MathJax-Span-69" style="padding-left: 0.222em;"><span 
+class="mrow" id="MathJax-Span-70"><span class="mi" id="MathJax-Span-71" style="font-family: MathJax_Math; font-style: italic;">u</span></span><span class="mo" 
+id="MathJax-Span-72"/><span class="mfenced" id="MathJax-Span-73"><span class="mo" id="MathJax-Span-74" style=""><span style="font-family: 
+MathJax_Main;">(</span></span><span class="mrow" id="MathJax-Span-75"><span class="mrow" id="MathJax-Span-76"><span class="mi" id="MathJax-Span-77" style="font-family: 
+MathJax_Math; font-style: italic;">t</span></span><span class="mo" id="MathJax-Span-78" style="font-family: MathJax_Main; padding-left: 0.222em;">-</span><span 
+class="mrow" id="MathJax-Span-79" style="padding-left: 0.222em;"><span class="mi" id="MathJax-Span-80" style="font-family: MathJax_Math; font-style: 
+italic;">?</span></span></span><span class="mo" id="MathJax-Span-81" style=""><span style="font-family: 
+MathJax_Main;">)</span></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span></span><span 
+style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.393em; vertical-align: -0.349em;"/></span></nobr></span></div><script 
+type="math/mml" id="MathJax-Element-2">&lt;math xmlns="http://www.w3.org/1998/Math/MathML" display="block"&gt;&lt;semantics&gt;&lt;mrow&gt;
+          &lt;mrow&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mi&gt;&lt;/mi&gt;&lt;msub&gt;
+                    &lt;mi&gt;p&lt;/mi&gt;
+                    &lt;mi&gt;?&lt;/mi&gt;
+                  &lt;/msub&gt;&lt;mi&gt;&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mfenced open="(" close=")" 
+separators=","&gt;&lt;mrow&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfenced&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mi&gt;u&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mfenced 
+open="(" close=")" 
+separators=","&gt;&lt;mrow&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfenced&gt;&lt;/mrow&gt;&lt;mo&gt;-&lt;/mo&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mi&gt;u&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mfenced 
+open="(" close=")" 
+separators=","&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;-&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;?&lt;/mi&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;/mfenced&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;/mrow&gt;
+        &lt;/mrow&gt;&lt;annotation-xml encoding="MathML-Content"&gt;&lt;apply&gt;
+            &lt;eq/&gt;
+              &lt;apply&gt;
+                &lt;ci type="fn"&gt;
+                  &lt;msub&gt;
+                    &lt;mi&gt;p&lt;/mi&gt;
+                    &lt;mi&gt;?&lt;/mi&gt;
+                  &lt;/msub&gt;
+                &lt;/ci&gt;
+                &lt;ci&gt;t&lt;/ci&gt;
+              &lt;/apply&gt;
+              &lt;apply&gt;
+                &lt;minus/&gt;
+                &lt;apply&gt;
+                    &lt;ci type="fn"&gt;u&lt;/ci&gt;
+                  &lt;ci&gt;t&lt;/ci&gt;
+                &lt;/apply&gt;
+                &lt;apply&gt;
+                    &lt;ci type="fn"&gt;u&lt;/ci&gt;
+                  &lt;apply&gt;
+
+                      &lt;minus/&gt;
+                        &lt;ci&gt;t&lt;/ci&gt;
+                        &lt;ci&gt;?&lt;/ci&gt;
+                  &lt;/apply&gt;
+                &lt;/apply&gt;
+
+              &lt;/apply&gt;
+          &lt;/apply&gt;&lt;/annotation-xml&gt;&lt;/semantics&gt;&lt;/math&gt;</script>
+      </div><span class="equation-number">(1)</span></div>
+</div>
+</div>
+
+
+      Thus, the pulse is a more complex signal than the step. Be that as it may,
+      the pulse is very useful to us.
+    </p></div>
+</div>
+</div>
+</div>
+
+
+<div class="canvas-wrap">
+  <div class="canvas" id="swsuper">
+<div class="canvas-inner">
+<div class="canvas-buddy">
+  <a class="remove-element" href="#" title="Remove this element">
+    <img src="content_files/remove-element-01.png"/>
+  </a>
+  <a class="edit-element" href="#" title="Edit options for this element">
+    <img src="content_files/options-02.png" style=""/>
+  </a>
+  <a class="drag-element" href="#" title="Drag this element to another location">
+    <img src="content_files/drag-element-03.png"/>
+  </a>
+</div>
+<h2 class="exercise-header"><span class="cnx_label">Exercise 1</span></h2><div class="exercise-contents"><div 
+class="problem"><div 
+class="problem-contents">
+      <p class="para" id="swsupera">
+        Express a square wave having period   
+        <span class="MathJax" role="textbox" aria-readonly="true" style=""><nobr><span class="math" id="MathJax-Span-82"><span style="display: inline-block; position: 
+relative; width: 0.599em; height: 0px; font-size: 139%;"><span style="position: absolute; top: -2.858em; left: 0em; clip: rect(2em, 1000em, 3.038em, -0.518em);"><span 
+class="mrow" id="MathJax-Span-83"><span class="mrow" id="MathJax-Span-84"><span class="mrow" id="MathJax-Span-85"><span class="mi" id="MathJax-Span-86" 
+style="font-family: MathJax_Math; font-style: italic;">T</span></span></span></span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span></span><span 
+style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.943em; vertical-align: 0em;"/></span></nobr></span><script type="math/mml" 
+id="MathJax-Element-3">&lt;math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"&gt;&lt;semantics&gt;&lt;mrow&gt;
+          &lt;mrow&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;/mrow&gt;
+        &lt;/mrow&gt;&lt;annotation-xml encoding="MathML-Content"&gt;&lt;ci&gt;T&lt;/ci&gt;&lt;/annotation-xml&gt;&lt;/semantics&gt;&lt;/math&gt;</script> and amplitude
+        <span class="MathJax" role="textbox" aria-readonly="true" style=""><nobr><span class="math" id="MathJax-Span-87"><span style="display: inline-block; position: 
+relative; width: 0.779em; height: 0px; font-size: 139%;"><span style="position: absolute; top: -2.858em; left: 0em; clip: rect(1.961em, 1000em, 3.038em, -0.504em);"><span 
+class="mrow" id="MathJax-Span-88"><span class="mrow" id="MathJax-Span-89"><span class="mrow" id="MathJax-Span-90"><span class="mi" id="MathJax-Span-91" 
+style="font-family: MathJax_Math; font-style: italic;">A</span></span></span></span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span></span><span 
+style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.997em; vertical-align: 0em;"/></span></nobr></span><script type="math/mml" 
+id="MathJax-Element-4">&lt;math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"&gt;&lt;semantics&gt;&lt;mrow&gt;
+          &lt;mrow&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;/mrow&gt;
+        &lt;/mrow&gt;&lt;annotation-xml encoding="MathML-Content"&gt;&lt;ci&gt;A&lt;/ci&gt;&lt;/annotation-xml&gt;&lt;/semantics&gt;&lt;/math&gt;</script>
+        as a superposition of delayed and amplitude-scaled pulses.
+      </p>
+    </div></div>
+<div class="canvas-wrap">
+<div class="solution canvas" style="display: block;">
+<div class="canvas-inner">
+<div class="canvas-buddy" style="cursor: auto;">
+  <a class="remove-element" href="#" title="Remove this element">
+    <img src="content_files/remove-element-01.png"/>
+  </a>
+  <a class="edit-element" href="#" title="Edit options for this element">
+    <img src="content_files/options-02.png" style=""/>
+  </a>
+<!--
+  <a class="drag-element" href="#" title="Drag this element to another location">
+    <img src="content_files/drag-element-03.png"/>
+  </a>
+-->
+</div>
+<h3 class="solution-header"><span class="cnx_label">Solution</span></h3><div class="solution-contents"><p 
+class="para" id="swsuperb">
+        <span class="MathJax" role="textbox" aria-readonly="true" style=""><nobr><span class="math" id="MathJax-Span-195"><span style="display: inline-block; position: 
+relative; width: 16.424em; height: 0px; font-size: 139%;"><span style="position: absolute; top: -3.877em; left: 0em; clip: rect(2.547em, 1000em, 4.707em, 
+-0.507em);"><span class="mrow" id="MathJax-Span-196"><span class="mrow" id="MathJax-Span-197"><span class="mrow" id="MathJax-Span-198"><span class="mrow" 
+id="MathJax-Span-199"><span class="mrow" id="MathJax-Span-200"><span class="mi" id="MathJax-Span-201" style="font-family: MathJax_Main;">sq</span></span><span class="mo" 
+id="MathJax-Span-202"/><span class="mfenced" id="MathJax-Span-203"><span class="mo" id="MathJax-Span-204" style=""><span style="font-family: 
+MathJax_Main;">(</span></span><span class="mrow" id="MathJax-Span-205"><span class="mi" id="MathJax-Span-206" style="font-family: MathJax_Math; font-style: 
+italic;">t</span></span><span class="mo" id="MathJax-Span-207" style=""><span style="font-family: MathJax_Main;">)</span></span></span></span><span class="mo" 
+id="MathJax-Span-208" style="font-family: MathJax_Main; padding-left: 0.278em;">=</span><span class="mrow" id="MathJax-Span-209" style="padding-left: 0.278em;"><span 
+class="munderover" id="MathJax-Span-210"><span style="display: inline-block; position: relative; width: 3.327em; height: 0px;"><span style="position: absolute; top: 
+-2.918em; left: 0em; clip: rect(1.988em, 1000em, 3.348em, -0.483em);"><span class="mo" id="MathJax-Span-211" style="font-family: MathJax_Size1; vertical-align: 
+0em;">?</span><span style="display: inline-block; width: 0px; height: 2.918em;"/></span><span style="position: absolute; top: -3.336em; left: 1.154em; clip: rect(2.366em, 
+1000em, 3.046em, -0.501em);"><span class="mrow" id="MathJax-Span-212"><span class="mi" id="MathJax-Span-213" style="font-size: 70.7%; font-family: 
+MathJax_Main;">?</span></span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span><span style="position: absolute; top: -2.572em; left: 1.154em; 
+clip: rect(2.366em, 1000em, 3.046em, -0.539em);"><span class="mrow" id="MathJax-Span-214"><span class="mi" id="MathJax-Span-215" style="font-size: 70.7%;"><span 
+class="mrow" id="MathJax-Span-216"><span class="mi" id="MathJax-Span-217" style="font-size: 70.7%; font-family: MathJax_Math; font-style: 
+italic;">n</span></span></span><span class="mi" id="MathJax-Span-218" style="font-size: 70.7%; font-family: MathJax_Main; font-style: italic;">=</span><span class="mrow" 
+id="MathJax-Span-219"><span class="mo" id="MathJax-Span-220" style="font-size: 70.7%; font-family: MathJax_Main;">-</span><span class="mi" id="MathJax-Span-221" 
+style="font-size: 70.7%; font-family: MathJax_Main;">?</span></span></span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span></span></span><span 
+class="mrow" id="MathJax-Span-222" style="padding-left: 0.167em;"><span class="msup" id="MathJax-Span-223"><span style="display: inline-block; position: relative; width: 
+2.608em; height: 0px;"><span style="position: absolute; top: -2.858em; left: 0em; clip: rect(1.927em, 1000em, 3.289em, -0.445em);"><span class="mfenced" 
+id="MathJax-Span-224"><span class="mo" id="MathJax-Span-225" style=""><span style="font-family: MathJax_Main;">(</span></span><span class="mrow" 
+id="MathJax-Span-226"><span class="mo" id="MathJax-Span-227" style="font-family: MathJax_Main;">-</span><span class="mn" id="MathJax-Span-228" style="font-family: 
+MathJax_Main;">1</span></span><span class="mo" id="MathJax-Span-229" style=""><span style="font-family: MathJax_Main;">)</span></span></span><span style="display: 
+inline-block; width: 0px; height: 2.858em;"/></span><span style="position: absolute; top: -3.336em; left: 2.113em;"><span class="mrow" id="MathJax-Span-230"><span 
+class="mi" id="MathJax-Span-231" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">n</span></span><span style="display: inline-block; width: 0px; 
+height: 2.858em;"/></span></span></span><span class="mo" id="MathJax-Span-232"/><span class="mrow" id="MathJax-Span-233"><span class="mi" id="MathJax-Span-234" 
+style="font-family: MathJax_Math; font-style: italic;">A</span></span><span class="mo" id="MathJax-Span-235"/><span class="mrow" id="MathJax-Span-236"><span class="mi" 
+id="MathJax-Span-237"/><span class="msub" id="MathJax-Span-238"><span style="display: inline-block; position: relative; width: 1.828em; height: 0px;"><span 
+style="position: absolute; top: -2.858em; left: 0em; clip: rect(2.236em, 1000em, 3.232em, -0.578em);"><span class="mi" id="MathJax-Span-239" style="font-family: 
+MathJax_Math; font-style: italic;">p</span><span style="display: inline-block; width: 0px; height: 2.858em;"/></span><span style="position: absolute; top: -2.629em; left: 
+0.555em;"><span class="mi" id="MathJax-Span-240" style="font-size: 70.7%; font-family: MathJax_Main;">T/2</span><span style="display: inline-block; width: 0px; height: 
+2.858em;"/></span></span></span><span class="mi" id="MathJax-Span-241"/></span><span class="mo" id="MathJax-Span-242"/><span class="mrow" id="MathJax-Span-243"><span 
+class="mo" id="MathJax-Span-244" style="vertical-align: 0em;"><span style="font-family: MathJax_Size2;">(</span></span><span class="mrow" id="MathJax-Span-245"><span 
+class="mi" id="MathJax-Span-246" style="font-family: MathJax_Math; font-style: italic;">t</span></span><span class="mo" id="MathJax-Span-247" style="font-family: 
+MathJax_Main; padding-left: 0.222em;">-</span><span class="mrow" id="MathJax-Span-248" style="padding-left: 0.222em;"><span class="mrow" id="MathJax-Span-249"><span 
+class="mi" id="MathJax-Span-250" style="font-family: MathJax_Math; font-style: italic;">n</span></span><span class="mo" id="MathJax-Span-251"/><span class="mfrac" 
+id="MathJax-Span-252" style="padding-left: 0.287em; padding-right: 0.12em;"><span style="display: inline-block; position: relative; width: 0.54em; height: 0px;"><span 
+style="position: absolute; top: -3.281em; left: 50%; clip: rect(2.199em, 1000em, 3.038em, -0.525em); margin-left: -0.21em;"><span class="mrow" id="MathJax-Span-253"><span 
+class="mi" id="MathJax-Span-254" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">T</span></span><span style="display: inline-block; width: 0px; 
+height: 2.858em;"/></span><span style="position: absolute; top: -2.465em; left: 50%; clip: rect(2.207em, 1000em, 3.039em, -0.505em); margin-left: -0.18em;"><span 
+class="mn" id="MathJax-Span-255" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 
+2.858em;"/></span><span style="position: absolute; top: -3.078em; left: 0em; clip: rect(2.603em, 1000em, 3.038em, -0.539em);"><span style="border-left: 0.54em solid; 
+display: inline-block; overflow: hidden; width: 0px; height: 0.075em; vertical-align: 0em;"/><span style="display: inline-block; width: 0px; height: 
+2.858em;"/></span></span></span></span><span class="mo" id="MathJax-Span-256" style="vertical-align: -0.001em;"><span style="font-family: 
+MathJax_Size2;">)</span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.149em; vertical-align: 0em;"/><span 
+style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.15em; vertical-align: 0em;"/></span></span></span></span></span></span><span 
+style="display: inline-block; width: 0px; height: 3.877em;"/></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; 
+height: 2.502em; vertical-align: -0.904em;"/></span></nobr></span><script type="math/mml" id="MathJax-Element-5">&lt;math xmlns="http://www.w3.org/1998/Math/MathML" 
+display="inline"&gt;&lt;semantics&gt;&lt;mrow&gt;
+          &lt;mrow&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mi&gt;sq&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mfenced open="(" close=")" 
+separators=","&gt;&lt;mrow&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfenced&gt;&lt;/mrow&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mrow&gt;&lt;munderover&gt;&lt;mo&gt;?&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;
+                  &lt;mrow&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mrow&gt;
+                
+&lt;/mi&gt;&lt;mi&gt;=&lt;/mi&gt;&lt;mrow&gt;&lt;mo&gt;-&lt;/mo&gt;&lt;mi&gt;?&lt;/mi&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mi&gt;?&lt;/mi&gt;&lt;/mrow&gt;&lt;/munderover&gt;&lt;mrow&gt;&lt;msup&gt;&lt;mfenced 
+separators=" 
+"&gt;&lt;mrow&gt;&lt;mo&gt;-&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/mfenced&gt;&lt;mrow&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;
+                    &lt;/mi&gt;&lt;msub&gt;
+                      &lt;mi&gt;p&lt;/mi&gt;
+                      &lt;mi&gt;T/2&lt;/mi&gt;
+                    &lt;/msub&gt;&lt;mi&gt;
+                  
+&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mrow&gt;&lt;mo&gt;(&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;-&lt;/mo&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mrow&gt;&lt;mo&gt;&lt;/mo&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;/mrow&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mfrac&gt;&lt;/mrow&gt;&lt;mo&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;/mrow&gt;
+        &lt;/mrow&gt;&lt;annotation-xml encoding="MathML-Content"&gt;&lt;apply&gt;
+            &lt;eq/&gt;
+              &lt;apply&gt;
+                &lt;ci type="fn"&gt;sq&lt;/ci&gt;
+                &lt;ci&gt;t&lt;/ci&gt;
+              &lt;/apply&gt;
+              &lt;apply&gt;
+                &lt;sum/&gt;
+                &lt;bvar&gt;
+                  &lt;ci&gt;n&lt;/ci&gt;
+                &lt;/bvar&gt;
+                &lt;lowlimit&gt;
+                  &lt;apply&gt;
+                    &lt;minus/&gt;
+                    &lt;infinity/&gt;
+                  &lt;/apply&gt;
+                  &lt;/lowlimit&gt;
+                &lt;uplimit&gt;
+                  &lt;infinity/&gt;
+                &lt;/uplimit&gt;
+                 &lt;apply&gt;
+                  &lt;times/&gt;
+                  &lt;apply&gt;
+                    &lt;power/&gt;
+                      &lt;apply&gt;
+                        &lt;minus/&gt;
+                          &lt;cn&gt;1&lt;/cn&gt;
+                      &lt;/apply&gt;
+                      &lt;ci&gt;n&lt;/ci&gt;
+                  &lt;/apply&gt;
+                  &lt;ci&gt;A&lt;/ci&gt;
+                  &lt;ci&gt;
+                    &lt;msub&gt;
+                      &lt;mi&gt;p&lt;/mi&gt;
+                      &lt;mi&gt;T/2&lt;/mi&gt;
+                    &lt;/msub&gt;
+                  &lt;/ci&gt;
+                  &lt;apply&gt;
+                    &lt;minus/&gt;
+                      &lt;ci&gt;t&lt;/ci&gt;
+                      &lt;apply&gt;
+                        &lt;times/&gt;
+                          &lt;ci&gt;n&lt;/ci&gt;
+                          &lt;apply&gt;
+                            &lt;divide/&gt;
+                            &lt;ci&gt;T&lt;/ci&gt;
+                            &lt;cn&gt;2&lt;/cn&gt;
+                          &lt;/apply&gt;
+                      &lt;/apply&gt;
+                    &lt;/apply&gt;
+                &lt;/apply&gt;
+              &lt;/apply&gt;
+          &lt;/apply&gt;&lt;/annotation-xml&gt;&lt;/semantics&gt;&lt;/math&gt;</script>
+      </p></div></div>
+
+<div class="solution-toggles" style="display: none;"><a href="#" onclick="toggleSolution('swsuper',1); return false;"><span 
+class="solution-toggle">
+          [
+          Show Solution
+          ]
+        </span><span class="solution-toggle" style="display: none;">
+          [ 
+          Hide Solution
+          ]
+        </span></a></div></div>
+</div>
+
+
+<div class="add-solution">
+  <a href="#asdf">+ Add another solution</a>
+</div>
+
+
+
+
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+  <p class="para" id="para2"> 
+    Because the sinusoid is a superposition of two complex exponentials, the 
+    sinusoid is more complex. We could not prevent ourselves from the pun in 
+    this statement. Clearly, the word "complex" is used in two different ways 
+    here. The complex exponential can also be written (using <a title="Strength 5" class="cnxn" href="/content/m0004/latest/#3">Euler's relation</a>) as a sum of a sine 
+and a 
+    cosine. We will discover that virtually every signal can be decomposed into a
+    sum of complex exponentials, and that this decomposition is  <em class="emphasis">very 
+    </em>useful. Thus, the complex exponential is more fundamental, and 
+    Euler's relation does not adequately reveal its complexity.
+  </p>
+
+
+
+
+
+  </div>
+</div>
+
+
+
+      </div>
+    </div>
+    
+  </body>
+</html>

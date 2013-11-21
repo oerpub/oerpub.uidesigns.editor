@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+<!--
+    <script src="helper_files/swordpush.js"></script>
+-->
+    <script src="helper_files/swordpush-max-03.js"></script>
+
+    <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+
+<!--
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+-->
+    <link rel="stylesheet" href="helper_files/main-max-03.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+/* Moved this portion back directly into the file because 'headerh' wasn't always correctly calculated when done from the external file. */
+
+  var winh = $(window).height();
+  var headerh = $("#header-container").outerHeight();
+  var wfnh = $("#workflownav-wrap").outerHeight();
+  var contentp = parseInt($("#content").css("paddingTop"));
+  var contentp = contentp + parseInt($("#content").css("paddingBottom"));
+  var phwh = $("#pageheader-wrap").outerHeight();
+  var ma = $("#module-actions .advanced").outerWidth();
+
+  // Make the iframe fit exactly inside the remaining space
+  $("iframe").height(winh - headerh - wfnh - contentp - phwh - 5);
+  $("iframe").width($(window).width() - 53);
+
+  // Give the page's header the correct top margin (since the elements above it are in a fixed position)
+  $("#content").css({'margin-top': headerh + wfnh})
+
+
+});
+
+</script>
+
+  </head>
+
+  <body>
+    
+    
+  <div id="header-wrap">
+    <div id="header-container">
+      <div id="header-functions">
+        <div id="expertmode">
+          <span id="expand-advanced" style="display: inline;">
+            &#171;
+          </span>
+          <span id="basic-message" style="display: none;">
+            <span class="link-like">Switch to advanced mode</span>
+          </span>
+          <span id="advanced-message" style="display: none;">
+            You are in advanced mode. 
+            <span class="link-like">Return to basic mode.</span>
+          </span>
+        </div>
+        <div id="status">
+          <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+          <a href="#" target="_top">Sign out.</a>
+        </div>
+      </div>
+      <div id="header">
+        <img class="cnxlogo" src="helper_files/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="workflownav-wrap">
+    <div id="workflownav-container">
+      <div id="back-steps">
+        <input type="button" class="button" value="&#171; Back: Return to start page" id="back-to-chooser-2"
+               title="Return to the previous screen to choose a different import or editing option" 
+               onclick="window.location = 'choose-27.html'"/>
+      </div>
+      <div id="forward-steps">
+        <input type="button" class="button forward-button" value="Next Step &#187;" id="show-neworexisting"
+               title="Select whether this will be used for a new module or to override the contents of an existing module" />
+      </div>
+    </div>
+  </div>
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+      <div id="content">
+
+
+        <div id="pageheader-wrap">
+
+          <div id="module-actions">
+            <div class="advanced" style="display: none;">
+              <h2 class="advanced-label">
+                Advanced
+              </h2>
+              <strong>Module actions: </strong>
+              <a title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+                 id="download-copy" href="#asdfaasdf" style="color: black; text-decoration: none;">
+               <span class="button" style="margin-left: 0;">Download a copy</span>
+              </a>
+              <a title="Make changes to the module by editing its XML code." 
+                 id="edit-xml" href="#asdfaasdf" style="color: black; text-decoration: none;">
+               <span class="button" style="margin-left: 0;">Edit XML</span>
+              </a>
+            </div>
+          </div>
+
+
+          <div id="page-title">
+            <h1>
+              Preview:
+              <span class="metatitle">
+                Conversion of Cooking_with_spam.doc
+<!--
+Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM
+-->
+              </span>
+            </h1>
+          </div>
+
+          <div id="page-description">
+            <p class="forminfo">
+              View below how the module will appear in Connexions.
+            </p>
+          </div>
+
+        </div>
+
+        <iframe id="preview-frame" src="spam-03.xhtml" frameborder="0"> </iframe>
+
+<!--
+        <div id="footer">
+          <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+        </div>
+-->
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <div id="neworexisting" style="display: none;">
+    <p><strong>
+      Is this for a new module or will it override an existing one?
+    </strong></p>
+    <div>
+      <span class="button" onclick="window.location = 'metadata-41.html'">New module</span>
+      <div class="forminfo" style="margin: .5em 0 1em;">
+      <div>
+        This is an entirely new module. 
+      </div>
+    </div>
+    <div>
+      <span class="button" onclick="window.location = 'choose-module-16.html'">Override existing module</span>
+      <div class="forminfo" style="margin: .5em 0 1em;">
+      <div>
+        Choose an existing module to apply your import to, replacing its contents.  
+      </div>
+    </div>
+    <div class="headeraction" style="margin: 1.5em 0 0; text-align: center;">
+      <div>
+      <span class="button" id="cancel-neworexisting">Cancel</span>
+    </div>
+  </div>
+
+
+  </body>
+</html>
+
+
+
