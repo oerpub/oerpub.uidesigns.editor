@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+<!--
+    <script src="helper_files/swordpush.js"></script>
+-->
+    <script src="helper_files/swordpush-max-02.js"></script>
+
+    <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+
+<!--
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+-->
+    <link rel="stylesheet" href="helper_files/main-max-02.css" type="text/css" media="screen" charset="utf-8" />
+
+    <link rel="stylesheet" href="helper_files/collection_composer.css" type="text/css" media="screen" charset="utf-8" />
+
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+/* Moved this portion back directly into the file because 'headerh' wasn't always correctly calculated when done from the external file. */
+
+  var winh = $(window).height();
+  var headerh = $("#header-container").outerHeight();
+  var wfnh = $("#workflownav-wrap").outerHeight();
+  var contentp = parseInt($("#content").css("paddingTop"));
+  var contentp = contentp + parseInt($("#content").css("paddingBottom"));
+  var phwh = $("#pageheader-wrap").outerHeight();
+  var ma = $("#module-actions .advanced").outerWidth();
+
+  // Make the iframe fit exactly inside the remaining space
+  $("iframe").height(winh - headerh - wfnh - contentp - phwh + 5);
+  $("iframe").width($(window).width() - 53);              
+
+  // Give the page's header the correct top margin (since the elements above it are in a fixed position)
+  $("#content").css({'margin-top': headerh + wfnh})
+
+/*
+  $("#submit-wachoice").click(function(){
+    $(".workarea-choice").text($("#workspace option:selected").text());
+  });
+*/
+
+    // Show the edit roles form.
+    $('.edit-wachoice').click(function(e) {
+        e.preventDefault();
+        $('#wachoice').modal();
+    });
+
+    // Hide the edit roles form.    
+    $('#cancel-wachoice').click(function(e) {
+        e.preventDefault();
+        $.modal.close();
+    });
+
+    // Apply the changed roles.
+    $('#submit-wachoice').click(function(e) {
+        e.preventDefault();
+        $(".workarea-choice").text($("#workspace option:selected").text());
+        $.modal.close();
+    }); 
+
+/*
+  $("#expertmode").toggle(function(){
+    $("#advanced-message").hide();
+    $("#expand-advanced").show();
+    $(this).removeClass("expert-activated");
+    $(".advanced").hide();
+    $(".advanced2").hide();
+    $(".non-advanced").show();
+  }, function(){
+    $("#advanced-message").show();
+    $("#basic-message").hide();
+    $(this).addClass("expert-activated");
+    $(".advanced").show();
+    $(".advanced2").show();
+    $(".non-advanced").hide();
+    $("#expand-advanced").hide();
+  });
+*/
+
+
+// JQuery and CSS for homebrew dropdown menu from Chris Coyier: http://css-tricks.com/simple-jquery-dropdowns/
+
+    $("ul.dropdown li").hover(function(){
+        $(this).addClass("hover");
+        $('ul:first',this).css('visibility', 'visible');
+    }, function(){
+        $(this).removeClass("hover");
+        $('ul:first',this).css('visibility', 'hidden');
+    });
+//    $("ul.dropdown li ul li:has(ul)").find("a:first").append(" &raquo; ");
+
+
+  $("ul.dropdown li ul li").has("a").click(function(){
+    $("ul.dropdown li").removeClass("hover");
+    $('ul:first',"ul.dropdown li").css('visibility', 'hidden');
+    $("ul.dropdown li a span").text($(this).find("a").text());
+  });
+
+/*
+  $("input[name=google_code]").blur(function(){
+    if( $(this).val ) {
+      $("input[name=google_code_opener]").attr('disabled','disabled');
+    }
+  });
+*/
+
+/*
+  $("input[name=google_code]").live("keypress", function(event){
+//alert($(this).val());
+    if( $(this).val() ) {
+//    if($("input[name=google_code]").val != "") {
+//      alert($("input[name=google_code]").val());
+//    if($(this).attr("value") != "") {
+//      alert($(this).val)
+      $("input[name=google_code_opener]").attr('disabled','disabled');
+    }
+  });
+*/
+
+  $("input[name=google_code]").keyup(function(event){
+    var opener = $("input[name=google_code_opener]");
+    if( $(this).val() ) {
+      opener.attr('disabled','disabled');
+//      opener.attr('checked','checked');
+    } else {
+      opener.removeAttr('disabled');
+//      opener.removeAttr('checked');
+    }
+  });
+
+  $("#remove-ga").click(function(){
+    var c = confirm("Remove the Google Analytics Tracking code from this module?\n\nYou can add another later.");
+    if (c == true) {
+      $("#formentry-ga-2").hide();
+      $("#formentry-ga").show();
+    } else {
+      return false;
+    }
+  });
+
+  $(".remove-link").click(function(){
+    var c = confirm("Are you sure you want to remove this Featured Link from the module?");
+    if (c == true) { 
+      $("#formentry-fl").hide();
+      $("#formentry-fl-2").show();
+      return false;
+    } else {             
+      return false;
+    } 
+  });
+
+
+});
+
+</script>
+
+<style type="text/css">
+.advanced .button{
+  background-color: #FFFDFA;
+/*
+  border-color: #FFFDFA;
+  border-color: #B9AC98;
+*/
+  font-weight: normal;
+}
+
+
+/*
+ul{ 
+  line-height: 1.25em;
+  list-style-type: square;
+  margin: 0.5em 0 0 1.5em;
+  padding: 0;
+  list-style-image: url(bullet.gif);
+}
+
+li{
+  margin-bottom: .75em;
+}
+*/
+
+/* ===== sidebar ===== */
+
+.portletContainer{
+  border: 1px solid #369;
+  margin-bottom: 2.5em;
+  font-size: .9em;
+}
+
+dl.portlet{       
+  border: 0 solid #bbd1e6;                        
+  border-right-width: .45em;
+  border-top-width: .45em;  
+}
+
+* html dl.portlet{ height: 1%; }
+*+html dl.portlet{ height: 1%; }
+
+* html .x-window-body dl.portlet{ height: auto; }
+*+html .x-window-body dl.portlet{ height: auto; }
+
+dt.portletHeader{
+  text-transform: uppercase;
+  color: #369;            
+  font-family: arial, helvetica, sans-serif;
+  font-size: 128%;
+  font-weight: bold;                
+  margin: -1.05em 0 0;
+  padding: 0 .5em;
+  position: relative;
+  z-index: 1;          
+}
+
+* html dt.portletHeader{ height: 1%; }
+*+html dt.portletHeader{ height: 1%; }
+
+dt.portletHeader h3{     
+  padding: .25em .4em; 
+  background-color: white;
+  float: left;
+  display: block;
+}                 
+
+.portletTopLeft, .portletTopRight{
+  display: none !important; 
+}
+
+dt.portletHeader a, dt.portletHeader a:visited{
+  text-decoration: none;        
+  color: #369;
+  outline: none;
+}
+
+dd.portletItem{  
+  clear: left;              
+  padding: .5em 1em 1em;  
+}
+
+* html dd.portletItem{ height: 1%; }
+
+.portletMore{     
+  font-weight: bold; 
+  background-image: none !important;
+}
+
+.portlet ul{
+  display: block;
+  margin-left: 0;
+}
+
+.portlet li{              
+  display: block;
+  padding: 0 0 0 15px;
+  margin: 0 0 .3em;
+  background: url(bullet.gif) no-repeat 0 -3px;
+  list-style: none none;          
+}
+
+.portlet ol li{
+  display: list-item;
+  background-image: none;       
+  list-style-image: none;
+  list-style-type: decimal;
+  padding: 0;
+}
+
+#cnx_related_material li, #cnx_recent_viewed li, #cnx_lens_info li{
+  padding: 0 0 .8em 20px; 
+  margin: -.2em 0 0;
+}
+
+#cnx_related_material li, #cnx_recent_viewed li{
+  background-position: 0 0;
+}
+
+li.cnx_module{
+  background-image: url(/module_icon.gif);
+}           
+
+li.cnx_collection{
+  background-image: url(/repository_icon.gif);
+}
+
+li.cnx_lens{     
+  background-image: url(/lenses.gif);
+}                  
+
+#cnx_recent_viewed ul{            
+  margin-bottom: 1em;
+}
+
+#cnx_recent_viewed a{
+  color: #369;                  
+}
+
+h4 .lenslink{
+  font-size: .9em;
+  font-weight: normal;
+}
+
+.links li{          
+  background-image: none;
+  padding-left: 0;
+  margin-left: 14px;
+}
+
+.links li img{
+  margin-left: -14px;
+  padding-right: 4px;                
+}                  
+
+.cnx_toggler{                     
+  text-align: right; 
+}
+
+.cnx_toggler span{   
+  color: #369;                  
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cnx_current{
+  color: #e70 !important;
+  font-weight: bold;
+}
+
+#cnx_endorse_module form{
+  display: inline;
+}                 
+
+#cnx_endorse_module ul{
+  margin: 1em 0;
+}                   
+
+#cnx_endorse_module li{
+  padding-left: 0;  
+  background-image: none;
+  margin-left: 1.6em;
+}             
+
+#cnx_endorse_module input.noborder{  
+  margin-left: -1.6em;
+}
+
+input.noborder{      
+  border: none;
+}
+
+/* ================ */          
+
+#cnx_author_links{
+  width: 15em;
+/*
+  float: right;
+  background-color: white;
+  position: relative;
+*/
+  padding-left: 1.5em;
+  padding-bottom: .5em;  
+  z-index: 1;     
+  border-width: 0;
+/*
+  font-family: arial, helvetica, sans-serif;
+*/              
+  font-family: tahoma, verdana, sans-serif;
+  position: absolute; 
+  right: 5em;          
+  margin-top: .25em;
+  z-index: 50;           
+  font-size: .85em;  
+}             
+
+#cnx_author_links h2, #cnx_author_links h3{
+  font-size: 1em;     
+  margin: 0;
+}
+
+* html #cnx_author_links{ width: 17em; }
+*+html #cnx_author_links{ width: 17em; }
+
+#cnx_author_links .portlet{
+  background-color: white;
+  border: 1px solid #333;
+  border-top-color: #ccc;
+  border-left-color: #ccc;
+}
+
+#cnx_author_links .portletHeader, #cnx_author_links h6{
+  color: #333;
+}
+
+#cnx_author_links .portletHeader{
+  font-size: 1.1em;
+  text-transform: none;
+  margin-top: .5em;
+}               
+
+#cnx_author_links .portletHeader h2{
+  margin: 0 .5em;      
+  padding: 0;       
+  float: none;           
+}                    
+
+#cnx_author_links .portletItem{
+  padding: 0;
+  margin: 1em 1em 1.5em 2em;
+}           
+
+#cnx_author_links_togglers.portletItem{
+  clear: none;
+  margin: -1.25em 1em 1em 2em;          
+  z-index: 1;
+  position: relative;      
+}
+
+#cnx_author_links ul{    
+  margin-bottom: 1em;     
+}
+
+.hiddenStructure{
+  position: absolute !important;
+  left: 0 !important;
+  top: -500px !important;
+  background: transparent !important;
+  background-image: none !important ; /* */
+  border: none !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: -1px 0 0 -1px !important; 
+  width: 1px !important;
+}                   
+
+
+
+
+.listing,    
+.stx table {                
+/* */       
+border-collapse: collapse;
+border-left: 1px solid #8cacbb;        
+border-bottom: 1px solid #8cacbb;
+font-size: .85em;                       
+margin: 1em 0em 1em 0em;
+}
+.listing th,
+.stx table th {
+background: #dee7ec;     
+border-top: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+font-weight: normal;
+padding: 0.25em 1em;            
+text-transform: none;
+}
+.listing .top {
+border-left: 1px solid White;              
+border-top: 1px solid White ! important;
+border-right: 1px solid White ! important;
+text-align: right ! important;
+padding: 0em 0em 1em 0em;
+}
+.listing .listingCheckbox {
+text-align: center; 
+}
+#collection-composer-featured-links-body .listing td,
+.stx table td {
+border-right: 1px solid #8cacbb;
+padding: 0.25em 1em;
+}                           
+.listing a {
+text-decoration: none;    
+}
+.listing a:hover {               
+text-decoration: underline;             
+}
+.listing img {
+vertical-align: middle;
+}              
+.listing td a label,     
+.stx table td a label {       
+cursor: pointer;                 
+}
+
+table.listing td.checkbox{      
+font-weight: bold;   
+text-align: center;
+}              
+.listing td, .stx table td, .listing th, .stx table th{
+padding: 0 1em;
+}
+td.orderingCell{              
+white-space: nowrap;     
+width: 1%;
+}
+
+/*
+#collection-composer-featured-links-body table.listing{
+  width: 500px;            
+}              
+*/
+/* 
+        LEVEL ONE
+*/
+ul.dropdown                         { position: relative; list-style: none; display: inline; padding: 0 .5em 0 .1em; }
+ul.dropdown li                      { font-weight: bold; float: none; zoom: 1; display: inline; padding: .25em 0; }
+ul.dropdown a:hover                         { color: #000; }
+ul.dropdown a:active                { color: #ffa500; }
+ul.dropdown li a                    { display: inline; padding: .25em .1em .3em .6em; border: 1px solid #7E9AB4; background-color: transparent; color: #000; 
+  text-decoration: none; 
+}
+ul.dropdown li:last-child a         { /* border-right: none; */ } /* Doesn't work in IE */
+ul.dropdown li.hover,
+ul.dropdown li:hover                { color: black; position: relative; background-color: #ACC8E2; }
+ul.dropdown li:hover                { color: black; position: relative; background-color: #e3edf5; }
+/*
+ul.dropdown li:hover                { color: black; position: relative; background-color: #BFD4E9; }
+ul.dropdown li:hover                { color: black; position: relative; background-color: #ffffff; }
+ul.dropdown li.hover a              { color: black; border-color: #546778;}
+*/
+ul.dropdown li.hover a              { color: black;}
+
+
+/* 
+        LEVEL TWO
+*/
+ul.dropdown ul                                          { width:auto; visibility: hidden; position: absolute; top: 100%; right: 0; 
+  padding: 0;
+  border: 1px solid #546778; 
+  border: 1px solid #7e9ab4; 
+  background-color: #8CABC8;
+  background-color: #ACC8E2;
+  background-color: #E3EDF5;
+  background-color: #BFD4E9;
+cursor: pointer;
+/*
+  text-align: left;
+*/
+  }
+ul.dropdown ul li                                       { font-weight: normal; color: #000; float: right; clear: right; 
+  padding: .4em 0;
+  width: 100%;
+  border: 1px solid #7e9ab4; 
+  border: 1px solid #9CADBF;
+  border-width: 0 0 1px; 
+/*
+  margin-bottom: -1px;
+*/
+  font-weight: bold;
+/*
+  text-align: left;
+*/
+ }
+                                    /* IE 6 & 7 Needs Inline Block */
+ul.dropdown ul li a                                     { 
+  width: 100%;
+  display: block; 
+  border-width: 0;
+  padding: 0 .5em;
+  white-space: nowrap; 
+  float: right;
+} 
+ul.dropdown ul li:hover                { 
+  background-color: transparent; 
+  background-color: #fd7; 
+  background-color: #ffffff; 
+  }
+ul.dropdown ul li.hover a              { 
+  color: black; 
+}
+
+.workarea-choice{
+/*
+  display: table-cell;
+*/
+  display: inline-block;
+  max-width: 180px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: text-top;
+}
+
+</style>
+
+  </head>
+
+  <body>
+    
+    
+  <div id="header-wrap">
+    <div id="header-container">
+
+      <div id="header-functions">
+        <div id="expertmode">
+          <span id="expand-advanced" style="display: inline;">
+            &#171;
+          </span>
+          <span id="basic-message" style="display: none;">
+            <span class="link-like">Switch to advanced mode</span>
+          </span>
+          <span id="advanced-message" style="display: none;">
+            You are in advanced mode. 
+            <span class="link-like">Return to basic mode.</span>
+          </span>
+<!--
+          <img src="helper_files/gear_orange_3.png" width="16" height="16"/>
+-->
+        </div>
+        <div id="status">
+          <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+          <a href="#" target="_top">Sign out.</a>
+        </div>
+      </div>
+
+      <div id="header">
+        <img class="cnxlogo" src="helper_files/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="workflownav-wrap">
+    <div id="workflownav-container">
+      <div id="back-steps">
+        <input type="button" class="button" value="&#171; Back" id="back-to-chooser"
+               title="Return to the previous page"/>
+      </div>
+      <div id="forward-steps">
+        <span class="advanced3" style="font-size: .85em; color: #333;">
+          Uploading to 
+<ul class="dropdown">
+<li><a href="#">
+          <span class="workarea-choice" style="margin: 0; font-weight: bold;">Personal Workspace</span>
+<img src="helper_files/down-arrow-05.png" /> 
+</a>
+  <ul class="sub_menu">
+    <li><a href="#">Personal Workspace</a></li>
+    <li>&#151;&nbsp;&nbsp;</li>
+    <li><a href="#">Patch testing for 0.6</a></li>
+    <li><a href="#">Patch testing two</a></li>
+    <li><a href="#">testing WG members links on Roles page</a></li>
+  </ul>
+</li>
+</ul>
+<!--
+          [<a href="#asdfaasd" class="edit-wachoice" style="font-weight: normal;">change</a>]
+-->
+ in Connexions
+        </span>
+        <input type="button" class="button forward-button" value="Finish: Upload &#187;" 
+               title="Click 'Finish' to add the module as edited to the designated work area. Further steps are required before the 
+module can be published in the Connexions repository."/>
+      </div>
+    </div>
+  </div>
+
+            <div id="wachoice" style="display: none;">
+              <p>
+                <strong>Choose a different work area to upload your module to</strong>
+              </p>
+              <select id="workspace" name="workspace">
+                <option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+                <option value="asdf" disabled="disabled">--</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>                     
+                <option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+              </select>
+<span href="#" id="cancel-wachoice" class="button">Cancel</span>
+<span href="#" id="submit-wachoice" class="button">Done</span>
+            </div>
+
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+      <div id="content">
+
+
+        <div id="pageheader-wrap">
+
+        </div>
+
+
+
+        <div id="roles-picker" style="display:none;">
+
+          <input type="hidden" value="starkenbury" name="authors" id="authors"/>
+          <input type="hidden" value="starkenbury" name="maintainers" id="maintainers"/>
+          <input type="hidden" value="starkenbury" name="copyright" id="copyright"/>
+          <input type="hidden" value="" name="editors" id="editors"/>
+          <input type="hidden" value="" name="translators" id="translators"/>
+
+          <table cellspacing="0" id="roles-table">
+            <tbody>
+            <tr>
+              <td class="table-row-top"></td>
+              <td class="table-row-top" colspan="3">Required Roles</td>
+              <td class="table-row-top" colspan="2">Optional Roles</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td width="200" id="roles-last-row-user" class="table-row-mid" style="text-align:left;">Username</td>
+              <td width="110" id="roles-last-row-authors" class="table-row-mid">Author</td>
+              <td width="110" id="roles-last-row-maintainers" class="table-row-mid">Maintainer</td>
+              <td width="110" id="roles-last-row-copyright" class="table-row-mid">Copyright</td>
+              <td width="110" id="roles-last-row-editors" class="table-row-mid">Editor</td>
+              <td width="110" id="roles-last-row-translators" class="table-row-mid">Translator</td>
+              <td width="24" id="roles-last-row-remove"></td>
+            </tr>
+<!--
+            <tr user_id="starkenbury" class="roles-row">
+              <td class="table-row-bottom" id="roles-last-row-user">starkenbury</td>
+              <td style="text-align: center;" class="table-row-bottom" id="roles-last-row-authors"><input type="checkbox" id="checkbox-authors-starkenbury" checked="checked"/></td>
+              <td style="text-align: center;" class="table-row-bottom" id="roles-last-row-maintainers"><input type="checkbox" id="checkbox-maintainers-starkenbury" checked="checked"/></td>
+              <td style="text-align: center;" class="table-row-bottom" id="roles-last-row-copyright"><input type="checkbox" id="checkbox-copyright-starkenbury" checked="checked"/></td>
+              <td style="text-align: center;" class="table-row-bottom" id="roles-last-row-editors"><input type="checkbox" id="checkbox-editors-starkenbury"/></td>
+              <td style="text-align: center;" class="table-row-bottom" id="roles-last-row-translators"><input type="checkbox" id="checkbox-translators-starkenbury"/></td>
+              <td style="text-align: center;" id="roles-last-row-remove"><img id="remove-starkenbury" alt="Delete" src="helper_files/delete_icon.png"/></td>
+            </tr>
+-->
+            </tbody>
+          </table>
+          <div class="headeraction" style="float:left;margin-top:5px;margin-left:0;"><span href="#" id="add-role" class="button">Add user</span></div>
+          <div class="headeraction" style="float:right;margin-top:5px;margin-right:26px;"><span href="#" id="cancel-roles" class="button">Cancel</span></div>
+          <div class="headeraction" style="float:right;margin-top:5px;"><span href="#" id="submit-roles" class="button">Done</span></div>
+        </div>
+
+
+        <div id="metadata">
+          <table cellspacing="0" cellpadding="2" border="0" width="100%">
+            <tbody><tr>
+              <td width="50%" valign="top">
+
+          <div id="page-title">
+            <h1>
+              Describe your module
+            </h1>
+          </div>
+
+          <div id="page-description">
+            <p class="forminfo">
+              <span class="required">* = Required field</span>
+            </p>
+          </div>
+
+                <div class="formentry" id="formentry-title">
+                  <div class="formlabel">Title <span style="color: rgb(204, 85, 102); font-weight: bold;">*</span></div>
+                  <div class="errortext" style="display: none;">
+                    Please enter a valid title
+                  </div>
+                  <div class="forminfo">Enter the title of this module.</div>
+                  <div class="formfield"><input type="text" name="title" size="50" value=""/></div>
+                </div>
+                <div class="formentry">
+                  <div class="formlabel">Subject</div>
+                  <div class="forminfo">Select the subject categories that apply to this module.</div>
+                  <table>
+                    <tbody><tr>
+                      <td>
+                        <input type="checkbox" name="subject" value="Arts"/>
+                        <span class="formlabel">Arts</span>
+                      </td>
+                      <td>
+                        <input type="checkbox" name="subject" value="Mathematics and Statistics"/>
+                        <span class="formlabel">Mathematics and Statistics</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" name="subject" value="Business"/>
+                        <span class="formlabel">Business</span>
+                      </td>
+                      <td>
+                        <input type="checkbox" name="subject" value="Science and Technology"/>
+                        <span class="formlabel">Science and Technology</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" name="subject" value="Humanities"/>
+                        <span class="formlabel">Humanities</span>
+                      </td>
+                      <td>
+                        <input type="checkbox" name="subject" value="Social Sciences"/>
+                        <span class="formlabel">Social Sciences</span>
+                      </td>
+                    </tr></tbody>
+                  </table>
+                </div>
+                <div class="formentry">
+                  <div class="formlabel">Summary</div>
+                  <div class="forminfo">Enter a summary of the module.</div>
+                  <div class="formfield"><textarea name="summary" rows="6" cols="45"></textarea></div>
+                </div>
+
+              </td>
+              <td width="50%" valign="top">
+
+          <div id="module-actions">
+            <div class="advanced" style="display: none;">
+              <h2 class="advanced-header" style="color: #655E53; color: #B9B1A4;">
+                Advanced
+              </h2>
+
+<!--
+                <div id="change-wg" class="formentry" style="margin: 0 0 1em;">
+                  <div class="formlabel">
+                    Select work area in which to upload:
+                  </div>
+              <select id="workspace" name="workspace">
+                <option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+                <option value="asdf" disabled="disabled">--</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+              </select>
+                </div>
+-->
+
+<!--
+<strong>Module actions</strong>
+<br/>
+-->
+<strong>Module actions: </strong>
+<!--
+<div style="margin: .5em 0 0 1em;">
+-->
+              <a title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+id="download-copy" href="#asdfaasdf" style="color: black; text-decoration: none;">
+               <span class="button" style="margin-left: 0;">Download a copy</span>
+              </a>
+                <div id="roles" class="formentry" style="margin-bottom: 0;">
+                  <span class="formlabel">Contributors</span>
+                  <span>(<a href="#asdfaasd" id="edit-roles">edit</a>)</span>
+                  <ul style="margin-bottom: 0.5em; margin-top: 0; margin-left: -1em; padding-top: .5em; font-size: .85em;">
+                    <li id="list-authors">Authors: <span>starkenbury</span></li>
+                    <li id="list-maintainers">Maintainers: <span>starkenbury</span></li>
+                    <li id="list-copyright">Copyright Holders: <span>starkenbury</span></li>
+                    <li id="list-editors">Editors: <span/></li>
+                    <li id="list-translators">Translators: <span/></li>
+                  </ul>
+                </div>
+
+<!--
+<hr/>
+-->
+
+            </div>
+          </div>
+
+
+
+                <div class="formentry">
+                  <div class="formlabel">Language</div>
+                  <div class="forminfo">Select the primary language for this module.</div>
+                  <div class="formfield">
+                    <select id="language" name="language">
+<option value="af">Afrikaans</option>
+<option value="ay">Aymara</option>
+<option value="az">Az?ri T?rk??si</option>
+<option value="id">Bahasa Indonesia</option>
+<option value="ms">Bahasa Melayu</option>
+<option value="jw">Basa Jawi</option>
+<option value="ba">Bashkir</option>
+<option value="bh">Bihari</option>
+<option value="bi">Bislama</option>
+<option value="bs">Bosanski</option>
+<option value="br">Brezhoneg</option>
+<option value="my">Burmese</option>
+<option value="ca">Catal?</option>
+<option value="ch">Chamoru</option>
+<option value="co">Corsu</option>
+<option value="cy">Cymraeg</option>
+<option value="da">Dansk</option>
+<option value="de">Deutsch</option>
+<option value="et">Eesti</option>
+<option selected="selected" value="en">English</option>
+<option value="es">Espa?ol</option>
+<option value="eo">Esperanto</option>
+<option value="eu">Euskara</option>
+<option value="fj">Fiji</option>
+<option value="fr">Fran?ais</option>
+<option value="fy">Frysk</option>
+<option value="fo">F?royska</option>
+<option value="ga">Gaeilge</option>
+<option value="gv">Gaelg</option>
+<option value="gl">Galego</option>
+<option value="kl">Greenlandic</option>
+<option value="gn">Guarani</option>
+<option value="gd">G?idhlig</option>
+<option value="hr">Hrvatski</option>
+<option value="ia">Interlingua</option>
+<option value="ie">Interlingue</option>
+<option value="ik">Inupiak</option>
+<option value="it">Italiano</option>
+<option value="kw">Kernewek</option>
+<option value="rn">Kirundi</option>
+<option value="sw">Kiswahili</option>
+<option value="rw">Kiyarwanda</option>
+<option value="ku">Kurd?</option>
+<option value="oc">Languedoc</option>
+<option value="la">Latin</option>
+<option value="lv">Latvie?u</option>
+<option value="to">Lea faka-Tonga</option>
+<option value="lt">Lietuviskai</option>
+<option value="li">Limburgs</option>
+<option value="ln">Lingala</option>
+<option value="lb">L?tzebuergesch</option>
+<option value="hu">Magyar</option>
+<option value="mg">Malagasy</option>
+<option value="mt">Malti</option>
+<option value="mi">Maori</option>
+<option value="mo">Moldavian</option>
+<option value="na">Nauru</option>
+<option value="nl">Nederlands</option>
+<option value="no">Norsk</option>
+<option value="se">Northern S?mi</option>
+<option value="nn">Nynorsk</option>
+<option value="om">Oromo</option>
+<option value="pl">Polski</option>
+<option value="pt">Portugu?s</option>
+<option value="qu">Quechua</option>
+<option value="ro">Rom?na(</option>
+<option value="rm">Rumantsch</option>
+<option value="sm">Samoan</option>
+<option value="sg">Sangho</option>
+<option value="sh">Serbo-Croatian</option>
+<option value="st">Sesotho</option>
+<option value="tn">Setswana</option>
+<option value="sn">Shona</option>
+<option value="sq">Shqip</option>
+<option value="sd">Sindhi</option>
+<option value="si">Singhalese</option>
+<option value="ss">Siswati</option>
+<option value="sk">Slovenc(ina</option>
+<option value="sl">Sloven?c(ina</option>
+<option value="so">Somali</option>
+<option value="su">Sudanese</option>
+<option value="fi">Suomi</option>
+<option value="sv">Svenska</option>
+<option value="tl">Tagalog</option>
+<option value="vi">Tie^'ng Vie^.t</option>
+<option value="ts">Tsonga</option>
+<option value="tw">Twi</option>
+<option value="tr">T?rk?e</option>
+<option value="ug">Uigur</option>
+<option value="vo">Volap?k</option>
+<option value="wa">Walon</option>
+<option value="wo">Wolof</option>
+<option value="yo">Yor?b?</option>
+<option value="za">Zhuang</option>
+<option value="xh">isiXhosa</option>
+<option value="zu">isiZulu</option>
+<option value="jbo">lojban</option>
+<option value="is">?slenska</option>
+<option value="cs">C(e?tina</option>
+<option value="el">????????</option>
+<option value="uz">???????</option>
+<option value="be">?????????</option>
+<option value="bg">?????????</option>
+<option value="ky">??????</option>
+<option value="mk">??????????</option>
+<option value="mn">??????</option>
+<option value="ru">???????</option>
+<option value="tg">??????</option>
+<option value="uk">??????????</option>
+<option value="ab">??????</option>
+<option value="aa">???I???? ???I</option>
+<option value="sr">??????</option>
+<option value="tt">???????</option>
+<option value="tk">????m????</option>
+<option value="hy">???????</option>
+<option value="he">?????</option>
+<option value="yi">?????</option>
+<option value="ur">????</option>
+<option value="ar">???????</option>
+<option value="fa">?????</option>
+<option value="ha">?????</option>
+<option value="ps">????</option>
+<option value="ks">??????</option>
+<option value="ne">??????</option>
+<option value="mr">?????</option>
+<option value="sa">???????</option>
+<option value="hi">?????</option>
+<option value="as">??????</option>
+<option value="bn">?????</option>
+<option value="pa">??????</option>
+<option value="gu">???????</option>
+<option value="or">????</option>
+<option value="ta">????</option>
+<option value="te">??????</option>
+<option value="kn">?????</option>
+<option value="ml">??????</option>
+<option value="th">???</option>
+<option value="lo">???????</option>
+<option value="bo">????????</option>
+<option value="dz">??????</option>
+<option value="ka">???????</option>
+<option value="ti">????</option>
+<option value="am">????</option>
+<option value="iu">??????</option>
+<option value="km">?????</option>
+<option value="zh">??</option>
+<option value="ja">???</option>
+<option value="ko">???</option>
+<option value="kk">???????</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="formentry">
+                  <div class="formlabel">Keywords (one per line)</div>
+                  <div class="forminfo">Enter each keyword on its own
+                    line. Keywords are not displayed on the content, but
+                    are used behind the scenes to help people find it in
+                    searches.</div>
+                  <div class="formfield"><textarea name="keywords" rows="4" cols="25"></textarea></div>
+                </div>
+                <div class="formentry" id="formentry-ga-2">
+                  <div class="formlabel">
+<!--
+                    <input type="checkbox" name="google_code_opener" checked="checked" disabled="disabled"/>
+-->
+                    Optional Google Analytics Tracking Code
+                  </div>
+                  <div class="errortext" style="display: none;">
+                    The tracking code you entered is not a valid format.
+                  </div>
+                  <div id="ga-field-2" style="display: block;">
+                    <div class="forminfo">Enter a Google Analytics Tracking Code (e.g. UA-xxxxxxx-x) for this content to track usage.</div>
+                    <div class="formfield">
+                      <input type="text" name="google_code_2" size="17" value="UA-1234567-8"/>
+                      <a href="#" id="remove-ga" title="Remove tracking code from this module"><img src="helper_files/delete_icon.png" style="vertical-align: text-top;"/></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="formentry" id="formentry-ga" style="display: none;">
+                  <div class="formlabel">
+                    <input type="checkbox" name="google_code_opener"/>
+                    Add optional Google Analytics Tracking Code
+                  </div>
+                  <div class="errortext" style="display: none;">
+                    The tracking code you entered is not a valid format.
+                  </div>
+                  <div id="ga-field" style="display: none;">
+                    <div class="forminfo">Enter a Google Analytics Tracking Code (e.g. UA-xxxxxxx-x) for this content to track usage.</div>
+                    <div class="formfield"><input type="text" name="google_code" size="17" value=""/></div>
+                  </div>
+                </div>
+                <div class="formentry" id="formentry-fl">
+                  <div class="formlabel-2" style="font-weight: bold;">
+<!--
+                    <input type="checkbox" name="fl_opener" checked="checked" disabled="disabled"/>
+-->
+                    Optional Featured Links
+                  </div>
+                  <div id="fl-field" style="display: block;">
+
+      <div id="collection-composer-featured-links-body">
+
+        <p class="forminfo">
+          Make sure that all of your links are published and/or publicly available.
+        </p>
+
+        <table id="collection-composer-featured-links-table" class="listing" style="border-top: 1px solid rgb(140, 172, 187);">
+        <tbody>
+            <tr>
+                <td style="width: 100%; font-size: 1.1em;">
+                    <div class="edit-link-title">
+                        <img src="helper_files/strength3.png">
+                        <span>Minor Keys</span>
+                        <a target="_blank" class="icon" title="Visit link in new window" href="http://cnx.org/content/m18686/latest/"><img src="helper_files/external-link.png"></a>
+                    </div>
+                </td>
+                <td class="link-edit-link" nowrap="nowrap">
+                    <a href="#asdf" class="edit-link" onclick="return false;">Edit link</a>
+                </td>
+                <td class="link-edit-link" id="lel-2" nowrap="nowrap">
+                    <a class="remove-link" href="#asdf" onclick="return false;" title="Remove featured link from this module"><img 
+src="helper_files/delete_icon.png"/></a>
+                </td>
+            </tr>
+
+
+
+
+        </tbody>
+        </table>
+
+        <div id="new-link-activate-wrapper" style="margin: 0pt 0pt 1em; display: block;">
+            <a href="#asdfasdfaaasdf" id="show-featuredlinks-2" onclick="return false;" class="button2">
+                + Create a new link
+            </a>
+        </div>
+      </div>
+                  </div>
+                </div>
+                <div class="formentry" id="formentry-fl-2" style="display: none;">
+                  <div class="formlabel">
+                    <input type="checkbox" name="fl_opener" id="show-featuredlinks"/>
+                    Add optional Featured Links
+                  </div>
+                  <div id="fl-field" style="display: block;">
+
+                  </div>
+                </div>
+              </td>
+            </tr></tbody>
+          </table>
+
+          <div class="pleasewait" id="upload-wait" style="display: none;">      
+            Your module is being uploaded to Connexions. This may take a few moments.
+          </div>
+
+        </div>
+
+
+        <div id="footer">
+          <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+
+<div id="featuredlinks" style="display: none;">
+    <div class="popup-header-prefix">
+        <strong>
+            Create/edit links for this module
+        </strong>
+    </div>
+
+        <div id="new-link-controls" class="link-controls" style="display: block;">
+
+                <div id="collection-composer-newlink">
+
+                <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Link title</span>:
+                        </th>
+                        <td colspan="2">
+
+                                <div></div>
+                                <input name="title" size="30" type="text">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                             <span>Type</span>:
+                         </th>
+                         <td colspan="2">
+                             <select name="category">
+                                 <option value="example">Example</option>
+                                 <option value="prerequisite">Prerequisite</option>
+                                 <option value="supplemental">Supplemental</option>
+                             </select>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Strength</span>:
+                        </th>
+                        <td colspan="2">
+                            <select name="strength">
+                                <option value="3"> 3 : Strongly related link </option>
+                                <option value="2"> 2 : Related link </option>
+                                <option value="1"> 1 : Weakly related link </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radiourl" value="url" class="noborder" checked="checked" type="radio">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>Enter either a URL ...</span>
+                        </th>
+                        <td colspan="2">
+                                <div></div>
+                                <input name="url" size="30" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radioid" value="id" class="noborder" type="radio">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>... or a Connexions ID</span>:
+                        </th>
+                        <td colspan="2" style="padding-bottom: 1em; padding-right: 0.5em;">
+                                <div></div>
+                                <input name="connexions_id" size="8" type="text">
+                                <span style="padding: 0pt 0.25em; font-weight: bold;">
+                                    <span>Version</span> 
+                                    <span style="font-weight: normal;">(<span>optional</span>)</span>
+                                </span>:
+                                <input name="version" size="3" type="text">
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
+                <div style="text-align: center; margin: .5em 0;">
+                  <span class="button" id="submit-featuredlinks">Add New Link</span> 
+                  <span class="button" id="cancel-featuredlinks">Cancel</span>
+                </div>
+        </div>              
+      </div>
+
+    </div>
+
+
+
+  </body>
+</html>
+
+
+

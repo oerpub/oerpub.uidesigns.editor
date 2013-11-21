@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+<!--
+    <script src="helper_files/swordpush.js"></script>
+-->
+    <script src="helper_files/swordpush-max-02.js"></script>
+
+    <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+
+<!--
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+-->
+    <link rel="stylesheet" href="helper_files/main-max-02.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+/* Moved this portion back directly into the file because 'headerh' wasn't always correctly calculated when done from the external file. */
+
+  var winh = $(window).height();
+  var headerh = $("#header-container").outerHeight();
+  var wfnh = $("#workflownav-wrap").outerHeight();
+  var contentp = parseInt($("#content").css("paddingTop"));
+  var contentp = contentp + parseInt($("#content").css("paddingBottom"));
+  var phwh = $("#pageheader-wrap").outerHeight();
+  var ma = $("#module-actions .advanced").outerWidth();
+
+  // Make the iframe fit exactly inside the remaining space
+  $("iframe").height(winh - headerh - wfnh - contentp - phwh - 5);
+  $("iframe").width($(window).width() - 53);
+
+  // Give the page's header the correct top margin (since the elements above it are in a fixed position)
+  $("#content").css({'margin-top': headerh + wfnh})
+
+    // Show the "new or existing" form.
+    $('#launch-neworexisting').click(function(e) {
+        e.preventDefault();
+        $('#neworexisting').modal();
+    });
+
+    // Hide the "new or existing" form.
+    $('#cancel-neworexisting').click(function(e) {
+        e.preventDefault();
+        $.modal.close();
+    });
+
+    // Apply the "new or existing" form.
+    $('#submit-neworexisting').click(function(e) {
+        e.preventDefault();
+        $.modal.close();
+    });
+
+  // Display advanced mode notice on click             
+/*
+  $("#expertmode").toggle(function(){             
+    $("#advanced-message").hide();
+    $("#expand-advanced").show();
+    $(this).removeClass("expert-activated");              
+    $(".advanced").hide();                             
+    $(".advanced2").hide();
+    $(".non-advanced").show();
+  }, function(){
+    $("#advanced-message").show();          
+    $("#basic-message").hide();
+    $(this).addClass("expert-activated");
+    $(".advanced").show();
+    $(".advanced2").show();             
+    $(".non-advanced").hide();         
+    $("#expand-advanced").hide();                 
+  });
+*/
+
+});
+
+</script>
+
+<style type="text/css">
+
+.advanced .button{
+  background-color: #FFF3E2;
+  background-color: #FFFAF2;
+  background-color: #FFFDFA;
+/*
+  background-color: transparent;
+  border-width: 0;
+  text-decoration: underline;
+  margin: .5em 0 0 0 !important;
+  padding: 0 !important;
+*/
+  font-weight: normal;
+/*
+  display: block;
+  cursor: pointer;
+*/
+}
+
+</style>
+
+
+  </head>
+
+  <body>
+    
+    
+  <div id="header-wrap">
+    <div id="header-container">
+
+      <div id="header-functions">
+        <div id="expertmode">
+          <span id="expand-advanced" style="display: inline;">
+            &#171;
+          </span>
+          <span id="basic-message" style="display: none;">
+            <span class="link-like">Switch to advanced mode</span>
+          </span>
+          <span id="advanced-message" style="display: none;">
+            You are in advanced mode. 
+            <span class="link-like">Return to basic mode.</span>
+          </span>
+<!--
+          <img src="helper_files/gear_orange_3.png" width="16" height="16"/>
+-->
+        </div>
+        <div id="status">
+          <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+          <a href="#" target="_top">Sign out.</a>
+        </div>
+      </div>
+
+      <div id="header">
+        <img class="cnxlogo" src="helper_files/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="workflownav-wrap">
+    <div id="workflownav-container">
+      <div id="back-steps">
+        <input type="button" class="button" value="&#171; Back: Return to start page" id="back-to-chooser-2"
+               title="Return to the previous screen to choose a different import or editing option"
+onclick="window.location = 'choose-25.html'"
+/>
+      </div>
+      <div id="forward-steps">
+        <input type="button" class="button forward-button" value="Next Step &#187;" id="launch-neworexisting"
+               title="Select whether this will be used for a new module or to override the contents of an existing module"/>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+      <div id="content">
+
+
+        <div id="pageheader-wrap">
+
+          <div id="module-actions">
+            <div class="advanced" style="display: none; margin: -.5em 0 1em 3em; padding: .75em 1.5em .9em;">
+              <h2 class="advanced-header" style="margin-top: -.2em; margin-left: 2em;">
+                Advanced
+              </h2>
+<div style="float: left;">
+              <strong style="margin: 0;">Module actions:</strong>
+              <span href="#" class="button">Download a copy</span>
+              <span href="#" class="button">Edit XML</span>
+              <!--
+              <span href="#" class="button" id="show-featuredlinks">Add Featured Links</span>
+              -->
+</div>
+<!--
+<div style="font-size: .85em;">
+              <a title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+id="download-copy" href="#asdf">
+                <span class="button-text">Download a copy</span></a>
+|
+              <a title="" 
+id="download-copy" href="#asdf">
+                <span class="button-text">Edit contents</span></a>
+|
+              <a title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+id="download-copy" href="#asdf">
+                <span class="button-text">Import new contents</span></a>
+</div>
+-->
+            <div style="clear: both;"></div>
+            </div>
+          </div>
+
+
+<!--
+          <div id="module-actions">
+            <span class="advanced">
+              <h3>Module actions:</h3>
+              <a class="button" title="Make changes to the module by editing its XML code." id="edit-xml">
+                <span class="advanced-marker"><img src="helper_files/gear_orange_3.png"/></span>
+                <span class="button-text">Edit XML</span>
+              </a>
+              <a class="button" title="Save a ZIP file containing the module's XML and metadata to your local computer." id="download-copy">
+                <span class="advanced-marker"><img src="helper_files/gear_orange_3.png"/></span>
+                <span class="button-text">Download a copy</span>
+              </a>
+            </span>
+          </div>
+-->
+
+          <div id="page-title">
+            <h1>
+              Preview:
+              <span class="metatitle">
+                Conversion of Cooking_with_spam.doc
+<!--
+Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM Cooking with SPAM
+-->
+              </span>
+            </h1>
+          </div>
+
+          <div id="page-description">
+            <p class="forminfo">
+              View below how the module will appear in Connexions.
+            </p>
+          </div>
+
+        </div>
+
+        <span style="position: absolute; right: 4em; margin-top: .5em; z-index: 50;">
+          <a href="#asdf" id="show-featuredlinks">
+            Add Featured Links
+          </a>
+        </span>
+
+        <iframe id="preview-frame" src="spam-03.xhtml" frameborder="0"> </iframe>
+
+<!--
+        <div id="footer">
+          <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+        </div>
+-->
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <div id="neworexisting" style="display: none;">
+    <p><strong>
+      Is this for a new module or will it override an existing one?
+    </strong></p>
+    <div>
+<!--
+      <input type="radio" name="neworexisting" checked="checked"> 
+      <strong>New module</strong>
+-->
+      <span class="button"
+onclick="window.location = 'metadata-28.html'"
+>New module</span>
+      <div class="forminfo" style="margin: .5em 0 1em;">
+        This is an entirely new module. 
+      </div>
+    </div>
+    <div>
+<!--
+      <input type="radio" name="neworexisting">
+      <strong>Override existing module</strong>
+-->
+      <span class="button"
+onclick="window.location = 'choose-module-15.html'"
+>Override existing module</span>
+      <div class="forminfo" style="margin: .5em 0 1em;">
+        Choose an existing module to apply your import to, replacing its contents.  
+<!--
+whether or not it is already checked out into your 
+Personal 
+Workspace.
+-->
+      </div>
+    </div>
+    <div class="headeraction" style="margin: 1.5em 0 0; text-align: center;">
+<!--
+      <span href="#" id="submit-neworexisting" class="button"
+onclick="window.location = 'choose-module-08.html'; return false;"
+>Next &#187;</span></div>
+    <div class="headeraction" style="float:right;margin-top:5px;margin-right:1em;">
+      <span href="#" id="cancel-neworexisting" class="button">Cancel</span></div>
+-->
+    <span class="button" id="cancel-neworexisting">Cancel</span>
+  </div>
+</div>
+
+
+
+
+
+
+<div id="featuredlinks" style="display: none;">
+    <div class="popup-header-prefix">
+        <strong>
+            Create/edit links for this module
+        </strong>
+    </div>
+<!--
+    <div style="margin-bottom: 1em;">
+        <span class="field">
+            <a target="_blank" title="Opens in a new window" href="http://cnx.org/content/m34000/latest">
+                Visit published module</a>
+            <a target="_blank" href="http://cnx.org/content/m34000/latest">
+                <img title="Opens in new window" src="http://cnx.org/++resource++collection-composer-resources/external-link.png"></a>
+        </span>
+    </div>
+-->
+    <div> 
+        <p class="forminfo">
+          Make sure that all of your links are published and/or publicly available.
+        </p>
+        <div id="new-link-activate-wrapper" style="margin: 0pt 0pt 1em; display: none;">
+            <a href="#" id="new-link-activate">
+                + Create a new link
+            </a>
+        </div>
+        <div id="new-link-controls" class="link-controls" style="display: block;">
+                <div id="collection-composer-newlink">                
+                <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Link title</span>:
+                        </th>
+                        <td colspan="2">
+                                <div></div>
+                                <input name="title" size="30" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                             <span>Type</span>:
+                         </th>
+                         <td colspan="2">
+                             <select name="category">
+                                 <option value="example">Example</option>
+                                 <option value="prerequisite">Prerequisite</option>
+                                 <option value="supplemental">Supplemental</option>
+                             </select>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th style="padding-right: 0.5em; text-align: left;">
+                            <span>Strength</span>:
+                        </th>
+                        <td colspan="2">
+                            <select name="strength">
+                                <option value="3"> 3 : Strongly related link </option>
+                                <option value="2"> 2 : Related link </option>
+                                <option value="1"> 1 : Weakly related link </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radiourl" value="url" class="noborder" checked="checked" type="radio">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>Enter either a URL ...</span>
+                        </th>
+                        <td colspan="2">
+                                <div></div>
+                                <input name="url" size="30" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="">
+                            <input name="urlorid" id="radioid" value="id" class="noborder" type="radio">
+                        </td>
+                        <th style="padding-right: 0.25em; text-align: left; white-space: nowrap;">
+                            <span>... or a Connexions ID</span>:
+                        </th>
+                        <td colspan="2" style="padding-bottom: 1em; padding-right: 0.5em;">
+                                <div></div>
+                                <input name="connexions_id" size="8" type="text">
+                                <span style="padding: 0pt 0.25em; font-weight: bold;">
+                                    <span>Version</span> 
+                                    <span style="font-weight: normal;">(<span>optional</span>)</span>
+                                </span>:
+                                <input name="version" size="3" type="text">
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
+                <div style="text-align: center; margin: .5em 0;">
+                  <span class="button" id="submit-featuredlinks">Add New Link</span> 
+                  <span class="button" id="cancel-featuredlinks">Cancel</span>
+                </div>
+        </div>              
+      </div>
+      <div style="display: none;">
+              <input class="standalone" id="links-done" value="Done" type="submit">
+      </div>
+    </div>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+

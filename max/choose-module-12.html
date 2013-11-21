@@ -1,0 +1,3793 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+<!--
+    <script src="helper_files/swordpush.js"></script>
+-->
+    <script src="helper_files/swordpush-max-02.js"></script>
+
+    <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+
+<!--
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+-->
+    <link rel="stylesheet" href="helper_files/main-max-02.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+/* Moved this portion back directly into the file because 'headerh' wasn't always correctly calculated when done from the external file. */
+
+  var winh = $(window).height();
+  var headerh = $("#header-container").outerHeight();
+  var wfnh = $("#workflownav-wrap").outerHeight();
+  var contentp = parseInt($("#content").css("paddingTop"));
+  var contentp = contentp + parseInt($("#content").css("paddingBottom"));
+  var phwh = $("#pageheader-wrap").outerHeight();
+  var ma = $("#module-actions .advanced").outerWidth();
+
+  // Make the iframe fit exactly inside the remaining space
+  $("iframe").height(winh - headerh - wfnh - contentp - phwh + 5);
+  $("iframe").width($(window).width() - 53);              
+
+  // Give the page's header the correct top margin (since the elements above it are in a fixed position)
+  $("#content").css({'margin-top': headerh + wfnh})
+
+  $("#workspace").change(function(){
+    $(".workarea-choice").text($("#workspace option:selected").text());
+  });
+
+  $("#sortable a").each(function() {
+    var con = $(this).html();
+    $(this).replaceWith(con);
+  });
+  $("#sortable tr").each(function() {
+    var id = $(this).find("td:nth-child(3)").text().trim();
+    if (id != '') {
+      $(this).find("td:nth-child(2)").prepend("<a target='_blank' href='http://cnx.org/content/" + id + "/latest/' style='float: right\;' title='Open the published module in a new window'><img src='helper_files/external-link.png'/></a>")
+    }
+  });
+  //$("#sortable input").attr('type','radio');
+  $("#sortable input[type='checkbox']").replaceWith('<input type="radio" name="module"/>');
+  //$("#sortable input").click($("#choose-existing").attr('checked','checked'));
+
+
+  $("#not-finding-link").toggle(function(){
+    $("#not-finding").show();
+  }, function(){
+    $("#not-finding").hide();
+  });
+
+/*
+  $("input").click(function(){
+    if ($("#choose-existing").attr("checked")) {
+      $(".existing2").show();
+      $("#not-finding-link-wrapper").show();
+    } else {
+      $(".existing2").hide();
+      $("#not-finding-link-wrapper").hide();
+    }
+  });
+*/
+
+});
+
+</script>
+
+<style type="text/css">
+
+.listingBar {
+background-color: #dee7ec;
+background-color: #ddd;
+border-color: #8cacbb;
+border-color: #999;
+border-style: solid;
+border-width: 1px;
+padding: 0em 1em;
+text-align: center;
+text-transform: none;
+vertical-align: top;
+margin: 1em 0em;
+/*
+font-size: 94%;
+*/
+font-size: 1em;
+clear: both;
+}
+.listingBar span.previous,
+.listingPrevious {
+text-align: left;
+float: left;
+margin-right: 1em;
+}
+.listingBar span.next,
+.listingNext {
+text-align: right;
+float: right;
+margin-left: 1em;
+}
+.listingBar img {
+vertical-align: middle;
+}
+.listingBar a {
+text-decoration: none;
+}
+.listing,
+.stx table {
+/* */
+border-collapse: collapse;
+border-left: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+border-color: #999;
+font-size: 90%;
+margin: 1em 0em 1em 0em;
+}
+.listing th,
+.stx table th {
+background: #dee7ec;
+background: #ddd;
+border-top: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+border-color: #999;
+font-weight: bold;
+padding: 0.25em 1em;
+text-transform: none;
+}
+.listing .top {
+border-left: 1px solid White;
+border-top: 1px solid White ! important;
+border-right: 1px solid White ! important;
+text-align: right ! important;
+padding: 0em 0em 1em 0em;
+}
+.listing .listingCheckbox {
+text-align: center;
+}
+.listing td,
+.stx table td {
+border-right: 1px solid #8cacbb;
+border-right: 1px solid #999;
+/*
+border-bottom: 1px solid #8cacbb !important;
+*/
+padding: 0.25em 1em;
+}
+.listing a {
+text-decoration: none;
+}
+.listing a:hover {
+text-decoration: underline;
+}
+.listing img {
+vertical-align: middle;
+}
+.listing td a label,
+.stx table td a label {
+cursor: pointer;
+}
+/*
+table.listing,
+table.listing td {
+border: 1pt solid black;
+border-collapse: collapse;
+}
+*/
+.even {
+background-color: #EEF3F5;
+background-color: #eee;
+}
+
+</style>
+
+  </head>
+
+  <body>
+    
+    
+  <div id="header-wrap">
+    <div id="header-container">
+
+      <div id="header-functions">
+        <div id="expertmode">
+          <span id="expand-advanced">
+            &#171;
+          </span>
+          <span id="basic-message" style="display: none;">
+            <span class="link-like">Switch to advanced mode</span>
+          </span>
+          <span id="advanced-message" style="display: none;">
+            You are in advanced mode. 
+            <span class="link-like">Return to basic mode.</span>
+          </span>
+<!--
+          <img src="helper_files/gear_orange_3.png" width="16" height="16"/>
+-->
+        </div>
+        <div id="status">
+          <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+          <a href="#" target="_top">Sign out.</a>
+        </div>
+      </div>
+
+      <div id="header">
+        <img class="cnxlogo" src="http://oerpub.org/static/images/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="workflownav-wrap">
+    <div id="workflownav-container">
+      <div id="back-steps">
+        <input type="button" class="button" value="&#171; Back: Return to preview" id="back-to-chooser"
+               title="Return to the module preview"/>
+      </div>
+      <div id="forward-steps">
+        <input type="button" class="button forward-button" value="Next: Review module description &#187;" 
+               title="Add/edit title and other information about the module"/>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+      <div id="content">
+
+
+        <div id="pageheader-wrap">
+
+        </div>
+
+
+          <div id="module-actions">
+            <div class="advanced3" style="display: none; margin: -.5em 0 1em 3em; padding: .6em 1.5em;">
+
+              <h2 class="advanced-header" style="margin-top: -.2em;">
+                Advanced
+              </h2>
+<ul style="margin: 0 0 0 1em; padding: 0;">
+<li style="margin-bottom: 1em;">
+              <h4 style="margin: 0 0 0em;">Module actions:</h4>
+<div style="font-size: .85em;">
+              <a title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+id="download-copy" href="#asdf">
+                <span class="button-text">Download a copy</span></a>
+<!--
+|
+              <a title="" 
+id="download-copy" href="#asdf">
+
+                <span class="button-text">Edit contents</span></a>
+|
+              <a title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+id="download-copy" href="#asdf">
+                <span class="button-text">Import new contents</span></a>
+-->
+</div>
+</li>
+<li>
+                  <div style="clear: right; padding: 0pt 0pt 0.5em;" class="formlabel">
+                    Display contents of another work area
+                  </div>
+              <select id="workspace" name="workspace">
+
+                <option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+                <option value="asdf" disabled="disabled">--</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+
+                <option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+              </select>
+
+</li>
+</ul>
+            </div>
+          </div>
+
+          <div id="page-title">
+            <h1 style="margin-bottom: .7em;">
+              Which module are you making a new version of?
+            </h1>
+          </div>
+
+          <div id="page-description">
+
+          </div>
+
+
+
+  <div id="not-finding-link-wrapper" style="margin-top: -.5em; margin-bottom: 1.5em;" class="forminfo">
+Select the module below whose contents you are replacing.
+    <span style="font-size: .85em;">
+    [<a href="#asdf" id="not-finding-link">Not finding your module in any work areas below?</a>]
+    </span>
+  </div>
+
+<div style="margin: 1em 0 1em; clear: none; display: block;" class="existing2">
+
+<!--
+  Choose a module below to start editing it.
+-->
+            <div id="not-finding" style="display: none; margin: 0 0 1em;" class="existing">
+              <div style="margin: 0 0 .5em;">
+                <p style="margin: 0 0 .5em;" class="forminfo">
+                  Enter the URL of a module to check it out to your Personal Workspace.
+                </p>
+                <strong>Connexions URL of the module:</strong>
+              </div>
+              <input type="url" "="" onkeydown="if(event.keyCode == 
+13){$('#file-submit').removeAttr('disabled');$('#file-submit').click();document.getElementById('url-submit').disabled=false;}" 
+placeholder="http://cnx.org/content/m0000/latest/" style="width: 30em;" name="url_text" id="url_text"/>
+
+              <input type="submit" disabled="disabled" value="Next &#187;" name="url.submitted" id="url-submit" class="button"/>
+            </div>
+
+  <div>
+
+<!--
+            <div style="display: none; margin: 0 0 .5em; padding: .75em 1.5em .75em .75em;" class="advanced">
+              <h2 style="margin-top: -.25em;" class="advanced-header">
+                Advanced
+              </h2>
+                <div style="margin: 0; padding-right: 0;" class="formentry" id="change-wg">
+                  <strong>
+                    Showing contents of: 
+                  </strong>
+                  <select name="workspace" id="workspace">
+                    <option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+                    <option disabled="disabled" value="asdf">--</option>
+                    <option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+                    <option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+                    <option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+                  </select>
+                </div>
+            </div>
+-->
+
+   <div class="non-advanced-2" style="text-align: left; margin: 0 0 .5em;">
+      <strong style="font-weight: bold;">Contents of: 
+<!--
+        <span class="workarea-choice" style="">Personal Workspace</span>
+-->
+              <select id="workspace" name="workspace">
+                <option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+                <option value="asdf" disabled="disabled">--</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+                <option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+              </select>
+      </strong>
+   </div>
+
+ 
+ </div>
+
+<div>
+            <!-- Navigation -->
+            <div class="listingBar">
+
+    <span class="previous">
+        <span style="visibility: hidden;" class="inviz">
+        
+           &#171;
+           
+               Previous
+               <span>13</span>
+               items
+           
+        
+        </span>
+
+    </span>
+
+    <span class="next">
+
+        
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">
+           
+               Next
+               <span>13</span>
+               items
+           
+           &#187;
+        </a>
+        
+    </span>
+
+    <!-- Link to first -->
+    
+
+    <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
+
+    <!-- Pagelist with links to previous pages for quick navigation -->
+
+    <!-- Current page -->
+    
+        [<span>1</span>]
+    
+
+    <!-- Pagelist with links to next pages for quick navigation -->
+    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">2</a>
+
+<!--    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">3</a>
+
+    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">4</a>
+    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">5</a>
+-->
+
+    <!-- Pagelist with quantum leap links to next pages for quick navigation -->
+
+    <!-- Link to last -->
+    
+
+</div>
+          <table summary="Content listing" style="width: 100%; font-size: 1em;" class="listing" id="sortable">
+            <thead>
+              
+                <tr>
+                  <th class="nosort">
+<!--
+                      <input class="noborder"
+                             type="checkbox"
+                             src="http://cnx.org/select_all_icon.gif"
+                             name="selectButton"
+                             title="Select/unselect all items"
+                             onclick="toggleSelect(this,'paths:list');"
+                             alt="Select/unselect all items" />
+-->
+                  </th>
+                  
+                  <th style="white-space: nowrap;"> Module title </th>
+
+                  <th style="white-space: nowrap;"> Module ID </th>
+<!--
+                  <th style="white-space:nowrap">&nbsp;Size&nbsp;</th>
+                  <th style="white-space:nowrap">&nbsp;Modified&nbsp;</th>
+                  <th style="white-space:nowrap">&nbsp;State&nbsp;</th>
+-->
+        
+                </tr>
+              
+            </thead>
+
+            
+            <tbody>
+                
+                   <tr id="folder-contents-item-copy_of_m27066" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select 'N ROLMODEL" alt="Select 'N ROLMODEL" 
+value="/plone/GroupWorkspaces/wg1438/copy_of_m27066" id="cb_copy_of_m27066" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/copy_of_m27066" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+<!--
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/copy_of_m27066/view">
+-->                            
+                            'N ROLMODEL
+<!--
+                        </a>
+-->
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27066
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27066" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select 'N ROLMODEL" alt="Select 'N ROLMODEL" 
+value="/plone/GroupWorkspaces/wg1438/m27066" id="cb_m27066" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27066" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+<!--
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27066/view">
+-->
+                            'N ROLMODEL
+<!--
+                        </a>
+-->
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27066
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27113" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select A ROLL MODEL" alt="Select A ROLL MODEL" 
+value="/plone/GroupWorkspaces/wg1438/m27113" id="cb_m27113" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27113" name="obj_paths:list"/>
+
+                    </td>
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+<!--
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27113/view">
+-->                            
+                            A ROLL MODEL
+<!--
+                        </a>
+-->
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+
+                      m27113
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-copy_of_m27113" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select A ROLL MODEL" alt="Select A ROLL MODEL" 
+value="/plone/GroupWorkspaces/wg1438/copy_of_m27113" id="cb_copy_of_m27113" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/copy_of_m27113" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/copy_of_m27113/view">
+                            
+                            A ROLL MODEL
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27113
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m36329" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Alice: beginner programming site" alt="Select Alice: beginner 
+programming site" value="/plone/GroupWorkspaces/wg1438/m36329" id="cb_m36329" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m36329" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m36329/view">
+                            
+                            Alice: beginner programming site
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m36329
+                    </td>
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m27090" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select BE A FRIEND" alt="Select BE A FRIEND" 
+value="/plone/GroupWorkspaces/wg1438/m27090" id="cb_m27090" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27090" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27090/view">
+
+                            
+                            BE A FRIEND
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27090
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-copy_of_m27090" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select BE A FRIEND" alt="Select BE A FRIEND" 
+value="/plone/GroupWorkspaces/wg1438/copy_of_m27090" id="cb_copy_of_m27090" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/copy_of_m27090" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/copy_of_m27090/view">
+                            
+                            BE A FRIEND
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27090
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27078" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select BESOEDELING" alt="Select BESOEDELING" 
+value="/plone/GroupWorkspaces/wg1438/m27078" id="cb_m27078" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27078" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27078/view">
+                            
+                            BESOEDELING
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27078
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26619" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select DIE HAAS EN DIE SKILPAD" alt="Select DIE HAAS EN DIE SKILPAD" 
+value="/plone/GroupWorkspaces/wg1438/m26619" id="cb_m26619" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26619" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26619/view">
+                            
+                            DIE HAAS EN DIE SKILPAD
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m26619
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27836" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select DIE PARK" alt="Select DIE PARK" 
+value="/plone/GroupWorkspaces/wg1438/m27836" id="cb_m27836" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27836" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27836/view">
+                            
+                            DIE PARK
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27836
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26622" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select DIE ROOI HENNETJIE" alt="Select DIE ROOI HENNETJIE" 
+value="/plone/GroupWorkspaces/wg1438/m26622" id="cb_m26622" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26622" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26622/view">
+                            
+                            DIE ROOI HENNETJIE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m26622
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-module.2009-07-08.7232192679" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select ek" alt="Select ek" 
+value="/plone/GroupWorkspaces/wg1438/module.2009-07-08.7232192679" id="cb_module.2009-07-08.7232192679" name="paths:list" 
+class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/module.2009-07-08.7232192679" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/module.2009-07-08.7232192679/view">
+                            
+                            ek
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27040" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select EK" alt="Select EK" value="/plone/GroupWorkspaces/wg1438/m27040" 
+id="cb_m27040" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27040" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27040/view">
+                            
+                            EK
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27040
+                    </td>
+
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-module.2009-07-08.6626329589" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select EK" alt="Select EK" 
+value="/plone/GroupWorkspaces/wg1438/module.2009-07-08.6626329589" id="cb_module.2009-07-08.6626329589" name="paths:list" 
+class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/module.2009-07-08.6626329589" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/module.2009-07-08.6626329589/view">
+                            
+                            EK
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      
+                    </td>
+        
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m26649" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select EK" alt="Select EK" value="/plone/GroupWorkspaces/wg1438/m26649" 
+id="cb_m26649" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26649" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26649/view">
+
+                            
+                            EK
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26649
+                    </td>
+        
+                   </tr>
+
+                   <tr id="folder-contents-item-m26399" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select EK IS TROTS OP MY SKOOL" alt="Select EK IS TROTS OP MY SKOOL" 
+value="/plone/GroupWorkspaces/wg1438/m26399" id="cb_m26399" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26399" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26399/view">
+                            
+                            EK IS TROTS OP MY SKOOL
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26399
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27128" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select ENTREPRENEUR" alt="Select ENTREPRENEUR" 
+value="/plone/GroupWorkspaces/wg1438/m27128" id="cb_m27128" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27128" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27128/view">
+                            
+                            ENTREPRENEUR
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27128
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27086" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select ENTREPRENEUR" alt="Select ENTREPRENEUR" 
+value="/plone/GroupWorkspaces/wg1438/m27086" id="cb_m27086" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27086" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27086/view">
+                            
+                            ENTREPRENEUR
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27086
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26839" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select EXERCISE" alt="Select EXERCISE" 
+value="/plone/GroupWorkspaces/wg1438/m26839" id="cb_m26839" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26839" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26839/view">
+                            
+                            EXERCISE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m26839
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m30874" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Finance - Grade 12" alt="Select Finance - Grade 12" 
+value="/plone/GroupWorkspaces/wg1438/m30874" id="cb_m30874" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m30874" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m30874/view">
+                            
+                            Finance - Grade 12
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m30874
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27859" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select FRIENDSHIP" alt="Select FRIENDSHIP" 
+value="/plone/GroupWorkspaces/wg1438/m27859" id="cb_m27859" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27859" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27859/view">
+                            
+                            FRIENDSHIP
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27859
+                    </td>
+
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26807" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select GAMES" alt="Select GAMES" value="/plone/GroupWorkspaces/wg1438/m26807" 
+id="cb_m26807" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26807" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26807/view">
+                            
+                            GAMES
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26807
+                    </td>
+        
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m26642" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select GELD" alt="Select GELD" value="/plone/GroupWorkspaces/wg1438/m26642" 
+id="cb_m26642" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26642" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26642/view">
+
+                            
+                            GELD
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26642
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27833" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select GESONDE EETGEWOONTES" alt="Select GESONDE EETGEWOONTES" 
+value="/plone/GroupWorkspaces/wg1438/m27833" id="cb_m27833" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27833" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27833/view">
+                            
+                            GESONDE EETGEWOONTES
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27833
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26634" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select GESONDE KOS" alt="Select GESONDE KOS" 
+value="/plone/GroupWorkspaces/wg1438/m26634" id="cb_m26634" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26634" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26634/view">
+                            
+                            GESONDE KOS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26634
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27879" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select GOING TO SCHOOL" alt="Select GOING TO SCHOOL" 
+value="/plone/GroupWorkspaces/wg1438/m27879" id="cb_m27879" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27879" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27879/view">
+                            
+                            GOING TO SCHOOL
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27879
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27862" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select HEALTHY EATING" alt="Select HEALTHY EATING" 
+value="/plone/GroupWorkspaces/wg1438/m27862" id="cb_m27862" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27862" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27862/view">
+                            
+                            HEALTHY EATING
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27862
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-copy_of_m26831" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select HEALTHY FOOD" alt="Select HEALTHY FOOD" 
+value="/plone/GroupWorkspaces/wg1438/copy_of_m26831" id="cb_copy_of_m26831" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/copy_of_m26831" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/copy_of_m26831/view">
+                            
+                            HEALTHY FOOD
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m26831
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26831" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select HEALTHY FOOD" alt="Select HEALTHY FOOD" 
+value="/plone/GroupWorkspaces/wg1438/m26831" id="cb_m26831" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26831" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26831/view">
+                            
+                            HEALTHY FOOD
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26831
+                    </td>
+
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27843" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select HERWINNING" alt="Select HERWINNING" 
+value="/plone/GroupWorkspaces/wg1438/m27843" id="cb_m27843" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27843" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27843/view">
+                            
+                            HERWINNING
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27843
+                    </td>
+        
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m27108" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select HOUSES" alt="Select HOUSES" 
+value="/plone/GroupWorkspaces/wg1438/m27108" id="cb_m27108" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27108" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27108/view">
+
+                            
+                            HOUSES
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27108
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26731" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select I AM PROUD OF MY SCHOOL" alt="Select I AM PROUD OF MY SCHOOL" 
+value="/plone/GroupWorkspaces/wg1438/m26731" id="cb_m26731" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26731" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26731/view">
+                            
+                            I AM PROUD OF MY SCHOOL
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26731
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27126" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select JOBS" alt="Select JOBS" value="/plone/GroupWorkspaces/wg1438/m27126" 
+id="cb_m27126" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27126" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27126/view">
+                            
+                            JOBS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27126
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27096" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select LEADERSHIP" alt="Select LEADERSHIP" 
+value="/plone/GroupWorkspaces/wg1438/m27096" id="cb_m27096" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27096" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27096/view">
+                            
+                            LEADERSHIP
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27096
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27052" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select LEEF GESOND" alt="Select LEEF GESOND" 
+value="/plone/GroupWorkspaces/wg1438/m27052" id="cb_m27052" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27052" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27052/view">
+                            
+                            LEEF GESOND
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27052
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27047" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select LEIERSKAP" alt="Select LEIERSKAP" 
+value="/plone/GroupWorkspaces/wg1438/m27047" id="cb_m27047" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27047" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27047/view">
+                            
+                            LEIERSKAP
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27047
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m31096" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Linear Programming - Grade 12" alt="Select Linear Programming - Grade 
+12" value="/plone/GroupWorkspaces/wg1438/m31096" id="cb_m31096" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m31096" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m31096/view">
+                            
+                            Linear Programming - Grade 12
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m31096
+                    </td>
+
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-copy_of_m31096" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Linear Programming - Grade 12" alt="Select Linear Programming - Grade 
+12" value="/plone/GroupWorkspaces/wg1438/copy_of_m31096" id="cb_copy_of_m31096" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/copy_of_m31096" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/copy_of_m31096/view">
+                            
+                            Linear Programming - Grade 12
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m31096
+                    </td>
+        
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-copy2_of_m31096" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Linear Programming - Grade 12" alt="Select Linear Programming - Grade 
+12" value="/plone/GroupWorkspaces/wg1438/copy2_of_m31096" id="cb_copy2_of_m31096" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/copy2_of_m31096" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/copy2_of_m31096/view">
+
+                            
+                            Linear Programming - Grade 12
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m31096
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m36332" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Logo: It/ Cat teacher programming" alt="Select Logo: It/ Cat teacher 
+programming" value="/plone/GroupWorkspaces/wg1438/m36332" id="cb_m36332" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m36332" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m36332/view">
+                            
+                            Logo: It/ Cat teacher programming
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m36332
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27083" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select LOOPBANE" alt="Select LOOPBANE" 
+value="/plone/GroupWorkspaces/wg1438/m27083" id="cb_m27083" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27083" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27083/view">
+                            
+                            LOOPBANE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27083
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26648" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MARKDAG" alt="Select MARKDAG" 
+value="/plone/GroupWorkspaces/wg1438/m26648" id="cb_m26648" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26648" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26648/view">
+                            
+                            MARKDAG
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26648
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26881" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MARKET DAY" alt="Select MARKET DAY" 
+value="/plone/GroupWorkspaces/wg1438/m26881" id="cb_m26881" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26881" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26881/view">
+                            
+                            MARKET DAY
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m26881
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27087" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select ME" alt="Select ME" value="/plone/GroupWorkspaces/wg1438/m27087" 
+id="cb_m27087" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27087" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27087/view">
+                            
+                            ME
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27087
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26711" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select ME" alt="Select ME" value="/plone/GroupWorkspaces/wg1438/m26711" 
+id="cb_m26711" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26711" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26711/view">
+                            
+                            ME
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26711
+                    </td>
+
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27054" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MENSE VAN SUID-AFRIKA" alt="Select MENSE VAN SUID-AFRIKA" 
+value="/plone/GroupWorkspaces/wg1438/m27054" id="cb_m27054" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27054" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27054/view">
+                            
+                            MENSE VAN SUID-AFRIKA
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27054
+                    </td>
+        
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m26866" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MONEY" alt="Select MONEY" value="/plone/GroupWorkspaces/wg1438/m26866" 
+id="cb_m26866" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26866" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26866/view">
+
+                            
+                            MONEY
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26866
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m28477" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MORE AESOP?S FABLES" alt="Select MORE AESOP?S FABLES" 
+value="/plone/GroupWorkspaces/wg1438/m28477" id="cb_m28477" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m28477" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m28477/view">
+                            
+                            MORE AESOP?S FABLES
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m28477
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m34103" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select Mumbo Jumbo" alt="Select Mumbo Jumbo" 
+value="/plone/GroupWorkspaces/wg1438/m34103" id="cb_m34103" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m34103" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m34103/view">
+                            
+                            Mumbo Jumbo
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m34103
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27061" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY DORP" alt="Select MY DORP" 
+value="/plone/GroupWorkspaces/wg1438/m27061" id="cb_m27061" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27061" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27061/view">
+                            
+                            MY DORP
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27061
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26397" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY EERSTE DAG OP SKOOL" alt="Select MY EERSTE DAG OP SKOOL" 
+value="/plone/GroupWorkspaces/wg1438/m26397" id="cb_m26397" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26397" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26397/view">
+                            
+                            MY EERSTE DAG OP SKOOL
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m26397
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26855" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY ENVIROMENT" alt="Select MY ENVIROMENT" 
+value="/plone/GroupWorkspaces/wg1438/m26855" id="cb_m26855" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26855" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26855/view">
+                            
+                            MY ENVIROMENT
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m26855
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27822" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY FAMILIE" alt="Select MY FAMILIE" 
+value="/plone/GroupWorkspaces/wg1438/m27822" id="cb_m27822" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27822" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27822/view">
+                            
+                            MY FAMILIE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27822
+                    </td>
+
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26712" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY FAMILY" alt="Select MY FAMILY" 
+value="/plone/GroupWorkspaces/wg1438/m26712" id="cb_m26712" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26712" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26712/view">
+                            
+                            MY FAMILY
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26712
+                    </td>
+        
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m27854" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY FAMILY" alt="Select MY FAMILY" 
+value="/plone/GroupWorkspaces/wg1438/m27854" id="cb_m27854" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27854" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27854/view">
+
+                            
+                            MY FAMILY
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27854
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26730" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY FIRST DAY AT SCHOOL" alt="Select MY FIRST DAY AT SCHOOL" 
+value="/plone/GroupWorkspaces/wg1438/m26730" id="cb_m26730" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26730" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26730/view">
+                            
+                            MY FIRST DAY AT SCHOOL
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26730
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27006" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select MY GESIN" alt="Select MY GESIN" 
+value="/plone/GroupWorkspaces/wg1438/m27006" id="cb_m27006" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27006" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27006/view">
+                            
+                            MY GESIN
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27006
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26641" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY OMGEWING" alt="Select MY OMGEWING" 
+value="/plone/GroupWorkspaces/wg1438/m26641" id="cb_m26641" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26641" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26641/view">
+                            
+                            MY OMGEWING
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26641
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27112" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select MY TOWN" alt="Select MY TOWN" 
+value="/plone/GroupWorkspaces/wg1438/m27112" id="cb_m27112" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27112" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27112/view">
+                            
+                            MY TOWN
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27112
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26637" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select OEFENING" alt="Select OEFENING" 
+value="/plone/GroupWorkspaces/wg1438/m26637" id="cb_m26637" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26637" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26637/view">
+                            
+                            OEFENING
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m26637
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27826" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select ONS TAKE BY DIE HUIS" alt="Select ONS TAKE BY DIE HUIS" 
+value="/plone/GroupWorkspaces/wg1438/m27826" id="cb_m27826" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27826" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27826/view">
+                            
+                            ONS TAKE BY DIE HUIS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27826
+                    </td>
+
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27834" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select OORLEWING" alt="Select OORLEWING" 
+value="/plone/GroupWorkspaces/wg1438/m27834" id="cb_m27834" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27834" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27834/view">
+                            
+                            OORLEWING
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27834
+                    </td>
+        
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m27852" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select OPPAD SKOOLTOE" alt="Select OPPAD SKOOLTOE" 
+value="/plone/GroupWorkspaces/wg1438/m27852" id="cb_m27852" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27852" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27852/view">
+
+                            
+                            OPPAD SKOOLTOE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27852
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27858" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select OUR DUTIES AS A FAMILY" alt="Select OUR DUTIES AS A FAMILY" 
+value="/plone/GroupWorkspaces/wg1438/m27858" id="cb_m27858" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27858" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27858/view">
+                            
+                            OUR DUTIES AS A FAMILY
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27858
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27070" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select PADTEKENS" alt="Select PADTEKENS" 
+value="/plone/GroupWorkspaces/wg1438/m27070" id="cb_m27070" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27070" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27070/view">
+                            
+                            PADTEKENS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27070
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27103" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select PEOPLE OF SOUTH AFRICA" alt="Select PEOPLE OF SOUTH AFRICA" 
+value="/plone/GroupWorkspaces/wg1438/m27103" id="cb_m27103" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27103" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27103/view">
+                            
+                            PEOPLE OF SOUTH AFRICA
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27103
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m28479" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select PHOBIAS" alt="Select PHOBIAS" 
+value="/plone/GroupWorkspaces/wg1438/m28479" id="cb_m28479" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m28479" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m28479/view">
+                            
+                            PHOBIAS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m28479
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27073" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select PIKKEWYNE EN ANDER SEEDIERE" alt="Select PIKKEWYNE EN ANDER SEEDIERE" 
+value="/plone/GroupWorkspaces/wg1438/m27073" id="cb_m27073" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27073" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27073/view">
+                            
+                            PIKKEWYNE EN ANDER SEEDIERE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27073
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26967" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Poetry;interviews" alt="Select Poetry;interviews" 
+value="/plone/GroupWorkspaces/wg1438/m26967" id="cb_m26967" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26967" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26967/view">
+                            
+                            Poetry;interviews
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26967
+                    </td>
+
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27123" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select POLLUTION" alt="Select POLLUTION" 
+value="/plone/GroupWorkspaces/wg1438/m27123" id="cb_m27123" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27123" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27123/view">
+                            
+                            POLLUTION
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27123
+                    </td>
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m20419" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Propulsion and transportation" alt="Select Propulsion and 
+transportation" value="/plone/GroupWorkspaces/wg1438/m20419" id="cb_m20419" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m20419" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m20419/view">
+
+                            
+                            Propulsion and transportation
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m20419
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27874" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select RECYCLING" alt="Select RECYCLING" 
+value="/plone/GroupWorkspaces/wg1438/m27874" id="cb_m27874" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27874" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27874/view">
+                            
+                            RECYCLING
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27874
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m36334" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select Rur-ple: It/Cat teacher resource" alt="Select Rur-ple: It/Cat teacher 
+resource" value="/plone/GroupWorkspaces/wg1438/m36334" id="cb_m36334" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m36334" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m36334/view">
+                            
+                            Rur-ple: It/Cat teacher resource
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m36334
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27849" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SADE" alt="Select SADE" value="/plone/GroupWorkspaces/wg1438/m27849" 
+id="cb_m27849" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27849" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27849/view">
+                            
+                            SADE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27849
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27864" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SAFETY" alt="Select SAFETY" 
+value="/plone/GroupWorkspaces/wg1438/m27864" id="cb_m27864" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27864" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27864/view">
+                            
+                            SAFETY
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27864
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27118" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SAFETY" alt="Select SAFETY" 
+value="/plone/GroupWorkspaces/wg1438/m27118" id="cb_m27118" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27118" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27118/view">
+                            
+                            SAFETY
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27118
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m36330" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Scratch: IT/CAT resource" alt="Select Scratch: IT/CAT resource" 
+value="/plone/GroupWorkspaces/wg1438/m36330" id="cb_m36330" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m36330" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m36330/view">
+                            
+                            Scratch: IT/CAT resource
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m36330
+                    </td>
+
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27878" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SEEDS" alt="Select SEEDS" value="/plone/GroupWorkspaces/wg1438/m27878" 
+id="cb_m27878" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27878" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27878/view">
+                            
+                            SEEDS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27878
+                    </td>
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-module.2010-12-07.3951717931" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select seti: Physical Science teacher resource" alt="Select seti: Physical 
+Science teacher resource" value="/plone/GroupWorkspaces/wg1438/module.2010-12-07.3951717931" id="cb_module.2010-12-07.3951717931" 
+name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/module.2010-12-07.3951717931" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/module.2010-12-07.3951717931/view">
+
+                            
+                            seti: Physical Science teacher resource
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m36335" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select seti: Physical Science teacher resource" alt="Select seti: Physical 
+Science teacher resource" value="/plone/GroupWorkspaces/wg1438/m36335" id="cb_m36335" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m36335" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m36335/view">
+                            
+                            seti: Physical Science teacher resource
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m36335
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27119" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+
+                           <input type="checkbox" title="Select SIGNS" alt="Select SIGNS" value="/plone/GroupWorkspaces/wg1438/m27119" 
+id="cb_m27119" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27119" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27119/view">
+                            
+                            SIGNS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27119
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m33469" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Siyavula Connexions Training Manual for Educators" alt="Select 
+Siyavula Connexions Training Manual for Educators" value="/plone/GroupWorkspaces/wg1438/m33469" id="cb_m33469" name="paths:list" 
+class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m33469" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m33469/view">
+                            
+                            Siyavula Connexions Training Manual for Educators
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m33469
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27100" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SOUTH AFRICA" alt="Select SOUTH AFRICA" 
+value="/plone/GroupWorkspaces/wg1438/m27100" id="cb_m27100" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27100" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27100/view">
+                            
+                            SOUTH AFRICA
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m27100
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27870" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SOUTH AFRICA AND OUR SYMBOLS" alt="Select SOUTH AFRICA AND OUR 
+SYMBOLS" value="/plone/GroupWorkspaces/wg1438/m27870" id="cb_m27870" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27870" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27870/view">
+                            
+                            SOUTH AFRICA AND OUR SYMBOLS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27870
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26626" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SPEELGOED" alt="Select SPEELGOED" 
+value="/plone/GroupWorkspaces/wg1438/m26626" id="cb_m26626" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26626" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26626/view">
+                            
+                            SPEELGOED
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26626
+                    </td>
+
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26624" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SPELETJIES" alt="Select SPELETJIES" 
+value="/plone/GroupWorkspaces/wg1438/m26624" id="cb_m26624" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26624" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26624/view">
+                            
+                            SPELETJIES
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26624
+                    </td>
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m36331" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select Squeak: Programming teacher resource" alt="Select Squeak: Programming 
+teacher resource" value="/plone/GroupWorkspaces/wg1438/m36331" id="cb_m36331" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m36331" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m36331/view">
+
+                            
+                            Squeak: Programming teacher resource
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m36331
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-module.2011-07-07.0026220249" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select St Johns demo" alt="Select St Johns demo" 
+value="/plone/GroupWorkspaces/wg1438/module.2011-07-07.0026220249" id="cb_module.2011-07-07.0026220249" name="paths:list" 
+class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/module.2011-07-07.0026220249" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/module.2011-07-07.0026220249/view">
+                            
+                            St Johns demo
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27097" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select STAY HEALTHY" alt="Select STAY HEALTHY" 
+value="/plone/GroupWorkspaces/wg1438/m27097" id="cb_m27097" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27097" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27097/view">
+                            
+                            STAY HEALTHY
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27097
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m36336" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select stellarium: Physical Science teacher resource" alt="Select stellarium: 
+Physical Science teacher resource" value="/plone/GroupWorkspaces/wg1438/m36336" id="cb_m36336" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m36336" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m36336/view">
+                            
+                            stellarium: Physical Science teacher resource
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m36336
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27053" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SUID-AFRIKA" alt="Select SUID-AFRIKA" 
+value="/plone/GroupWorkspaces/wg1438/m27053" id="cb_m27053" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27053" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27053/view">
+                            
+                            SUID-AFRIKA
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27053
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27838" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SUID-AFRIKA SE SIMBOLE" alt="Select SUID-AFRIKA SE SIMBOLE" 
+value="/plone/GroupWorkspaces/wg1438/m27838" id="cb_m27838" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27838" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27838/view">
+                            
+                            SUID-AFRIKA SE SIMBOLE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27838
+                    </td>
+
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27863" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select SURVIVING" alt="Select SURVIVING" 
+value="/plone/GroupWorkspaces/wg1438/m27863" id="cb_m27863" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27863" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27863/view">
+                            
+                            SURVIVING
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27863
+                    </td>
+                   </tr>
+
+                
+                
+                   <tr id="folder-contents-item-m32342" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select test" alt="Select test" value="/plone/GroupWorkspaces/wg1438/m32342" 
+id="cb_m32342" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m32342" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m32342/view">
+
+                            
+                            test
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m32342
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-module.2009-11-10.0405477546" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select testing" alt="Select testing" 
+value="/plone/GroupWorkspaces/wg1438/module.2009-11-10.0405477546" id="cb_module.2009-11-10.0405477546" name="paths:list" 
+class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/module.2009-11-10.0405477546" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/module.2009-11-10.0405477546/view">
+                            
+                            testing
+                            
+                        </a>
+
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26762" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select THE HARE AND THE TORTOISE" alt="Select THE HARE AND THE TORTOISE" 
+value="/plone/GroupWorkspaces/wg1438/m26762" id="cb_m26762" name="paths:list" class="noborder"/>
+
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26762" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26762/view">
+                            
+                            THE HARE AND THE TORTOISE
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m26762
+                    </td>
+        
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m26788" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select THE LITTLE RED HEN" alt="Select THE LITTLE RED HEN" 
+value="/plone/GroupWorkspaces/wg1438/m26788" id="cb_m26788" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m26788" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m26788/view">
+                            
+                            THE LITTLE RED HEN
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+
+                    <td class="notDraggable">
+                      m26788
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27865" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select THE PARK" alt="Select THE PARK" 
+value="/plone/GroupWorkspaces/wg1438/m27865" id="cb_m27865" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27865" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27865/view">
+                            
+                            THE PARK
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+
+                      m27865
+                    </td>
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m27121" class="draggable odd">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select THE PENGUINS" alt="Select THE PENGUINS" 
+value="/plone/GroupWorkspaces/wg1438/m27121" id="cb_m27121" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m27121" name="obj_paths:list"/>
+
+                    </td>
+
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m27121/view">
+                            
+                            THE PENGUINS
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m27121
+                    </td>
+
+                   </tr>
+                
+                
+                   <tr id="folder-contents-item-m19929" class="draggable even">
+
+                       
+
+                       <td style="text-align: center;" class="notDraggable checkCol">
+                           <input type="checkbox" title="Select The water cycle" alt="Select The water cycle" 
+value="/plone/GroupWorkspaces/wg1438/m19929" id="cb_m19929" name="paths:list" class="noborder"/>
+                      <input type="hidden" value="/GroupWorkspaces/wg1438/m19929" name="obj_paths:list"/>
+
+                    </td>
+                    
+          
+                    <td class="notDraggable">
+                        <span class="visualIcon contenttype-module">
+
+                        <a title=" Module: " class="state-missing-value visualIconPadding" 
+href="http://cnx.org/GroupWorkspaces/wg1438/m19929/view">
+                            
+                            The water cycle
+                            
+                        </a>
+                        </span>
+
+                        
+                    </td>
+                    <td class="notDraggable">
+                      m19929
+                    </td>
+                   </tr>
+
+
+
+                
+            </tbody>
+            
+            </table>
+            <!-- Navigation -->
+            <div class="listingBar">
+
+    <span class="previous">
+        <span style="visibility: hidden;" class="inviz">
+        
+           &#171;
+           
+               Previous
+               <span>13</span>
+
+               items
+           
+        
+        </span>
+    </span>
+
+    <span class="next">
+
+        
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">
+           
+               Next
+               <span>13</span>
+               items
+           
+           &#187;
+        </a>
+
+        
+    </span>
+
+    <!-- Link to first -->
+    
+
+    <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
+
+    <!-- Pagelist with links to previous pages for quick navigation -->
+
+    <!-- Current page -->
+    
+        [<span>1</span>]
+    
+
+    <!-- Pagelist with links to next pages for quick navigation -->
+
+    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">2</a>
+<!--    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">3</a>
+
+    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">4</a>
+    
+        <a href="http://cnx.org/GroupWorkspaces/wg1438/workspace_contents?b_start:int=100&amp;-C=">5</a>
+-->
+
+    <!-- Pagelist with quantum leap links to next pages for quick navigation -->
+
+    <!-- Link to last -->
+    
+
+</div>
+
+
+   <div style="display: none;" id="adv-4b">
+
+    <span title="Advanced mode feature" class="advanced"><img src="helper_files/gear_orange_2.png"/></span>
+
+    <strong>Contents of</strong>
+<select id="workspace" name="workspace">
+<option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+<option value="asdf" disabled="disabled">--</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+</select>
+   </div>
+
+ 
+
+      </div>
+
+
+</div>
+
+
+
+
+
+
+          <div class="pleasewait" id="upload-wait" style="display: none;">      
+            The editor is loading. This may take a few moments.
+          </div>
+
+          <div style="text-align: right;">
+            <input type="button" class="button forward-button" value="Next: Review module description &#187;" 
+                   title="Add/edit title and other information about the module"/>
+          </div>
+
+        </div>
+
+
+        <div id="footer">
+          <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+  </body>
+</html>
+
+
+

@@ -1,0 +1,718 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+<base target="_blank" />
+
+    <title>Account Management - Connexions</title>
+
+    <!-- base href="http://cnx.org/" -->
+    <meta name="generator" content="Plone - http://plone.org">
+    <meta content="Connexions" name="description"><!-- Plone ECMAScripts -->
+
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/ploneScripts4142.js">
+    </script>
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/ploneScripts8000.js">
+    </script>
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/ploneScripts1307.js">
+    </script>
+
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/prototype.js"> </script>
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/sarissa.js"> </script>
+
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/sarissa_ieemu_xpath.js"> </script>
+<!--
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/xmlHttpCheck.js"> </script>
+-->
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/editInPlace.js"> </script>
+    <script type="text/javascript" src="../co-branding/mock-ups/helper_files/module_init_eip.js"> </script>
+
+    <style type="text/css"><!-- @import url(../co-branding/mock-ups/helper_files/ploneStyles4972.css); --></style>
+    <style type="text/css" media="screen"><!-- @import url(../co-branding/mock-ups/helper_files/ploneStyles4285.css); --></style>
+
+    <link rel="alternate stylesheet" type="text/css" media="screen" href="../co-branding/mock-ups/helper_files/ploneStyles2936.css" title="Small Text">
+    <link rel="alternate stylesheet" type="text/css" media="screen" href="../co-branding/mock-ups/helper_files/ploneStyles6230.css" title="Large Text">
+
+    <link rel="stylesheet" type="text/css" href="../co-branding/mock-ups/helper_files/tagcloud.css" />
+    <link rel="stylesheet" type="text/css" href="../co-branding/mock-ups/helper_files/rhaptos-content.css">
+    <link rel="stylesheet" type="text/css" href="../co-branding/mock-ups/helper_files/editInPlace.css">
+    <style type="text/css" media="all"><!-- @import url(../co-branding/mock-ups/helper_files/ploneStyles2269.css); --></style>
+<!--
+    <link rel="stylesheet" href="../co-branding/mock-ups/helper_files/content_browse.css" type="text/css" title="Search" media="screen">
+-->
+    <link rel="stylesheet" href="../co-branding/mock-ups/helper_files/basic.css" type="text/css" title="Default" media="screen">
+    <style type="text/css">@import url(helper_files/collection_composer.css);</style>
+    <style type="text/css" media="all">@import url(helper_files/language_locale.css);</style>
+    <style type="text/css" media="all">@import url(helper_files/calendar-system.css);</style>
+
+    <!-- Internet Explorer CSS Fixes --><!--[if IE]>
+      <style type="text/css" media="all">@import url(helper_files/IEFixes.css);</style>
+    <![endif]-->
+
+    <link rel="shortcut icon" type="image/x-icon" href="../co-branding/mock-ups/helper_files/favicon.ico">
+
+    <link rel="home" href="http://cnx.org/" title="Front page">
+    <link rel="search" href="http://cnx.org/content/search" title="Search this site">
+    <link rel="search" href="http://cnx.org/opensearchdescription" title="Connexions" type="application/opensearchdescription+xml">
+    <link rel="author" href="http://cnx.org/author/brentmh" title="Author information">
+    <link rel="copyright" href="http://cnx.org/copyright" title="Copyright information">
+    <!-- Disable IE6 image toolbar -->
+
+<style type="text/css">
+
+#portlet-navigation-tree .subheader{
+  padding-left: 1em;
+}
+
+#portlet-navigation-tree .subheader span.textNavItem{
+  text-transform: uppercase; 
+  border-bottom: 1px solid #ccc;
+  padding: 0;
+  color: #666;
+  font-size: .8em;
+  font-weight: bold;
+  margin: .6em 0;
+}
+
+
+
+h1{
+  margin-bottom: .5em;
+  font-size: 1.75em;
+  font-size: 1.77em;
+}
+
+#region-content h1{
+  font-size: 1.6em;
+}
+
+.documentEditable h2{
+  margin: -.25em 0 .75em;
+}
+
+h2{
+  font-size: 1.5em;
+}
+
+.portalMessage{
+  font-size: 1em;
+  margin: 0 0 1.75em !important;
+}
+
+#keywords { width: 50%; }
+
+.contentViews{
+  margin-top: .5em;
+}
+
+
+
+h1 img, .normal-text-in-header{ /* doesn't seem to work for the span */
+  margin-top: -3px;
+}
+
+.normal-text-in-header{
+  font-size: 0.6em;
+  color: black;
+  font-weight: normal;
+}
+.normal-text-in-header a{
+  color: #369 !important;
+  text-decoration: underline !important;
+}
+
+
+
+.latest{
+  font-size: .9em;  
+}
+
+.latest, .lenses, .workgroups, .removal{
+  margin-left: 0;
+}
+
+.latest li, .lenses li, .workgroups li, .removal li{
+  padding: 0 0 .5em 20px;
+  margin: 0;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  list-style-type: none;
+  list-style-image: none;
+}
+
+.module{ background-image: url(../co-branding/mock-ups/helper_files/module_icon.gif); }
+.collection{ background-image: url(../co-branding/mock-ups/helper_files/repository_icon.gif); }
+.lens{ background-image: url(../co-branding/mock-ups/helper_files/lenses.gif); }
+.favorites{ background-image: url(../co-branding/mock-ups/helper_files/star.png); }
+.workgroup{ background-image: url(../co-branding/mock-ups/helper_files/group.gif); }
+.file{ background-image: url(../co-branding/mock-ups/helper_files/file_icon.gif); }
+.image{ background-image: url(../co-branding/mock-ups/helper_files/image_icon.gif); }
+.user{ background-image: url(../co-branding/mock-ups/helper_files/user.gif); }
+
+.more{
+  font-weight: bold;
+}
+
+.lenses .more{
+  font-size: .9em;
+  background-image: none;
+}
+
+.removal{
+  margin: 1.5em 0;
+}
+
+
+.title{
+  font-size: 1.2em;
+  text-decoration: none !important;
+  font-weight: bold;
+}
+
+.list_listing div{
+  margin-top: .15em;
+}
+
+.list_listing table{
+  border-collapse: collapse;
+}
+
+.list_listing td, .list_listing th{
+  vertical-align: top;
+  padding: .1em 0 0;
+}
+
+.list_listing th{
+  text-align: left;
+  padding-right: .5em;
+}
+
+div.edit_links{
+  font-size: .9em;
+  margin-bottom: .1em;
+}
+
+.list_listing li{
+  margin-bottom: 1em;
+}
+
+.removal li{
+  margin-bottom: .5em;
+}
+
+
+
+.navtoggler{
+  padding: 0 !important;
+}
+
+.navtoggler .arrows{
+  margin: .75em 1em .25em .5em;
+  float: right;
+}
+
+
+
+#expander{
+  float: right;
+}
+
+#locator, #wadescription{
+  margin: -.5em 0 .5em;
+}
+
+* html #locator, * html #wadescription{
+  margin-bottom: 1em;
+}
+
+
+
+* html #portlet-navigation-tree .extracted{
+  margin-top: -3px;
+}
+
+#portlet-navigation-tree .extracted{
+  border-width: 2px 0 !important;
+}
+
+
+
+#change-notes{
+  color: #d9b;
+  font-style: italic;
+  margin: 2em 0 3em;
+  font-size: 1.1em;
+}
+
+#change-notes ul{
+  list-style-image: none;
+}
+
+#change-notes a{
+  color: #c8a;
+}
+
+
+
+.return-link{
+  margin: .25em 0 1.25em;
+}
+
+
+
+
+
+
+
+
+/* Siyavula */
+
+/*
+#lens_feed_icon{
+  float: right;
+  margin: .25em 0 0 1em;
+}
+
+#portal-column-one{
+  background-color: transparent;
+  padding: 30px 0 30px 30px;
+}
+
+#portlet-criteria h5 a{
+  text-decoration: none !important;
+}
+*/
+
+
+
+/* Co-branding */
+
+.portraitPhoto{
+  float: right;
+  margin: 0 0 .5em 1em;
+}
+
+.listing td, .listing th{
+  padding: .15em .7em;
+}
+
+</style>
+
+
+
+
+<script type="text/javascript">
+
+function toggleNav(what) {
+  whatstyle = document.getElementById(what).style;
+  whathide = document.getElementById(what + '-hide').style;
+  whatshow = document.getElementById(what + '-show').style;
+  if (whatstyle.display == 'none') {
+    whatstyle.display = 'block';
+    whathide.display = 'inline';
+    whatshow.display = 'none';
+  } else {
+    whatstyle.display = 'none';
+    whatshow.display = 'inline';
+    whathide.display = 'none';
+  }
+}
+
+function toggleExpand() {
+  var col1 = document.getElementById('portal-column-one').style;
+  var col2 = document.getElementById('portal-column-two').style;
+  var expand = document.getElementById('expand').style;
+  var collapse = document.getElementById('collapse').style;
+  if (col1.display == 'none') {
+    col1.display = 'table-cell';
+    col2.display = 'table-cell';
+    expand.display = 'inline';
+    collapse.display = 'none';
+  } else {
+    col1.display = 'none';
+    col2.display = 'none';
+    expand.display = 'none';
+    collapse.display = 'inline';
+  }
+}
+
+</script>
+
+    <meta http-equiv="imagetoolbar" content="no">
+  </head>
+
+
+  <body dir="ltr" onload='parent.resizeIframe(document.body.scrollHeight)'>
+    <div id="visual-portal-wrapper">
+
+      <div id="portal-top">
+
+        <div id="portal-header">
+          <p class="hiddenStructure">
+            <a accesskey="2" href="#documentContent">Skip to content.</a> |
+            <a accesskey="6" href="#portlet-navigation-tree">Skip to navigation</a>
+          </p>
+
+          <ul id="portal-siteactions" style="display: none;">
+            <li id="siteaction-logout" class="first"><a href="http://cnx.org/logout" accesskey="" title="Log Out">Log Out</a></li>
+            <li id="siteaction-contact"><a href="http://cnx.org/aboutus/contact" accesskey="9" title="Contact Us">Contact Us</a></li>
+            <li id="siteaction-bugreport"><a href="http://cnx.org/bug_submit_form" accesskey="" title="Report a Bug">Report a Bug</a></li>
+            <li id="siteaction-bugreport"><a href="#" accesskey="" title="Site Setp">Site Setup</a></li>
+          </ul>
+
+          <div id="portal-searchbox" style="display: none;">
+            <form name="searchform" action="http://cnx.org/content/search" style="white-space: nowrap;" onsubmit="">
+
+              <label for="searchGadget" class="hiddenStructure">Search Site</label>
+              <div class="LSBox">
+                <input id="searchGadget" name="words" size="20" title="Search Site" accesskey="4" class="visibility:visible" 
+type="text">
+                <input name="allterms" value="weakAND" type="hidden">
+                <input class="searchButton" name="search" value="Search" accesskey="accesskeys-search" type="submit">
+                <div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div>
+              </div>
+            </form>
+
+          </div>
+
+          <h1 id="portal-logo">
+            <a href="http://cnx.org/" accesskey="1">Connexions</a>
+          </h1>
+
+          <div id="portal-skinswitcher"></div>
+
+          <h5 class="hiddenStructure">Sections</h5>
+
+          <ul id="portal-globalnav" style="display: none;">
+            <li id="portaltab-index_html" class="plain">
+              <a href="http://cnx.org/">Home</a></li>
+            <li id="portaltab-content" class="plain">
+              <a href="http://cnx.org/content/">Content</a></li>
+            <li id="portaltab-lenses" class="plain">
+              <a href="http://cnx.org/aboutus/">Lenses</a></li>
+
+            <li id="portaltab-aboutus" class="plain">
+              <a href="http://cnx.org/aboutus/">About Us</a></li>
+            <li id="portaltab-help" class="plain">
+              <a href="http://cnx.org/help/">Help</a></li>
+            <li id="portaltab-author_home" class="plain">
+              <a href="author_home.shtml">MyCNX</a></li>
+          </ul>
+
+        </div>
+
+        <div id="portal-breadcrumbs" style="display: none;">
+          <span id="breadcrumbs-you-are-here">You are here:</span>
+          <a href="http://cnx.org/">Home</a> &#187; 
+
+          <a href="#">Site Setup</a> &#187;
+          Account Management
+        </div>
+      </div>
+
+      <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
+
+      <table id="portal-columns">
+        <tbody>
+          <tr>
+            <td id="portal-column-one" style="display: none;">
+              <div class="visualPadding">
+
+
+
+              </div>
+            </td>
+
+            <td id="portal-column-content">
+
+                <div id="content" class="">
+
+
+<h1>License agreement</h1>
+
+
+                  <div class="documentContent" id="region-content">
+                    <a name="documentContent"></a>
+                    <div>
+
+
+<!--
+    <div class="documentDescription">
+      Choose lens properties for member accounts
+    </div>              
+-->                        
+    
+                        
+
+
+      <p>
+        Connexions
+        requires that all content submitted to our repository be
+        placed under an Open Content license that <b>allows others to
+        use, distribute, and create derivative works</b> based upon that
+        content.  The 
+        <a style="font-style: italic" href="http://creativecommons.org/licenses/by/3.0/">Attribution</a> license from 
+        <a href="http://creativecommons.org">Creative Commons</a>
+        fulfills this requirement, while still allowing authors to
+        receive credit for their efforts.  Please take the time to
+        read the license and check the 
+        <strong>I agree</strong> box below before continuing.
+      </p>
+
+      
+
+      <p>
+        I hereby allow 
+        Connexions to distribute this content under the
+        terms of the Creative Commons 
+        <span>Attribution</span> 
+        License available at 
+        <a style="font-style: italic" href="http://creativecommons.org/licenses/by/3.0/">http://creativecommons.org/licenses/by/3.0/</a>.  I understand
+        that in doing so I
+      </p>
+
+      <ol>
+        <li> 
+          retain my copyright in the work and </li>
+        <li> 
+          warrant that I am the author or the owner or have
+          permission to distribute the work in question and 
+        </li>
+        <li> 
+          wish this work to be distributed under the terms of that license
+          (<b>including allowing modification of this work and requiring
+          attribution</b>) and </li>
+          <li> 
+          agree that proper attribution of my work is any attribution that includes the authors' names, the title of the work, and the Connexions URL to the work.  </li>
+      </ol>
+
+      <form action="cc_license" method="post">
+        <div class="field">
+          <input name="agree" class="noborder" type="checkbox">
+           I have read the above, and 
+            <b>I agree</b> 
+            to license this new work under its terms.
+          <div></div>
+        </div>
+        <input class="context" name="form.button.next" value="Agree" tabindex="0" type="submit">
+        <input name="license" value="http://creativecommons.org/licenses/by/3.0/" type="hidden">
+        <input name="type_name" value="Module" type="hidden">
+        <input name="form.submitted" value="1" type="hidden">       
+      </form>
+
+
+
+</div>
+</div>
+
+
+              </div>
+            </td>
+            <td id="portal-column-two" style="display: none;">
+              <div class="visualPadding">
+
+
+
+            <div>
+      <dl class="portlet" id="portlet-loggedin">
+        <dt class="portletHeader">
+          <span class="portletTopLeft"></span>
+          <span>My Account</span>
+          <span class="portletTopRight"></span>
+        </dt>
+        <dd class="portletItem odd">
+
+          <span>You are:
+            <span id="user-name" class="visualCaseSensitive">maxwellm</span>
+          </span>
+        </dd>
+        <dd class="portletItem even">
+          <ul>
+            <li>
+              <a href="http://cnx.org/mycnx">
+                MyCNX Home
+              </a>
+
+            </li>
+            <li>
+              <a href="/plone_memberprefs_panel">
+                Profile &amp; Account Settings
+              </a>
+            </li>
+            <li>
+              <a href="http://cnx.org/go_favorites/view">My Favorites</a>
+
+              (<a href="http://cnx.org/go_favorites/contents">edit</a>)
+            </li>
+
+            
+
+            
+          </ul>
+        </dd>
+
+        <dd class="portletMore">
+          <form action="/logout">
+            <input class="context" name="submit" value="Log out" alt="Log out" type="submit">
+
+          </form>
+          
+          <span class="portletBottomLeft"></span>
+          <span class="portletBottomRight"></span>
+
+        </dd>
+      </dl>
+    </div>
+
+
+      <div>
+      <dl class="portlet" id="portlet-recentview">
+        <dt class="portletHeader">
+          <span class="portletTopLeft"></span>
+          <span>Recently Viewed</span>
+          <span class="portletTopRight"></span>
+
+        </dt>
+        <dd class="portletItem odd">
+          <h5>Collections</h5>
+          <ul id="rv-collectionlist">
+            <li class="cnx_collection">
+              <a href="http://cnx.org/content/col10202/1.24/">Bioinformatics - From Sequence Expression and Structure</a>
+            </li>
+            <li class="cnx_collection">
+
+              <a href="http://cnx.org/content/col10151/1.17/">Connexions Tutorial and Reference</a>
+            </li>
+            <li class="cnx_collection">
+              <a href="http://cnx.org/content/col10204/1.3/">Random Processes</a>
+            </li>
+          </ul>
+          <h5>Modules</h5>
+
+          <ul id="rv-modulelist">
+            <li class="cnx_module">
+              <a href="http://cnx.org/content/m15715/1.1/">Muestreo y cuantificaci&#243;n</a>
+            </li>
+            <li class="cnx_module">
+              <a href="http://cnx.org/content/m11106/2.17/?collection=col10202/1.24/">Introduction</a>
+            </li>
+            <li class="cnx_module">
+
+              <a href="http://cnx.org/content/m12862/1.3/">Algebra Lineal: Conceptos B&#225;sicos</a>
+            </li>
+          </ul>
+          <h5>Lenses</h5>
+          <ul id="rv-lenslist">
+            <li class="cnx_lens">
+              <a href="http://cnx.org/lenses/richb/dsp">richb's DSP resources</a>
+
+            </li>
+            <li class="cnx_lens">
+              <a href="http://cnx.org/lenses/ocaprotti/jem">JEM Lens</a>
+            </li>
+            <li class="cnx_lens">
+              <a href="http://cnx.org/lenses/ch8/asdfsadf">Chinwei Hu's Lens</a>
+            </li>
+          </ul>
+
+          <div class="portletMore">
+            <a href="http://cnx.org/recentview_more">See all recently viewed&#187;</a>
+          </div>
+        </dd>
+      </dl>
+    </div>
+
+
+            <div>
+
+    <dl class="portlet" id="portlet-news">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span>Connexions News</span>
+
+            <span class="portletTopRight"></span>
+        </dt>
+
+        <dd class="portletItem odd">
+            <ul>
+                <li>
+                    <a href="http://cnx.org/news/connexions-blog-launched-twitter-and-facebook-pages-online" class="tile" title="">
+                        Connexions blog launched, Twitter and Facebook pages online
+                    </a>
+                    <div class="portletDetails">2009-07-01</div>
+
+                </li>
+                <li>
+                    <a href="http://cnx.org/news/connexions-unveils-mathml-editor-redesigned-authoring-interface" class="tile" 
+title="">
+                        Connexions unveils MathML Editor, redesigned authoring interface
+                    </a>
+                    <div class="portletDetails">2009-06-30</div>
+                </li>
+                <li>
+                    <a href="http://cnx.org/news/connexions-adds-lenses-to-the-navigation-area" class="tile" title="">
+
+                        Connexions updates Lenses feature, introduces module rating system
+                    </a>
+                    <div class="portletDetails">2009-05-21</div>
+                </li>
+            </ul>
+        </dd>
+
+        <dd class="portletFooter">
+            <a href="http://cnx.org/news">
+
+              More news &#187;
+            </a>
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd>
+    </dl>
+
+</div>
+
+
+              </div>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+
+      <div class="visualClear" id="clear-space-before-footer"><!-- --></div>
+      <hr class="netscape4">
+      <div id="portal-footer" style="display: none;">
+        <a id="riceLogo" href="http://www.rice.edu/"><img src="../co-branding/mock-ups/helper_files/ricelogo.gif" alt="" title="Rice Shield" height="70" 
+width="54"></a>
+        <a id="ccLogo" href="http://creativecommons.org/">
+
+          <img src="../co-branding/mock-ups/helper_files/cc-logo.gif" alt="" title="" height="20" width="80">
+        </a>
+        <span id="ploneLogo">
+          <a href="http://plone.org/">
+            <img src="../co-branding/mock-ups/helper_files/plone_powered.gif" alt="Powered by Plone" title="This site was built using the Plone Content 
+Management System. Click for more information." border="0" height="15" width="80">
+          </a>
+        </span>
+        <p id="sponsorBlurb">
+          Connexions<sup>®</sup> is 
+         <a href="http://cnx.org/aboutus/people/sponsors">supported</a>
+
+           by the <a href="http://www.hewlett.org/"> William and Flora Hewlett Foundation</a>.
+        </p>
+        <p>
+          Connexions<sup>®</sup> is a registered  trademark of Rice University.
+        </p>
+        <p>
+          <a href="http://cnx.org/sitelicense">Site User Agreement</a>
+
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
+

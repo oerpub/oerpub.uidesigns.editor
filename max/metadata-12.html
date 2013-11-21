@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+    <script src="helper_files/swordpush.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+    <script>
+
+$(document).ready(function(){
+
+var winh = $(window).height();
+var headerh = $("#header-container").outerHeight();
+var toph = $("#top-nav").outerHeight();
+var previewh = $("#preview-header").outerHeight();
+//var stepsh = $("#steps").outerHeight();
+//var footerh = $(".footer").outerHeight();
+//var impbutton = $("#import-button").outerWidth();
+//var advactions = $("#adv-actions").outerWidth();
+
+/*
+alert(headerh);
+alert(toph);
+alert(previewh);
+alert(winh);
+alert(footerh);
+*/
+
+//$("iframe").height(winh - headerh - toph - previewh - 22);
+//$("iframe").width($(window).width() - 53);
+//$("#footer2").css({'margin-bottom': footerh});
+$("#preview-header").css({'margin-top': headerh + toph});
+//$("#preview-header-title").css({'max-width': $(window).width() - impbutton - advactions - 100});
+//$("#preview-header-title").css({'max-width': $(window).width() - impbutton - 75});
+
+
+//alert(winh + " " + headerh + " " + breadh);
+
+});
+
+
+$(window).resize(function(){
+
+var winh = $(window).height();
+var headerh = $("#header-container").outerHeight();
+var toph = $("#top-nav").outerHeight();
+var previewh = $("#preview-header").outerHeight();
+//var stepsh = $("#steps").outerHeight();
+//var footerh = $(".footer").outerHeight();
+//var impbutton = $("#import-button").outerWidth();
+//var advactions = $("#adv-actions").outerWidth();
+
+//$("iframe").height(winh - headerh - toph - previewh - 22);
+//$("iframe").width($(window).width() - 53);
+//$("#preview-header-title").css({'max-width': $(window).width() - impbutton - advactions - 100});
+//$("#preview-header-title").css({'max-width': $(window).width() - impbutton - 75});
+
+//alert(winh + " " + headerh + " " + breadh);
+
+});
+
+function toggleGA() {
+  if (document.getElementById("ga-field").style.display == 'none') {
+    document.getElementById("ga-field").style.display = 'block';
+  } else {
+    document.getElementById("ga-field").style.display = 'none';
+  }
+}
+
+function showSignOut() {
+  document.getElementById("signout").style.display = 'block';
+}
+function hideSignOut() {
+  document.getElementById("signout").style.display = 'none';
+}
+
+function showExpert() {
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'inline';
+  } else {
+    document.getElementById("expert-activated-text").style.display = 'inline';
+  }
+}
+function hideExpert() {
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'none';
+  } else {
+//    document.getElementById("expert-activated-text").style.display = 'none';
+  }
+}
+function toggleExpert() {
+//var impbutton = $("#import-button").outerWidth();
+/*
+  if (document.getElementById("expert-activated").style.display == 'none' && 
+      document.getElementById("expert-helper-text").style.display == 'inline') {
+*/
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("basic-mode").style.display = 'none';
+    document.getElementById("expert-activated").style.display = 'inline';
+//    document.getElementById("extra-actions").style.display = 'block';
+    document.getElementById("adv-actions").style.display = 'inline';
+    document.getElementById("roles").style.display = 'block';
+    document.getElementById("wa-c").style.display = 'inline';
+    document.getElementById("wa-c1").style.display = 'none';
+    document.getElementById("wa-b").style.display = 'inline';
+    document.getElementById("wa-b1").style.display = 'none';
+    document.getElementById("expertmode").className += ' expert-activated';
+//var advactions = $("#adv-actions").outerWidth();
+//$("#preview-header-title").css({'max-width': $(window).width() - impbutton - advactions - 100});
+//$("#preview-header-title").css({'max-width': $(window).width() - impbutton - 75});
+  } else {
+    document.getElementById("basic-mode").style.display = 'inline';
+    document.getElementById("expert-activated").style.display = 'none';
+//    document.getElementById("extra-actions").style.display = 'none';
+    document.getElementById("adv-actions").style.display = 'none';
+    document.getElementById("roles").style.display = 'none';
+    document.getElementById("wa-c").style.display = 'none';
+    document.getElementById("wa-c1").style.display = 'inline';
+    document.getElementById("wa-b").style.display = 'none';
+    document.getElementById("wa-b1").style.display = 'inline';
+    document.getElementById("expertmode").className = 'expertmode';
+//var advactions = $("#adv-actions").outerWidth();
+//$("#preview-header-title").css({'max-width': $(window).width() - impbutton - 75});
+  }
+}
+    </script>
+
+    <style type="text/css">
+
+body{
+  font-size: .8em;
+  font-family: Verdana, DejaVu Sans, Tahoma;
+  margin: 0;
+}
+
+a:link, #header a{
+  color: #26f;
+}
+
+a:visited{
+  color: #85d;
+}
+
+.footer{
+  text-align: center;
+  margin: 2em 0 0;
+  position: fixed;
+  bottom: 0;
+/*
+  height: 49px;
+*/
+  width: 100%;
+}
+
+#footer2{
+  text-align: center;
+  padding-bottom: 1em;
+  padding-top: .5em;
+  margin: 1em auto 0;
+  border-top: 1px solid #ddd;
+  width: 70%;
+}
+
+
+form, input{
+  font-size: 1em;
+  font-family: verdana, tahoma;
+}
+
+#header-container{
+  height: 55px;
+  background-color: #d9e0ee;
+  border-bottom: 1px solid #a9b0bb;
+  border-bottom-color: #C5CCD8;
+background-color: #3A4B5C;
+background-color: #77838E;
+background-color: #505F6E;
+background-color: #476c90;
+/*
+background-color: #385673;
+background-color: #726a8a;
+background-color: #62658c;
+background-color: #62708c;
+*/
+background-color: #DD4B39;
+background-color: #DD4B39;
+background-color: #dd6339;
+background-color: #71A238;
+border-bottom-color: #2C343C;
+border-color: #888;
+border-color: #B5512F;
+border-color: #C95A34;
+border-color: #A14829;
+border-color: #587E2C;
+/*
+  -moz-box-shadow:    2px 1px 2px 2px #ddd;
+  -webkit-box-shadow: 2px 1px 2px 2px #ddd;
+  box-shadow:         2px 1px 2px 2px #ddd;
+*/
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+}
+
+#corner-wrapper, #corner-wrapper a{
+color: #DFE2E5;
+color: white;
+color: #F9E3DB;
+color: white;
+}
+
+#corner-wrapper a{
+color: white;
+font-weight: normal;
+}
+
+#header{
+  width: auto;
+}
+
+#header-wrap{
+  position: static;
+}
+
+#header h1{
+  left: 50px;
+  top: 16px;
+  font-size: 1.5em;
+  font-weight: normal;
+  color: #334;
+}
+
+#header h1 a{
+  text-decoration: none;
+  color: #359;
+color: white;
+}
+
+#header img.cnxlogo{
+  width: 32px;
+  top: 10px;
+  left: 12px;
+}
+
+div.status{
+  right: 5px;
+  left: auto;
+  top: 26px;
+  vertical-align: bottom;
+  font-size: .8em;
+position: static;
+float: right;
+margin-top: 0;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-width: 0 0 1px 1px;
+  line-height: 16px;
+  padding: 5px 10px;
+text-align: left;
+cursor: default;
+}
+
+div.status:hover{
+  background-color: #fff;
+}
+
+div.status #user-id{
+  height: 16px;
+  padding-right: 16px;
+  background-image: url(helper_files/triangle-01.png);
+  background-repeat: no-repeat;
+  background-position: right 4px;
+}
+#signout{
+  margin-top: 5px;
+}
+
+div.expertmode{
+  top: 0;
+  bottom: auto;
+  width: auto;
+  font-size: .85em;
+  padding: 5px;
+  text-align: right;
+  white-space: nowrap;
+/*
+  background-color: #f0f0ff;
+  border-bottom: 1px solid #d0d0f0;
+  background-color: #eee;
+*/
+/*
+  border: 1px solid #ccc;
+*/
+border: 1px solid #f0f0ff;
+border: 1px solid #d9e0ee;
+border: 1px solid #505F6E;
+border: 1px solid #dd6339;
+  border-width: 0 0 1px 1px;
+  height: 16px;
+  line-height: 16px;
+  z-index: 101;
+/*
+position: static;
+float: right;
+*/
+position: absolute;
+border-color: transparent;
+}
+
+.expertmode a{
+  outline-width: 0;
+}
+
+#corner-wrapper{
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 101;
+  text-align: right;
+}
+
+#corner-wrapper .expertmode a{
+  color: #26f;
+  color: #444;
+color: black;
+  text-decoration: none;
+}
+
+.expertmode .link-like{
+  text-decoration: underline;
+}
+
+div.expert-activated{
+  background-color: #fec;
+  background-color: #f96;
+  background-color: #6cb;
+  background-color: #fec;
+  background-color: #F6DBCC;
+  border-color: #f63;
+  border-color: #d40;
+  border-color: #4A9488;
+  border-color: #f63;
+  border-color: #f85;
+  border-color: #E79E77;
+/*
+  border-right: 1px solid #f63;
+margin-right: -1px;
+*/
+background-color: #FFECD1;
+border-color: #B9AC98;
+}
+
+#corner-wrapper div.expert-activated a{
+  color: #920;
+color: black;
+}
+
+div.expertmode:hover{
+  background-color: #fff;
+  border-color: #aaa;
+background-color: #FFECD1;
+border-color: #B9AC98;
+}
+
+div.expert-activated:hover{
+  background-color: #fec;
+/*
+background-color: #f96;
+background-color: #9cb;
+background-color: #399;
+background-color: #d5a;
+*/
+  border-color: #f63;
+  border-color: #f85;
+/*
+  border-color: #d40;
+border-color: #4A9488;
+*/
+  background-color: #F6DBCC;
+  border-color: #E79E77;
+background-color: #FFECD1;
+border-color: #B9AC98;
+}
+
+.advanced{
+/*
+  padding: .4em .6em;
+  background-color: #fec;
+  border: 1px solid #E68E6F;
+  font-size: .8em;
+  text-transform: uppercase;
+*/
+  vertical-align: -.4em;
+}
+
+/*
+div.expert-activated .link-like{
+  color: #f63;
+}
+*/
+
+.expertmode img{
+  vertical-align: -4px;
+}
+
+#expert-helper-text, #expert-activated-text{
+  padding: 0 .5em;
+}
+
+#container {
+  padding: 50px 0 0;
+  padding: 0;
+  position: relative;
+  width: auto;
+}
+
+#container h1{
+  font-size: 1.4em;
+}
+
+#content{
+  padding: 0 0 10px;
+  padding: 0;
+  width: 100%;
+}
+
+#content-contents{
+/*
+  border-right: 1px solid #bbb;
+*/
+  padding: 0;
+}
+
+#edit-existing{
+  position: absolute;
+  width: 50%;
+  right: 0;
+  margin-left: 100px;
+  padding: 1em 0 1em;
+}
+
+#edit-existing-contents{
+  border-left: 1px solid #bbb;
+  padding: 0 2em;
+  margin-left: -1px;
+}
+
+
+#choose-wa-contents{
+  padding: 1em;
+}
+
+#choose-wa-contents table, .listingBar{
+  font-size: .75em;
+}
+
+.checkCol{
+  display: none;
+}
+
+.listingBar {
+background-color: #dee7ec;
+border-color: #8cacbb;
+border-style: solid;
+border-width: 1px;
+padding: 0em 1em;
+text-align: center;
+text-transform: none;
+vertical-align: top;
+margin: 1em 0em;
+/*
+font-size: 94%;
+*/
+clear: both;
+}
+.listingBar span.previous,
+.listingPrevious {
+text-align: left;
+float: left;
+margin-right: 1em;
+}
+.listingBar span.next,
+.listingNext {
+text-align: right;
+float: right;
+margin-left: 1em;
+}
+.listingBar img {
+vertical-align: middle;
+}
+.listingBar a {
+text-decoration: none;
+}
+.listing,
+.stx table {
+/* */
+border-collapse: collapse;
+border-left: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+font-size: 90%;
+margin: 1em 0em 1em 0em;
+}
+.listing th,
+.stx table th {
+background: #dee7ec;
+border-top: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+font-weight: normal;
+padding: 0.25em 1em;
+text-transform: none;
+}
+.listing .top {
+border-left: 1px solid White;
+border-top: 1px solid White ! important;
+border-right: 1px solid White ! important;
+text-align: right ! important;
+padding: 0em 0em 1em 0em;
+}
+.listing .listingCheckbox {
+text-align: center;
+}
+.listing td,
+.stx table td {
+border-right: 1px solid #8cacbb;
+/*
+border-bottom: 1px solid #8cacbb !important;
+*/
+padding: 0.25em 1em;
+}
+.listing a {
+text-decoration: none;
+}
+.listing a:hover {
+text-decoration: underline;
+}
+.listing img {
+vertical-align: middle;
+}
+.listing td a label,
+.stx table td a label {
+cursor: pointer;
+}
+/*
+table.listing,
+table.listing td {
+border: 1pt solid black;
+border-collapse: collapse;
+}
+*/
+.even {
+background-color: #EEF3F5;
+}
+
+
+#create-new-list, #create-new-list li{
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#create-new-list li{
+  padding: 0 10px 1em;
+/*
+  margin: 2em 0 -.5em 1.5em;
+*/
+margin-bottom: .75em;
+margin-left: 2em;
+padding: 0;
+  position: relative;
+}
+
+#create-new-list label{
+/*
+  margin-top: -.75em;
+  margin-left: -2.25em;
+  margin-left: -10px;
+*/
+margin: 0;
+margin-left: 0px;
+  display: block;
+/*
+  background-color: #fff;
+*/
+margin-bottom: -1.1em;
+  float: left;
+  white-space: nowrap;
+}
+
+#create-new-list .label-text{
+  padding: .4em .7em .5em;
+  border-bottom: 1px dotted #555;
+  border-right: 1px dotted #555;
+border: 1px solid #888;
+/*
+border-bottom-width: 0;
+*/
+  background-color: #fff;
+/*
+  padding: 0 .75em .4em 0;
+*/
+  float: left;
+/*
+-moz-border-top-left-radius: 5px;
+border-top-left-radius: 5px;
+-moz-border-top-right-radius: 5px;
+border-top-right-radius: 5px;
+-moz-border-bottom-left-radius: 5px;
+border-bottom-left-radius: 5px;
+-moz-border-bottom-right-radius: 5px;
+border-bottom-right-radius: 5px;
+*/
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+
+label img{
+  vertical-align: -10px;
+vertical-align: -4px;
+}
+
+.or-bullet{
+/*
+  position: absolute;
+  left: -2em;
+*/
+  float: left;
+  margin-left: -2em;
+  padding-right: .5em;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.uploader, .existing{
+  clear: both;
+  border: 1px solid #ccc;
+  background-color: #eee;  
+  padding: 1em;
+padding-top: 2em;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.existing{
+  padding-top: 1em;
+}
+
+#edit-existing-contents ul, #edit-existing-contents li{
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#edit-existing-contents li{
+  padding: 0em 0 .15em .8em;
+  background-image: url(helper_files/bullet-01.png);
+  background-repeat: no-repeat;
+  background-position: .2em .6em;
+}
+
+
+#top-nav{
+/*
+  padding: 0.5em 1em .6em;
+  background: #f0f0ff;
+  background: #f2f6ff;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #d0d0f0;
+  padding: .75em 2em 0;
+  padding: .75em 2em;
+  background-color: #eee;
+*/
+  padding: .75em 2em;
+  background: #f2f6ff;
+/*
+  background-color: white;
+  background-color: #FFFFDD;
+*/
+background-color: #14889F;
+background-color: #A3E4ED;
+background-color: #77838E;
+background-color: #CBD4DB;
+background-color: #9DA8B1;
+  border-bottom: 1px solid #d0d0f0;
+border-color: #ccb;
+border-color: #8F99A1;
+background-color: #FFFFDD;
+background-color: #C2C7BC;
+background-color: #E0E3CD;
+background-color: #AEB5B1;
+background-color: #D6DAC7;
+background-color: #EBECD2;
+background-color: #f2EcD2;
+/*
+background-color: #C7D5E3;
+background-color: #C7DFE3;
+background-color: #BBC7D4;
+background-color: #c2e9b1;
+background-color: #AECD82;
+background-color: #C8D8A0;
+background-color: #efe1ab;
+background-color: #ffefd3;
+*/
+background-color: #7590a6;
+background-color: #9ac7dc;
+background-color: #9abfdc;
+/*
+background-color: #9ab2dc;
+*/
+background-color: #9abcdc;
+border-color: #C6C1AC;
+border-color: #888;
+border-color: #7E9AB4;
+/*
+margin: 0 1em;
+border-width: 0 1px 1px;
+border-style: solid;
+*/
+  -moz-box-shadow:    2px 1px 2px 2px #ddd;
+  -webkit-box-shadow: 2px 1px 2px 2px #ddd;
+  box-shadow:         2px 1px 2px 2px #ddd;
+  position: relative;
+  z-index: 2;
+}
+
+
+#breadcrumbs{
+  font-size: .8em;
+  text-transform: uppercase;
+  border-bottom: 1px dotted #d0d0f0;
+border-width: 0;
+  float: left;
+  margin-top: .5em;
+}
+
+#breadcrumbs strong{
+  font-weight: normal;
+}
+
+#breadcrumbs .current, #breadcrumbs .current strong{
+  font-weight: bold;
+}
+
+#breadcrumbs .separator{
+  padding: 0 .3em 0 .6em;
+  color: #555;
+}
+
+.status2{
+  font-size: .85em;
+  padding: 5px;
+  margin-top: 28px;
+}
+/*
+.status2 #user-id{
+  font-weight: bold;
+}
+.status2 strong{
+  font-weight: normal;
+}
+*/
+.status2 a{
+  color: #359;
+}
+
+#preview-header{
+  padding: 1.5em 0 1em;
+padding-bottom: 0;
+  margin: 0 2em;
+/*
+  border-bottom: 1px dotted #bbb;
+*/
+/*
+  -moz-box-shadow:    2px 1px 2px 2px #ddd;
+  -webkit-box-shadow: 2px 1px 2px 2px #ddd;
+  box-shadow:         2px 1px 2px 2px #ddd;
+  position: relative;
+  z-index: 2;
+*/
+}
+
+
+#extra-actions{
+  float: right;
+}
+
+#steps{
+  text-align: left;
+  vertical-align: middle;
+}
+
+#steps div{
+  display: inline;
+}
+
+/*
+#back-step{
+  float: left;
+}
+*/
+
+#steps input, .edit-xml{
+  font-size: .85em;
+  font-weight: bold;
+  border-width: 1px;
+  padding: .2em .5em;
+}
+
+#steps input, .edit-xml{
+  background: #f2f6ff;
+  background-color: #e70;
+  background-color: #cde;
+  background-color: #fff;
+background-color: #FFdd66;
+/*
+background-color: #EFD267;
+background-color: #eebb33;
+  border: 1px outset #e70;
+  border: 1px outset #fd6;
+*/
+  color: #e70;
+  color: black;
+background-color: #D4D0C8;
+border: 1px outset #D4D0C8;
+}
+
+span.edit-xml, a.edit-xml{
+  font-size: 1em;
+  padding: .3em .5em;
+}
+
+span.edit-xml{
+  font-size: .85em;
+  vertical-align: -.3em;
+  background-color: #D4D0C8;
+  border: 1px outset #D4D0C8;
+}
+span.edit-xml .advanced{
+  vertical-align: -.35em;
+}
+
+#back-step input{
+  background-color: #DAE7F2;
+  border: 1px outset #dae7f2;
+}
+
+#metadata .edit-xml{
+  color: black;
+  text-decoration: none;
+  background-color: #D4D0C8;
+  border: 1px outset #D4D0C8;
+  font-size: .85em;
+}
+
+iframe{
+  height: 100%;
+  border: 1px dotted #bbb;
+  border-width: 0 1px 1px;
+  margin: 0 2em;
+/*
+border-radius: 5px;
+-moz-border-radius: 5px;
+*/
+}
+
+#metadata{
+  margin: .75em 2em 0;
+}
+
+.forminfo{
+  font-size: .85em;
+  font-size: 1em;
+  margin: .2em 0 .4em;
+  color: #666;
+}
+
+    </style>
+
+
+  </head>
+
+  <body>
+    
+    
+  <div id="corner-wrapper">
+<!--
+  <div class="status" onmouseover="showSignOut()" onmouseout="hideSignOut()">
+    <span id="user-id"><strong>starkenbury</strong></span>
+    <div style="display: none;" id="signout">
+      <a href="#" target="_top">Sign Out</a>
+    </div>
+  </div>
+-->
+  <div class="expertmode expert-activated" id="expertmode">
+<!--
+     <a href="http://oerpub.org/switchmode" target="_self" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert()">
+-->
+     <a href="#" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert(); return false;">
+       <span id="basic-mode">
+         <span id="expert-helper-text" class="link-like" style="display: none;">Switch to advanced mode</span>
+       </span>
+       <span id="expert-activated" style="display: inline;">
+	 <span id="expert-activated-text">
+	   You are in advanced mode. 
+           <span class="link-like">Return to basic mode.</span>
+	 </span>
+       </span>
+       <img src="helper_files/gears_expert_2.png" width="16" height="16"/>
+    </a>
+  </div>
+  <div class="status2">
+    <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+    <a href="#" target="_top">Sign out.</a>
+  </div>
+  </div>
+
+  <!-- OLD ROLES CODE -->
+    <input type="hidden" value="starkenbury" name="authors" id="authors"/>
+    <input type="hidden" value="starkenbury" name="maintainers" id="maintainers"/>
+    <input type="hidden" value="starkenbury" name="copyright" id="copyright"/>
+    <input type="hidden" value="" name="editors" id="editors"/>
+    <input type="hidden" value="" name="translators" id="translators"/>
+  <!-- /OLD ROLES CODE -->
+
+  <div id="header-wrap">
+    <div id="header-container">
+      <div id="header">
+        <img class="cnxlogo" src="http://oerpub.org/static/images/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+<!--
+        <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img class="sflogo" src="http://oerpub.org/static/images/sf150.png"/></a>
+-->
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+
+
+<div id="content">
+<div id="content-contents">
+
+
+<div id="preview-header">
+
+
+    <div id="steps" style="text-align: center; margin-bottom: 1em; margin-top: 0em; text-align: center;">
+     <span id="wa-c">
+      <span class="advanced" title="Advanced mode feature" style="vertical-align: -.25em;">
+       <img src="helper_files/gears_expert_2.png" style=""/>
+      </span>
+      <select id="workspace" name="workspace">
+<option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+<option value="asdf" disabled="disabled">--</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+      </select>
+     <span id="edit-button">
+     </span>
+      <input type="button" value="Finish: upload to Connexions &#187;" title="Select a work area and then click 'Finish' to add the 
+module to it.
+Further steps are required for the module can be published in the Connexions repository."/>
+<!--
+      <div style="margin-top: .5em; font-size: .85em; display: block; color: #000">
+        (The step will <b>not</b> publish the module in the Connexions repository)
+      </div>
+-->
+     </span>
+     <span id="wa-c1" style="display: none;">
+      <input type="button" value="Finish: upload to Connexions &#187;" title="Click 'Finish' to add the module as edited in your 
+Personal Workspace.  
+Further steps are required for the module can be published in the Connexions repository."/>
+     </span>
+    </div>
+
+<!--
+  <div id="preview-header-title" style="
+        float: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+">
+-->
+      <div style="font-size: 1.45em; text-transform: none; font-weight: bold;">Describe your module</div>
+<!--
+      <span style="font-family: courier new, monospace; font-size: 1.2em; margin-right: .7em;">
+Cooking with SPAM
+Cooking with SPAM
+Cooking with SPAM
+Cooking with SPAM
+Cooking with SPAM
+Cooking with SPAM
+</span>
+-->
+<!--
+</div>
+-->
+<!--
+        <input type="button" value="Import new contents" id="import-button"
+ title="Replace the contents of the module by importing another document on top of it." class="edit-xml2" style="font-size: .85em; 
+vertical-align: .2em; margin-left: 20px; font-weight: bold; padding: .2em .5em; border-width: 1px;"/>
+-->
+
+    <div id="extra-actions" style="margin-top: .3em; margin-left: 3em; font-size: 1em;">
+<span id="adv-actions">
+        <span class="advanced" title="Advanced mode feature" style="padding: 0 .3em 0 .7em;">
+          <img src="helper_files/gears_expert_2.png" style=""/>
+        </span>
+<!--
+        <a href="#asdf" title="Make changes to the module by editing its XML code.">Edit XML</a> &#183; 
+-->
+        <a href="#asd" title="Save a ZIP file containing the module's XML and metadata to your local computer.">Save a copy</a>
+<!--
+        <span title="Save a ZIP file containing the module's XML and metadata to your local computer." class="edit-xml">
+          <span class="advanced"><img src="helper_files/gears_expert_2.png"/></span> Save a copy</span>
+-->
+</span>
+    </div>
+
+
+    <div style="font-size: .85em; margin-top: .6em; color: #666; clear: left; font-size: 1em;">
+<!--
+Describe your module below. 
+-->
+<!--
+<span style="color: #CC5566; font-weight: bold;">Fields marked in  red are required.</span> 
+-->
+<!--
+Required fields are marked with a 
+<span style="color: #CC5566; font-weight: bold;">red *</span>.
+-->
+Fields marked in a <span style="color: #CC5566; font-weight: bold;">red *</span> are 
+<span style="color: #cc5566;"><b>required</b></span>. 
+<!--
+When you are done, choose the work area in which you want to place the module and click "Finish". 
+-->
+    </div>
+
+  </div>
+
+
+
+
+
+</div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+<div style="position: fixed; width: 100%; top: 56px;">
+
+<div id="top-nav">
+
+  <div id="steps">
+    <div id="back-step">
+<input type="button" value="&#171; Back: Return to preview" title="Return to the module preview"/>
+    </div>
+    <div id="forward-steps" style="display: none;">
+     <span id="wa-a">
+      <span class="advanced" title="Advanced mode feature" style="vertical-align: -.25em;">
+       <img src="helper_files/gears_expert_2.png" style=""/>
+      </span>
+      <select id="workspace" name="workspace">
+<option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+<option value="asdf" disabled="disabled">--</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+      </select>
+     <span id="edit-button">
+     </span>
+      <input type="button" value="Finish: upload to Connexions &#187;" title="Select a work area and then click 'Finish' to add the 
+module to it.
+Further steps are required for the module can be published in the Connexions repository."/>
+<!--
+      <div style="margin-top: .5em; font-size: .85em; display: block; color: #000">
+        (The step will <b>not</b> publish the module in the Connexions repository)
+      </div>
+-->
+     </span>
+     <span id="wa-a1" style="display: none;">
+      <input type="button" value="Finish: upload to Connexions &#187;" title="Click 'Finish' to add the module as edited in your 
+Personal Workspace.  
+Further steps are required for the module can be published in the Connexions repository."/>
+     </span>
+    </div>
+
+</div>
+</div>
+</div>
+
+
+  <div id="roles-picker" style="display:none;">
+
+    <table cellspacing="0" id="roles-table">
+      <tr>
+        <td class="table-row-top"></td>
+        <td class="table-row-top" colspan="3">Required Roles</td>
+        <td class="table-row-top" colspan="2">Optional Roles</td>
+        <td></td>
+      </tr>
+      <tr>
+
+        <td width="200" id="roles-last-row-user" class="table-row-mid" style="text-align:left;">Username</td>
+        <td width="110" id="roles-last-row-authors" class="table-row-mid">Author</td>
+        <td width="110" id="roles-last-row-maintainers" class="table-row-mid">Maintainer</td>
+        <td width="110" id="roles-last-row-copyright" class="table-row-mid">Copyright</td>
+        <td width="110" id="roles-last-row-editors" class="table-row-mid">Editor</td>
+        <td width="110" id="roles-last-row-translators" class="table-row-mid">Translator</td>
+
+        <td width="24" id="roles-last-row-remove"></td>
+      </tr>
+    </table>
+    <div class="headeraction" style="float:left;margin-top:5px;margin-left:0;"><a href="#" id="add-role">Add user</a></div>
+    <div class="headeraction" style="float:right;margin-top:5px;margin-right:26px;"><a href="#" id="cancel-roles">Cancel</a></div>
+    <div class="headeraction" style="float:right;margin-top:5px;"><a href="#" id="submit-roles">Done</a></div>
+  </div>
+
+
+
+  <div id="metadata">
+
+
+        <table width="100%" cellspacing="0" cellpadding="2" border="0">
+          <tbody><tr>
+            <td width="50%" valign="top">
+              <div class="formentry">
+                <div class="formlabel">Title <span style="color: #CC5566; font-weight: bold;">*</span></div>
+                <div class="forminfo">Enter the title of this module.</div>
+
+                <div class="formfield"><input type="text" value="
+Cooking with SPAM 
+Cooking with SPAM 
+Cooking with SPAM 
+Cooking with SPAM 
+Cooking with SPAM 
+Cooking with SPAM 
+" size="50" name="title" style="resize: horizontal;"/></div>
+
+              </div>
+
+              <div class="formentry">
+                <div class="formlabel">Subject</div>
+                <div class="forminfo">Select the subject categories that apply to this module.</div>
+                <table>
+                  <tbody><tr>
+
+                    <td>
+
+                      <input type="checkbox" value="Arts" name="subject"/>
+                      <span class="formlabel">Arts</span>
+                    </td>
+             <td>
+                      <input type="checkbox" value="Mathematics and Statistics" name="subject"/>
+                      <span class="formlabel">Mathematics and Statistics</span>
+
+                    </td>
+
+                  </tr>
+           <tr>
+                    <td>
+                      <input type="checkbox" value="Business" name="subject"/>
+                      <span class="formlabel">Business</span>
+                    </td>
+             <td>
+
+                      <input type="checkbox" value="Science and Technology" name="subject"/>
+
+                      <span class="formlabel">Science and Technology</span>
+                    </td>
+                  </tr>
+           <tr>
+                    <td>
+                      <input type="checkbox" value="Humanities" name="subject"/>
+                      <span class="formlabel">Humanities</span>
+
+                    </td>
+
+             <td>
+                      <input type="checkbox" value="Social Sciences" name="subject"/>
+                      <span class="formlabel">Social Sciences</span>
+                    </td>
+                  </tr>
+                </tbody></table>
+
+              </div>
+
+              <div class="formentry">
+
+                <div class="formlabel">Summary</div>
+                <div class="forminfo">Enter a summary of the module.</div>
+                <div class="formfield"><textarea cols="45" rows="6" name="summary"></textarea></div>
+              </div>
+            </td>
+            <td width="50%" valign="top">
+
+              <div class="formentry">
+
+                <div class="formlabel">Language</div>
+                <div class="forminfo">Select the primary language for this module.</div>
+                <div class="formfield"><select name="language" id="language">
+<option value="af">Afrikaans</option>
+<option value="ay">Aymara</option>
+<option value="az">Az?ri T?rk??si</option>
+
+<option value="id">Bahasa Indonesia</option>
+<option value="ms">Bahasa Melayu</option>
+
+<option value="jw">Basa Jawi</option>
+<option value="ba">Bashkir</option>
+<option value="bh">Bihari</option>
+<option value="bi">Bislama</option>
+<option value="bs">Bosanski</option>
+<option value="br">Brezhoneg</option>
+
+<option value="my">Burmese</option>
+<option value="ca">Catal?</option>
+<option value="ch">Chamoru</option>
+
+<option value="co">Corsu</option>
+<option value="cy">Cymraeg</option>
+<option value="da">Dansk</option>
+<option value="de">Deutsch</option>
+<option value="et">Eesti</option>
+
+<option value="en" selected="selected">English</option>
+<option value="es">Espa?ol</option>
+<option value="eo">Esperanto</option>
+<option value="eu">Euskara</option>
+
+<option value="fj">Fiji</option>
+<option value="fr">Fran?ais</option>
+<option value="fy">Frysk</option>
+<option value="fo">F?royska</option>
+
+<option value="ga">Gaeilge</option>
+<option value="gv">Gaelg</option>
+<option value="gl">Galego</option>
+<option value="kl">Greenlandic</option>
+<option value="gn">Guarani</option>
+
+<option value="gd">G?idhlig</option>
+<option value="hr">Hrvatski</option>
+<option value="ia">Interlingua</option>
+
+<option value="ie">Interlingue</option>
+<option value="ik">Inupiak</option>
+<option value="it">Italiano</option>
+<option value="kw">Kernewek</option>
+<option value="rn">Kirundi</option>
+<option value="sw">Kiswahili</option>
+
+<option value="rw">Kiyarwanda</option>
+<option value="ku">Kurd?</option>
+
+<option value="oc">Languedoc</option>
+<option value="la">Latin</option>
+<option value="lv">Latvie?u</option>
+<option value="to">Lea faka-Tonga</option>
+<option value="lt">Lietuviskai</option>
+<option value="li">Limburgs</option>
+<option value="ln">Lingala</option>
+
+<option value="lb">L?tzebuergesch</option>
+
+<option value="hu">Magyar</option>
+<option value="mg">Malagasy</option>
+<option value="mt">Malti</option>
+<option value="mi">Maori</option>
+<option value="mo">Moldavian</option>
+<option value="na">Nauru</option>
+<option value="nl">Nederlands</option>
+<option value="no">Norsk</option>
+
+<option value="se">Northern S?mi</option>
+<option value="nn">Nynorsk</option>
+<option value="om">Oromo</option>
+<option value="pl">Polski</option>
+<option value="pt">Portugu?s</option>
+<option value="qu">Quechua</option>
+<option value="ro">Rom?na(</option>
+<option value="rm">Rumantsch</option>
+<option value="sm">Samoan</option>
+
+<option value="sg">Sangho</option>
+<option value="sh">Serbo-Croatian</option>
+<option value="st">Sesotho</option>
+<option value="tn">Setswana</option>
+<option value="sn">Shona</option>
+<option value="sq">Shqip</option>
+<option value="sd">Sindhi</option>
+<option value="si">Singhalese</option>
+
+<option value="ss">Siswati</option>
+
+<option value="sk">Slovenc(ina</option>
+<option value="sl">Sloven?c(ina</option>
+<option value="so">Somali</option>
+<option value="su">Sudanese</option>
+<option value="fi">Suomi</option>
+<option value="sv">Svenska</option>
+<option value="tl">Tagalog</option>
+
+<option value="vi">Tie^'ng Vie^.t</option>
+<option value="ts">Tsonga</option>
+
+<option value="tw">Twi</option>
+<option value="tr">T?rk?e</option>
+<option value="ug">Uigur</option>
+<option value="vo">Volap?k</option>
+<option value="wa">Walon</option>
+<option value="wo">Wolof</option>
+
+<option value="yo">Yor?b?</option>
+<option value="za">Zhuang</option>
+<option value="xh">isiXhosa</option>
+
+<option value="zu">isiZulu</option>
+<option value="jbo">lojban</option>
+<option value="is">?slenska</option>
+<option value="cs">C(e?tina</option>
+<option value="el">????????</option>
+
+<option value="uz">???????</option>
+<option value="be">?????????</option>
+<option value="bg">?????????</option>
+<option value="ky">??????</option>
+
+<option value="mk">??????????</option>
+<option value="mn">??????</option>
+<option value="ru">???????</option>
+<option value="tg">??????</option>
+
+<option value="uk">??????????</option>
+<option value="ab">??????</option>
+<option value="aa">???I???? ???I</option>
+<option value="sr">??????</option>
+<option value="tt">???????</option>
+
+<option value="tk">????m????</option>
+<option value="hy">???????</option>
+<option value="he">?????</option>
+
+<option value="yi">?????</option>
+<option value="ur">????</option>
+<option value="ar">???????</option>
+<option value="fa">?????</option>
+<option value="ha">?????</option>
+<option value="ps">????</option>
+
+<option value="ks">??????</option>
+<option value="ne">??????</option>
+
+<option value="mr">?????</option>
+<option value="sa">???????</option>
+<option value="hi">?????</option>
+<option value="as">??????</option>
+<option value="bn">?????</option>
+<option value="pa">??????</option>
+<option value="gu">???????</option>
+
+<option value="or">????</option>
+
+<option value="ta">????</option>
+<option value="te">??????</option>
+<option value="kn">?????</option>
+<option value="ml">??????</option>
+<option value="th">???</option>
+<option value="lo">???????</option>
+<option value="bo">????????</option>
+<option value="dz">??????</option>
+
+<option value="ka">???????</option>
+<option value="ti">????</option>
+<option value="am">????</option>
+<option value="iu">??????</option>
+<option value="km">?????</option>
+<option value="zh">??</option>
+<option value="ja">???</option>
+<option value="ko">???</option>
+<option value="kk">???????</option>
+
+</select></div>
+              </div>
+              <div class="formentry">
+                <div class="formlabel">Keywords (one per line)</div>
+                <div class="forminfo">Enter each keyword on its own
+                  line. Keywords are not displayed on the content, but
+                  are used behind the scenes to help people find it in
+                  searches.</div>
+                <div class="formfield"><textarea cols="25" rows="4" name="keywords"></textarea></div>
+              </div>
+
+
+
+<p style="font-size: 1em;" onclick="toggleGA();">
+<input type="checkbox"/>
+<label style="font-weight: bold;">Add optional Google Analytics Tracking Code</label>
+</p>
+
+              <div class="formentry" style="display: none;" id="ga-field">
+<!--
+                <div class="formlabel">Google Analytics Tracking Code</div>
+-->
+                <div class="forminfo">Enter a Google Analytics Tracking Code (e.g. UA-xxxxxxx-x) for this content to track 
+usage.</div>
+                <div class="formfield"><input type="text" value="" size="40" name="google_code"/></div>
+              </div>
+              <div id="roles" class="formentry">
+                <div class="formlabel">
+        <span class="advanced" title="Advanced mode feature" style="padding: 0 .3em 0 .3em">
+          <img src="helper_files/gears_expert_2.png" style="vertical-align: 0.2em;"/>
+        </span>
+Contributors
+</div>
+
+                <ul style="margin-top: 0; margin-bottom: .5em;">
+                  <li id="list-authors">Authors: <span>starkenbury</span></li>
+
+                  <li id="list-maintainers">Maintainers: <span>starkenbury</span></li>
+                  <li id="list-copyright">Copyright Holders: <span>starkenbury</span></li>
+                  <li id="list-editors">Editors: <span/></li>
+
+                  <li id="list-translators">Translators: <span/></li>
+                </ul>
+                <div style="margin-left: 0;"><a id="edit-roles" href="#" class="edit-xml">Edit</a></div>
+              </div>
+            </td>
+          </tr>
+        </tbody></table>
+
+
+
+
+  <div id="steps" style="text-align: center;">
+    <div id="forward-steps">
+     <span id="wa-b">
+      <span class="advanced" title="Advanced mode feature" style="vertical-align: -.25em;">
+       <img src="helper_files/gears_expert_2.png" style=""/>
+      </span>
+      <select id="workspace" name="workspace">
+<option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+<option value="asdf" disabled="disabled">--</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+      </select>
+      <input type="button" value="Finish: upload to Connexions &#187;" title="Select a work area and then click 'Finish' to add the 
+module to it.
+Further steps are required for the module can be published in the Connexions repository."/>
+<!--
+      <div style="margin-top: .5em; font-size: .85em; display: block; color: #000">
+        (The step will <b>not</b> publish the module in the Connexions repository)
+      </div>
+-->
+     </span>
+     <span id="wa-b1" style="display: none;">
+      <input type="button" value="Finish: upload to Connexions &#187;" title="Click 'Finish' to add the module as edited in your 
+Personal Workspace.  
+Further steps are required for the module can be published in the Connexions repository."/>
+     </span>
+    </div>
+
+<div id="top-nav2" style="
+  -moz-box-shadow:    0 0 0 0 #ddd;
+  -webkit-box-shadow: 0 0 0 0 #ddd;
+  box-shadow:         0 0 0 0 #ddd;
+/*margin: 0 -2em;*/
+  border-top: 1px dotted #bbb;
+  padding-top: 1em;
+  padding-bottom: 2em;
+">
+
+
+</div>
+</div>
+
+
+
+
+  </div>
+
+
+
+
+  </div>
+</div>
+
+</div>
+
+<div id="footer2">
+    <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+</div>
+
+
+<!--
+  <div class="footer">
+    <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+  </div>
+-->
+
+<!--
+    <div class="expertmode"><a href="http://oerpub.org/switchmode" target="_self"><img src="helper_files/gears_small.png" width="24" height="24"/></a></div>
+-->
+  </body>
+</html>
+
+
+

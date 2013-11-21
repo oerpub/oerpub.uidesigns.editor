@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+    <script src="helper_files/swordpush.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+    <script>
+
+$(document).ready(function(){
+
+var winh = $(window).height();
+var headerh = $("#header-container").outerHeight();
+var toph = $("#top-nav").outerHeight();
+var previewh = $("#preview-header").outerHeight();
+//var stepsh = $("#steps").outerHeight();
+//var footerh = $(".footer").outerHeight();
+
+/*
+alert(headerh);
+alert(toph);
+alert(previewh);
+alert(winh);
+alert(footerh);
+*/
+
+$("iframe").height(winh - headerh - toph - previewh - 22);
+$("iframe").width($(window).width() - 53);
+//$("#footer2").css({'margin-bottom': footerh});
+$("#preview-header").css({'margin-top': headerh})
+
+//alert(winh + " " + headerh + " " + breadh);
+
+});
+
+
+$(window).resize(function(){
+
+var winh = $(window).height();
+var headerh = $("#header-container").outerHeight();
+var toph = $("#top-nav").outerHeight();
+var previewh = $("#preview-header").outerHeight();
+//var stepsh = $("#steps").outerHeight();
+//var footerh = $(".footer").outerHeight();
+
+$("iframe").height(winh - headerh - toph - previewh - 22);
+$("iframe").width($(window).width() - 53);
+
+//alert(winh + " " + headerh + " " + breadh);
+
+});
+
+function showSignOut() {
+  document.getElementById("signout").style.display = 'block';
+}
+function hideSignOut() {
+  document.getElementById("signout").style.display = 'none';
+}
+
+function showExpert() {
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'inline';
+  } else {
+    document.getElementById("expert-activated-text").style.display = 'inline';
+  }
+}
+function hideExpert() {
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'none';
+  } else {
+//    document.getElementById("expert-activated-text").style.display = 'none';
+  }
+}
+function toggleExpert() {
+/*
+  if (document.getElementById("expert-activated").style.display == 'none' && 
+      document.getElementById("expert-helper-text").style.display == 'inline') {
+*/
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("basic-mode").style.display = 'none';
+    document.getElementById("expert-activated").style.display = 'inline';
+    document.getElementById("extra-actions").style.display = 'block';
+    document.getElementById("edit-button").style.display = 'inline';
+    document.getElementById("expertmode").className += ' expert-activated';
+  } else {
+    document.getElementById("basic-mode").style.display = 'inline';
+    document.getElementById("expert-activated").style.display = 'none';
+    document.getElementById("extra-actions").style.display = 'none';
+    document.getElementById("edit-button").style.display = 'none';
+    document.getElementById("expertmode").className = 'expertmode';
+  }
+}
+    </script>
+
+    <style type="text/css">
+
+body{
+  font-size: .8em;
+  font-family: verdana, tahoma;
+  margin: 0;
+}
+
+a:link, #header a{
+  color: #26f;
+}
+
+a:visited{
+  color: #85d;
+}
+
+.footer{
+  text-align: center;
+  margin: 2em 0 0;
+  position: fixed;
+  bottom: 0;
+/*
+  height: 49px;
+*/
+  width: 100%;
+}
+
+#footer2{
+  text-align: center;
+  padding-bottom: 1em;
+  padding-top: .5em;
+  margin: 1em auto 0;
+  border-top: 1px solid #ddd;
+  width: 70%;
+}
+
+
+form, input{
+  font-size: 1em;
+  font-family: verdana, tahoma;
+}
+
+#header-container{
+  height: 55px;
+  background-color: #d9e0ee;
+  border-bottom: 1px solid #a9b0bb;
+  border-bottom-color: #C5CCD8;
+background-color: #3A4B5C;
+background-color: #77838E;
+background-color: #505F6E;
+background-color: #476c90;
+/*
+background-color: #385673;
+background-color: #726a8a;
+background-color: #62658c;
+background-color: #62708c;
+*/
+background-color: #DD4B39;
+background-color: #DD4B39;
+background-color: #dd6339;
+border-bottom-color: #2C343C;
+border-color: #888;
+border-color: #B5512F;
+border-color: #C95A34;
+
+border-color: #A14829;
+/*
+  -moz-box-shadow:    2px 1px 2px 2px #ddd;
+  -webkit-box-shadow: 2px 1px 2px 2px #ddd;
+  box-shadow:         2px 1px 2px 2px #ddd;
+*/
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+}
+
+#corner-wrapper, #corner-wrapper a{
+color: #DFE2E5;
+color: white;
+color: #F9E3DB;
+}
+
+#corner-wrapper a{
+color: white;
+font-weight: normal;
+}
+
+#header{
+  width: auto;
+}
+
+#header-wrap{
+  position: static;
+}
+
+#header h1{
+  left: 50px;
+  top: 16px;
+  font-size: 1.5em;
+  font-weight: normal;
+  color: #334;
+}
+
+#header h1 a{
+  text-decoration: none;
+  color: #359;
+color: white;
+}
+
+#header img.cnxlogo{
+  width: 32px;
+  top: 10px;
+  left: 12px;
+}
+
+div.status{
+  right: 5px;
+  left: auto;
+  top: 26px;
+  vertical-align: bottom;
+  font-size: .8em;
+position: static;
+float: right;
+margin-top: 0;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-width: 0 0 1px 1px;
+  line-height: 16px;
+  padding: 5px 10px;
+text-align: left;
+cursor: default;
+}
+
+div.status:hover{
+  background-color: #fff;
+}
+
+div.status #user-id{
+  height: 16px;
+  padding-right: 16px;
+  background-image: url(helper_files/triangle-01.png);
+  background-repeat: no-repeat;
+  background-position: right 4px;
+}
+#signout{
+  margin-top: 5px;
+}
+
+div.expertmode{
+  top: 0;
+  bottom: auto;
+  width: auto;
+  font-size: .85em;
+  padding: 5px;
+  text-align: right;
+  white-space: nowrap;
+/*
+  background-color: #f0f0ff;
+  border-bottom: 1px solid #d0d0f0;
+  background-color: #eee;
+*/
+/*
+  border: 1px solid #ccc;
+*/
+border: 1px solid #f0f0ff;
+border: 1px solid #d9e0ee;
+border: 1px solid #505F6E;
+border: 1px solid #dd6339;
+  border-width: 0 0 1px 1px;
+  height: 16px;
+  line-height: 16px;
+  z-index: 101;
+/*
+position: static;
+float: right;
+*/
+position: absolute;
+}
+
+#corner-wrapper{
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 101;
+  text-align: right;
+}
+
+#corner-wrapper .expertmode a{
+  color: #26f;
+  color: #444;
+color: black;
+  text-decoration: none;
+}
+
+.expertmode .link-like{
+  text-decoration: underline;
+}
+
+div.expert-activated{
+  background-color: #fec;
+  background-color: #f96;
+  background-color: #6cb;
+  background-color: #fec;
+  border-color: #f63;
+  border-color: #d40;
+  border-color: #4A9488;
+  border-color: #f63;
+  border-color: #f85;
+/*
+  border-right: 1px solid #f63;
+margin-right: -1px;
+*/
+}
+#corner-wrapper div.expert-activated a{
+  color: #920;
+color: black;
+}
+
+div.expertmode:hover{
+  background-color: #fff;
+  border-color: #aaa;
+}
+
+div.expert-activated:hover{
+  background-color: #fec;
+/*
+background-color: #f96;
+background-color: #9cb;
+background-color: #399;
+background-color: #d5a;
+*/
+  border-color: #f63;
+  border-color: #f85;
+/*
+  border-color: #d40;
+border-color: #4A9488;
+*/
+}
+
+.advanced{
+  padding: .4em .6em;
+  background-color: #fec;
+  border: 1px solid #E68E6F;
+  font-size: .8em;
+  text-transform: uppercase;
+}
+
+/*
+div.expert-activated .link-like{
+  color: #f63;
+}
+*/
+
+.expertmode img{
+  vertical-align: -4px;
+}
+
+#expert-helper-text, #expert-activated-text{
+  padding: 0 .5em;
+}
+
+#container {
+  padding: 50px 0 0;
+  padding: 0;
+  position: relative;
+  width: auto;
+}
+
+#container h1{
+  font-size: 1.4em;
+}
+
+#content{
+  padding: 0 0 10px;
+  padding: 0;
+  width: 100%;
+}
+
+#content-contents{
+/*
+  border-right: 1px solid #bbb;
+*/
+  padding: 0;
+}
+
+#edit-existing{
+  position: absolute;
+  width: 50%;
+  right: 0;
+  margin-left: 100px;
+  padding: 1em 0 1em;
+}
+
+#edit-existing-contents{
+  border-left: 1px solid #bbb;
+  padding: 0 2em;
+  margin-left: -1px;
+}
+
+
+#choose-wa-contents{
+  padding: 1em;
+}
+
+#choose-wa-contents table, .listingBar{
+  font-size: .75em;
+}
+
+.checkCol{
+  display: none;
+}
+
+.listingBar {
+background-color: #dee7ec;
+border-color: #8cacbb;
+border-style: solid;
+border-width: 1px;
+padding: 0em 1em;
+text-align: center;
+text-transform: none;
+vertical-align: top;
+margin: 1em 0em;
+/*
+font-size: 94%;
+*/
+clear: both;
+}
+.listingBar span.previous,
+.listingPrevious {
+text-align: left;
+float: left;
+margin-right: 1em;
+}
+.listingBar span.next,
+.listingNext {
+text-align: right;
+float: right;
+margin-left: 1em;
+}
+.listingBar img {
+vertical-align: middle;
+}
+.listingBar a {
+text-decoration: none;
+}
+.listing,
+.stx table {
+/* */
+border-collapse: collapse;
+border-left: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+font-size: 90%;
+margin: 1em 0em 1em 0em;
+}
+.listing th,
+.stx table th {
+background: #dee7ec;
+border-top: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+font-weight: normal;
+padding: 0.25em 1em;
+text-transform: none;
+}
+.listing .top {
+border-left: 1px solid White;
+border-top: 1px solid White ! important;
+border-right: 1px solid White ! important;
+text-align: right ! important;
+padding: 0em 0em 1em 0em;
+}
+.listing .listingCheckbox {
+text-align: center;
+}
+.listing td,
+.stx table td {
+border-right: 1px solid #8cacbb;
+/*
+border-bottom: 1px solid #8cacbb !important;
+*/
+padding: 0.25em 1em;
+}
+.listing a {
+text-decoration: none;
+}
+.listing a:hover {
+text-decoration: underline;
+}
+.listing img {
+vertical-align: middle;
+}
+.listing td a label,
+.stx table td a label {
+cursor: pointer;
+}
+/*
+table.listing,
+table.listing td {
+border: 1pt solid black;
+border-collapse: collapse;
+}
+*/
+.even {
+background-color: #EEF3F5;
+}
+
+
+#create-new-list, #create-new-list li{
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#create-new-list li{
+  padding: 0 10px 1em;
+/*
+  margin: 2em 0 -.5em 1.5em;
+*/
+margin-bottom: .75em;
+margin-left: 2em;
+padding: 0;
+  position: relative;
+}
+
+#create-new-list label{
+/*
+  margin-top: -.75em;
+  margin-left: -2.25em;
+  margin-left: -10px;
+*/
+margin: 0;
+margin-left: 0px;
+  display: block;
+/*
+  background-color: #fff;
+*/
+margin-bottom: -1.1em;
+  float: left;
+  white-space: nowrap;
+}
+
+#create-new-list .label-text{
+  padding: .4em .7em .5em;
+  border-bottom: 1px dotted #555;
+  border-right: 1px dotted #555;
+border: 1px solid #888;
+/*
+border-bottom-width: 0;
+*/
+  background-color: #fff;
+/*
+  padding: 0 .75em .4em 0;
+*/
+  float: left;
+/*
+-moz-border-top-left-radius: 5px;
+border-top-left-radius: 5px;
+-moz-border-top-right-radius: 5px;
+border-top-right-radius: 5px;
+-moz-border-bottom-left-radius: 5px;
+border-bottom-left-radius: 5px;
+-moz-border-bottom-right-radius: 5px;
+border-bottom-right-radius: 5px;
+*/
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+
+label img{
+  vertical-align: -10px;
+vertical-align: -4px;
+}
+
+.or-bullet{
+/*
+  position: absolute;
+  left: -2em;
+*/
+  float: left;
+  margin-left: -2em;
+  padding-right: .5em;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.uploader, .existing{
+  clear: both;
+  border: 1px solid #ccc;
+  background-color: #eee;  
+  padding: 1em;
+padding-top: 2em;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.existing{
+  padding-top: 1em;
+}
+
+#edit-existing-contents ul, #edit-existing-contents li{
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#edit-existing-contents li{
+  padding: 0em 0 .15em .8em;
+  background-image: url(helper_files/bullet-01.png);
+  background-repeat: no-repeat;
+  background-position: .2em .6em;
+}
+
+
+#top-nav{
+/*
+  padding: 0.5em 1em .6em;
+  background: #f0f0ff;
+  background: #f2f6ff;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #d0d0f0;
+  padding: .75em 2em 0;
+  padding: .75em 2em;
+  background-color: #eee;
+*/
+  padding: .75em 2em;
+  background: #f2f6ff;
+/*
+  background-color: white;
+  background-color: #FFFFDD;
+*/
+background-color: #14889F;
+background-color: #A3E4ED;
+background-color: #77838E;
+background-color: #CBD4DB;
+background-color: #9DA8B1;
+  border-top: 1px solid #d0d0f0;
+border-color: #ccb;
+border-color: #8F99A1;
+background-color: #FFFFDD;
+background-color: #C2C7BC;
+background-color: #E0E3CD;
+background-color: #AEB5B1;
+background-color: #D6DAC7;
+background-color: #EBECD2;
+background-color: #f2EcD2;
+/*
+background-color: #C7D5E3;
+background-color: #C7DFE3;
+background-color: #BBC7D4;
+background-color: #c2e9b1;
+background-color: #AECD82;
+background-color: #C8D8A0;
+background-color: #efe1ab;
+background-color: #ffefd3;
+*/
+background-color: #7590a6;
+background-color: #9ac7dc;
+background-color: #9abfdc;
+/*
+background-color: #9ab2dc;
+*/
+background-color: #9abcdc;
+border-color: #C6C1AC;
+border-color: #888;
+border-color: #7E9AB4;
+/*
+margin: 0 1em;
+border-width: 0 1px 1px;
+border-style: solid;
+*/
+  -moz-box-shadow:    2px -1px 2px 2px #ddd;
+  -webkit-box-shadow: 2px -1px 2px 2px #ddd;
+  box-shadow:         2px -1px 2px 2px #ddd;
+  position: relative;
+  z-index: 2;
+}
+
+
+#breadcrumbs{
+  font-size: .8em;
+  text-transform: uppercase;
+  border-bottom: 1px dotted #d0d0f0;
+border-width: 0;
+  float: left;
+  margin-top: .5em;
+}
+
+#breadcrumbs strong{
+  font-weight: normal;
+}
+
+#breadcrumbs .current, #breadcrumbs .current strong{
+  font-weight: bold;
+}
+
+#breadcrumbs .separator{
+  padding: 0 .3em 0 .6em;
+  color: #555;
+}
+
+.status2{
+  font-size: .85em;
+  padding: 5px;
+  margin-top: 28px;
+}
+/*
+.status2 #user-id{
+  font-weight: bold;
+}
+.status2 strong{
+  font-weight: normal;
+}
+*/
+.status2 a{
+  color: #359;
+}
+
+#preview-header{
+  padding: 1.5em 0 1em;
+  margin: 0 2em;
+  border-bottom: 1px dotted #bbb;
+/*
+  -moz-box-shadow:    2px 1px 2px 2px #ddd;
+  -webkit-box-shadow: 2px 1px 2px 2px #ddd;
+  box-shadow:         2px 1px 2px 2px #ddd;
+  position: relative;
+  z-index: 2;
+*/
+}
+
+
+#extra-actions{
+  float: right;
+}
+
+#steps{
+  text-align: right;
+  vertical-align: middle;
+}
+
+#steps div{
+  display: inline;
+}
+
+#steps input, .edit-xml{
+  font-size: .85em;
+  font-weight: bold;
+  border-width: 1px;
+  padding: .2em .5em;
+}
+
+#back-step{
+  float: left;
+}
+
+#steps input, .edit-xml{
+  background: #f2f6ff;
+  background-color: #e70;
+  background-color: #cde;
+  background-color: #fff;
+background-color: #FFdd66;
+/*
+background-color: #EFD267;
+background-color: #eebb33;
+  border: 1px outset #e70;
+*/
+  border: 1px outset #fd6;
+  color: #e70;
+  color: black;
+}
+
+#back-step input{
+  background-color: #DAE7F2;
+  border: 1px outset #dae7f2;
+}
+
+
+
+iframe{
+  height: 100%;
+  border: 1px dotted #bbb;
+  border-width: 0 1px 1px;
+  margin: 0 2em;
+/*
+border-radius: 5px;
+-moz-border-radius: 5px;
+*/
+}
+
+#metadata{
+  margin: .75em 2em 0;
+}
+
+.forminfo{
+  font-size: .85em;
+  margin: .2em 0 .4em;
+  color: #666;
+}
+
+    </style>
+
+
+  </head>
+
+  <body>
+    
+    
+  <div id="corner-wrapper">
+<!--
+  <div class="status" onmouseover="showSignOut()" onmouseout="hideSignOut()">
+    <span id="user-id"><strong>starkenbury</strong></span>
+    <div style="display: none;" id="signout">
+      <a href="#" target="_top">Sign Out</a>
+    </div>
+  </div>
+-->
+  <div class="expertmode expert-activated" id="expertmode">
+<!--
+     <a href="http://oerpub.org/switchmode" target="_self" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert()">
+-->
+     <a href="#" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert(); return false;">
+       <span id="basic-mode">
+         <span id="expert-helper-text" class="link-like" style="display: none;">Switch to advanced mode</span>
+       </span>
+       <span id="expert-activated" style="display: inline;">
+	 <span id="expert-activated-text">
+	   You are in advanced mode. 
+           <span class="link-like">Return to basic mode.</span>
+	 </span>
+       </span>
+       <img src="helper_files/gears_gray.png" width="16" height="16"/>
+    </a>
+  </div>
+  <div class="status2">
+    <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+    <a href="#" target="_top">Sign out.</a>
+  </div>
+  </div>
+
+  <div id="header-wrap">
+    <div id="header-container">
+      <div id="header">
+        <img class="cnxlogo" src="http://oerpub.org/static/images/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+<!--
+        <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img class="sflogo" src="http://oerpub.org/static/images/sf150.png"/></a>
+-->
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+
+
+<div id="content">
+<div id="content-contents">
+
+
+  <div id="preview-header">
+
+        <input type="button" value="Replace contents via import" title="Replace the contents of the module by importing another 
+document on top of it." class="edit-xml" style="font-size: .85em; float: right;"/>
+
+    <div>
+      <span style="font-size: 1.45em; text-transform: none; font-weight: bold;">Preview:</span>
+      <span style="font-family: courier new, monospace; font-size: 1.2em;">Cooking with SPAM</span>
+    </div>
+
+    <div id="extra-actions" style="text-align: right; margin-left: 3em; clear: right; margin-top: .25em;">
+     <span class="advanced">Advanced:</span>
+     <span style="font-size: 1em; padding-left: .5em; ">
+      <a href="#asd">Edit module XML</a>
+      <a href="#asd" class="first" title="Make changes to the module by editing its XML code.">(?)</a>
+      | 
+<!--
+        <input type="button" value="Import" title="Replace the contents of the module by importing another document on top of it." 
+class="edit-xml" style="font-size: 1em;"/>
+        <input type="button" value="Edit" title="Make changes to the module by editing its XML code." class="edit-xml" 
+style="font-size: 1em;"/>
+        <input type="button" value="Download" title="Save a ZIP file containing the module's XML and metadata to your local computer." 
+class="edit-xml" style="font-size: 1em;"/>
+-->
+      <a href="#asd" class="first">Download module code</a>
+<a href="#asd" class="help" title="Save a ZIP file containing the module's XML and metadata to your local machine.">(?)</a>
+    </div>
+
+    <div style="font-size: .85em; margin-top: .3em; color: #666;">
+      View below how the module will appear when uploaded to Connexions.
+<!--
+<a href="#">Replace the contents of the module by importing another document on top of it.</a>
+-->
+    </div>
+
+  </div>
+
+
+  <iframe src="spam-04.xhtml"> </iframe>
+
+
+<!--
+<div id="footer2">
+    <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+</div>
+-->
+
+</div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+<div style="position: fixed; width: 100%; bottom: 0px;">
+
+<div id="top-nav">
+
+  <div id="steps">
+    <div id="back-step">
+<input type="button" value="&#171; Back: Choose module" title="Return to the previous screen to choose a different module to edit"/>
+    </div>
+    <div id="forward-steps">
+<!--
+      <select id="workspace" name="workspace">
+<option value="http://cnx.org/Members/starkenbury/sword">Personal Workspace</option>
+<option value="asdf" disabled="disabled">--</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1264/sword">Patch testing for 0.6</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1263/sword">Patch testing two</option>
+<option value="http://cnx.org/GroupWorkspaces/wg1853/sword">testing WG members links on Roles page</option>
+      </select>
+-->
+     <span id="edit-button">
+<!--
+       <span style="padding-left: .5em;">
+         <input type="button" value="Edit module XML" title="Make changes to the module by editing its XML code"/>
+       </span>
+       &nbsp;OR&nbsp;
+-->
+     </span>
+      <input type="button" value="Next: Add metadata &#187;" title="Add/edit title and other information about the module"/>
+ <!--
+      <div style="margin-top: .5em; font-size: .85em; display: block; color: #000">
+        (This step will <b>not</b> publish the module to the Connexions repository)
+      </div>
+-->
+    </div>
+
+<!--
+-->
+
+  </div>
+</div>
+
+</div>
+
+<!--
+  <div class="footer">
+    <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+  </div>
+-->
+
+<!--
+    <div class="expertmode"><a href="http://oerpub.org/switchmode" target="_self"><img src="helper_files/gears_small.png" width="24" height="24"/></a></div>
+-->
+  </body>
+</html>
+
+
+

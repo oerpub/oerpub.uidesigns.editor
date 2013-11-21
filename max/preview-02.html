@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+    <script src="helper_files/swordpush.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+    <script>
+
+$(document).ready(function(){
+
+var winh = $(window).height();
+var headerh = $("#header-wrap").outerHeight();
+var toph = $("#top-nav").outerHeight();
+var previewh = $("#preview-header").outerHeight();
+var stepsh = $("#steps").outerHeight();
+var footerh = $(".footer").outerHeight();
+
+/*
+alert(winh);
+alert(headerh);
+alert(toph);
+alert(previewh);
+alert(footerh);
+*/
+
+$("iframe").height(winh - headerh - toph - previewh - stepsh - footerh - 32);
+
+//alert(winh + " " + headerh + " " + breadh);
+
+});
+
+
+$(window).resize(function(){
+
+var winh = $(window).height();
+var headerh = $("#header-wrap").outerHeight();
+var toph = $("#top-nav").outerHeight();
+var previewh = $("#preview-header").outerHeight();
+var stepsh = $("#steps").outerHeight();
+var footerh = $(".footer").outerHeight();
+
+$("iframe").height(winh - headerh - toph - previewh - stepsh - footerh - 32);
+
+//alert(winh + " " + headerh + " " + breadh);
+
+});
+
+function showSignOut() {
+  document.getElementById("signout").style.display = 'block';
+}
+function hideSignOut() {
+  document.getElementById("signout").style.display = 'none';
+}
+
+function showExpert() {
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'inline';
+  } else {
+    document.getElementById("expert-activated-text").style.display = 'inline';
+  }
+}
+function hideExpert() {
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'none';
+  } else {
+    document.getElementById("expert-activated-text").style.display = 'none';
+  }
+}
+function toggleExpert() {
+/*
+  if (document.getElementById("expert-activated").style.display == 'none' && 
+      document.getElementById("expert-helper-text").style.display == 'inline') {
+*/
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("basic-mode").style.display = 'none';
+    document.getElementById("expert-activated").style.display = 'inline';
+    document.getElementById("zip-package").style.display = 'block';
+    document.getElementById("expertmode").className += ' expert-activated';
+  } else {
+    document.getElementById("basic-mode").style.display = 'inline';
+    document.getElementById("expert-activated").style.display = 'none';
+    document.getElementById("zip-package").style.display = 'none';
+    document.getElementById("expertmode").className = 'expertmode';
+  }
+}
+    </script>
+
+    <style type="text/css">
+
+body{
+  font-size: .8em;
+  font-family: verdana, tahoma;
+  margin: 0;
+}
+
+a:link, #header a{
+  color: #26f;
+}
+
+a:visited{
+  color: #85d;
+}
+
+.footer{
+  text-align: center;
+  margin: 2em 0 0;
+  padding: .5em 2em;
+/*
+  border-top: 1px solid #bbb;
+*/
+  position: fixed;
+  bottom: 0;
+  padding: 5px 2em;
+  height: 49px;
+  width: 100%;
+}
+
+
+form, input{
+  font-size: 1em;
+  font-family: verdana, tahoma;
+}
+
+#header-container{
+  height: 55px;
+/*
+  background-color: #d9e0ee;
+  border-bottom: 1px solid #a9b0bb;
+*/
+}
+
+#header{
+  width: auto;
+}
+
+#header-wrap{
+  position: static;
+}
+
+#header h1{
+  left: 50px;
+  top: 16px;
+  font-size: 1.5em;
+  font-weight: normal;
+  color: #334;
+}
+
+#header h1 a{
+  text-decoration: none;
+  color: #359;
+}
+
+#header img.cnxlogo{
+  width: 40px;
+  top: 5px;
+  left: 10px;
+}
+
+div.status{
+  right: 5px;
+  left: auto;
+  top: 26px;
+  vertical-align: bottom;
+  font-size: .8em;
+position: static;
+float: right;
+margin-top: 0;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-width: 0 0 1px 1px;
+  line-height: 16px;
+  padding: 5px 10px;
+text-align: left;
+cursor: default;
+}
+
+div.status:hover{
+  background-color: #fff;
+}
+
+div.status #user-id{
+  height: 16px;
+  padding-right: 16px;
+  background-image: url(helper_files/triangle-01.png);
+  background-repeat: no-repeat;
+  background-position: right 4px;
+}
+#signout{
+  margin-top: 5px;
+}
+
+div.expertmode{
+  top: 0;
+  bottom: auto;
+  width: auto;
+  font-size: .85em;
+  padding: 5px;
+  text-align: right;
+  white-space: nowrap;
+/*
+  background-color: #f0f0ff;
+  border-bottom: 1px solid #d0d0f0;
+  background-color: #eee;
+*/
+/*
+  border: 1px solid #ccc;
+*/
+border: 1px solid #f0f0ff;
+/*
+border: 1px solid #d9e0ee;
+*/
+  border-width: 0 0 1px 1px;
+  height: 16px;
+  line-height: 16px;
+  z-index: 101;
+/*
+position: static;
+float: right;
+*/
+position: absolute;
+}
+
+#corner-wrapper{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 101;
+  text-align: right;
+}
+
+.expertmode a{
+  color: #26f;
+  color: #444;
+  text-decoration: none;
+}
+
+.expertmode .link-like{
+  text-decoration: underline;
+}
+
+div.expert-activated{
+  background-color: #fec;
+  background-color: #f96;
+  border-color: #f63;
+/*
+  border-right: 1px solid #f63;
+margin-right: -1px;
+*/
+}
+div.expert-activated a{
+  color: #920;
+}
+
+div.expertmode:hover{
+  background-color: #fff;
+  border-color: #aaa;
+}
+
+div.expert-activated:hover{
+  border-color: #f63;
+}
+
+div.expert-activated:hover{
+  background-color: #fec;
+background-color: #f96;
+}
+
+#zip-package{
+/*
+  background-color: #fec;
+  border: 1px solid #f63;
+*/
+  font-weight: bold;
+  color: #f63;
+/*
+  padding: .5em;
+*/
+  margin: 0 0 1em;
+}
+
+/*
+div.expert-activated .link-like{
+  color: #f63;
+}
+*/
+
+.expertmode img{
+  vertical-align: -4px;
+}
+
+#expert-helper-text, #expert-activated-text{
+  padding: 0 .5em;
+}
+
+#container {
+  padding: 50px 0 0;
+  padding: 0;
+  position: relative;
+  width: auto;
+}
+
+#container h1{
+  font-size: 1.4em;
+}
+
+#content{
+  padding: 0 0 10px;
+  width: 100%;
+}
+
+#content-contents{
+  border-right: 1px solid #bbb;
+  padding: 0 2em;
+}
+
+#edit-existing{
+  position: absolute;
+  width: 50%;
+  right: 0;
+  margin-left: 100px;
+  padding: 1em 0 1em;
+}
+
+#edit-existing-contents{
+  border-left: 1px solid #bbb;
+  padding: 0 2em;
+  margin-left: -1px;
+}
+
+
+
+
+
+
+
+#choose-wa-contents{
+  padding: 1em;
+}
+
+#choose-wa-contents table, .listingBar{
+  font-size: .75em;
+}
+
+.checkCol{
+  display: none;
+}
+
+.listingBar {
+background-color: #dee7ec;
+border-color: #8cacbb;
+border-style: solid;
+border-width: 1px;
+padding: 0em 1em;
+text-align: center;
+text-transform: none;
+vertical-align: top;
+margin: 1em 0em;
+/*
+font-size: 94%;
+*/
+clear: both;
+}
+.listingBar span.previous,
+.listingPrevious {
+text-align: left;
+float: left;
+margin-right: 1em;
+}
+.listingBar span.next,
+.listingNext {
+text-align: right;
+float: right;
+margin-left: 1em;
+}
+.listingBar img {
+vertical-align: middle;
+}
+.listingBar a {
+text-decoration: none;
+}
+.listing,
+.stx table {
+/* */
+border-collapse: collapse;
+border-left: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+font-size: 90%;
+margin: 1em 0em 1em 0em;
+}
+.listing th,
+.stx table th {
+background: #dee7ec;
+border-top: 1px solid #8cacbb;
+border-bottom: 1px solid #8cacbb;
+border-right: 1px solid #8cacbb;
+font-weight: normal;
+padding: 0.25em 1em;
+text-transform: none;
+}
+.listing .top {
+border-left: 1px solid White;
+border-top: 1px solid White ! important;
+border-right: 1px solid White ! important;
+text-align: right ! important;
+padding: 0em 0em 1em 0em;
+}
+.listing .listingCheckbox {
+text-align: center;
+}
+.listing td,
+.stx table td {
+border-right: 1px solid #8cacbb;
+/*
+border-bottom: 1px solid #8cacbb !important;
+*/
+padding: 0.25em 1em;
+}
+.listing a {
+text-decoration: none;
+}
+.listing a:hover {
+text-decoration: underline;
+}
+.listing img {
+vertical-align: middle;
+}
+.listing td a label,
+.stx table td a label {
+cursor: pointer;
+}
+/*
+table.listing,
+table.listing td {
+border: 1pt solid black;
+border-collapse: collapse;
+}
+*/
+.even {
+background-color: #EEF3F5;
+}
+
+
+#create-new-list, #create-new-list li{
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#create-new-list li{
+  padding: 0 10px 1em;
+/*
+  margin: 2em 0 -.5em 1.5em;
+*/
+margin-bottom: .75em;
+margin-left: 2em;
+padding: 0;
+  position: relative;
+}
+
+#create-new-list label{
+/*
+  margin-top: -.75em;
+  margin-left: -2.25em;
+  margin-left: -10px;
+*/
+margin: 0;
+margin-left: 0px;
+  display: block;
+/*
+  background-color: #fff;
+*/
+margin-bottom: -1.1em;
+  float: left;
+  white-space: nowrap;
+}
+
+#create-new-list .label-text{
+  padding: .4em .7em .5em;
+  border-bottom: 1px dotted #555;
+  border-right: 1px dotted #555;
+border: 1px solid #888;
+/*
+border-bottom-width: 0;
+*/
+  background-color: #fff;
+/*
+  padding: 0 .75em .4em 0;
+*/
+  float: left;
+/*
+-moz-border-top-left-radius: 5px;
+border-top-left-radius: 5px;
+-moz-border-top-right-radius: 5px;
+border-top-right-radius: 5px;
+-moz-border-bottom-left-radius: 5px;
+border-bottom-left-radius: 5px;
+-moz-border-bottom-right-radius: 5px;
+border-bottom-right-radius: 5px;
+*/
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+
+label img{
+  vertical-align: -10px;
+vertical-align: -4px;
+}
+
+.or-bullet{
+/*
+  position: absolute;
+  left: -2em;
+*/
+  float: left;
+  margin-left: -2em;
+  padding-right: .5em;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.uploader, .existing{
+  clear: both;
+  border: 1px solid #ccc;
+  background-color: #eee;  
+  padding: 1em;
+padding-top: 2em;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.existing{
+  padding-top: 1em;
+}
+
+#edit-existing-contents ul, #edit-existing-contents li{
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#edit-existing-contents li{
+  padding: 0em 0 .15em .8em;
+  background-image: url(helper_files/bullet-01.png);
+  background-repeat: no-repeat;
+  background-position: .2em .6em;
+}
+
+
+#top-nav{
+  padding: 0.5em 1em .6em;
+/*
+  background: #f0f0ff;
+  background: #f2f6ff;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #d0d0f0;
+*/
+  padding: .75em 2em 0;
+/*
+  padding: .75em 2em;
+*/
+}
+
+#top-nav a{
+  color: #359;
+}
+
+#breadcrumbs{
+  font-size: .8em;
+  text-transform: uppercase;
+/*
+  background-color: #eee;
+  padding: .5em;
+*/
+  padding-bottom: .7em;
+  border-bottom: 1px dotted #d0d0f0;
+border-width: 0;
+  padding: .3em 0 1.2em;
+}
+
+#breadcrumbs strong{
+  font-weight: normal;
+}
+
+#breadcrumbs .current, #breadcrumbs .current strong{
+  font-weight: bold;
+}
+
+#breadcrumbs .separator{
+  padding: 0 .3em 0 .6em;
+  color: #555;
+}
+
+.status2{
+  font-size: .85em;
+  padding: 5px;
+  margin-top: 28px;
+}
+/*
+.status2 #user-id{
+  font-weight: bold;
+}
+.status2 strong{
+  font-weight: normal;
+}
+*/
+.status2 a{
+  color: #359;
+}
+
+iframe{
+  width: 100%;
+  border-width: 0;
+  height: 100%;
+  border: 1px solid #d0d0f0;
+  margin: 0;
+border-radius: 5px;
+-moz-border-radius: 5px;
+}
+
+#preview-header{
+  padding: .5em 0 1em;
+}
+
+
+#steps-container{
+  margin: 15px 2em .75em;
+/*
+    background-color: #ffd;
+    background: #ffffe0;
+    border-color: #f0f000;
+*/
+  padding: 0.5em 1em .6em;
+  background: #f0f0ff;
+  background: #f2f6ff;
+  border: 1px solid #d0d0f0;
+background-color: #eee;
+border-radius: 10px;
+-moz-border-radius: 10px;
+  padding: .75em 2em 0;
+  padding: 10px;
+  margin: 1em 0 0;
+margin: 0;
+  position: relative;
+}
+
+#top-nav a{
+  color: #359;
+}
+
+
+#steps{
+  text-align: right;
+  padding: .5em 0;
+}
+
+#back-step{
+  float: left;
+  margin-right: 3em;
+}
+
+#preview-actions{
+/*
+  right: 40px;
+  position: absolute;
+*/
+  float: right;
+}
+
+#preview-actions input{
+  font-size: .9em;
+  color: #e70;
+  font-weight: bold;
+  border-width: 0;
+  border-left: 1px solid #e70;
+  padding: 0 0 0 .5em;
+background-color: #eee;
+  cursor: pointer;
+}
+
+#preview-actions input.first{
+  border-width: 0;
+}
+
+#preview-actions2 input{
+  background-color: #fc0;
+  background-color: #fff;
+  color: #e70;
+  font-weight: bold;
+  border: 1px solid #e70;
+  margin-left: .5em;
+}
+
+#forward-steps input{
+  border: 1px solid #e70;
+  border-left-color: #fc0;
+  border-top-color: #fc0;
+  background-color: #ffd;
+  background-color: #fff;
+  color: #e70;
+color: #fff;
+background-color: #e70;
+  font-weight: bold;
+}
+
+/*
+#preview-actions a{
+  border: 1px solid #ff0;
+  border-top-width: 0;
+  background-color: #ffd;
+  margin-top: -1px;
+  padding: 0 1em .5em;
+  display: block;
+  float: right;
+  font-size: .85em;
+  color: #e70;
+  margin-left: .5em;
+  font-weight: bold;
+}
+*/
+
+    </style>
+
+
+  </head>
+
+  <body>
+    
+    
+  <div id="corner-wrapper">
+<!--
+  <div class="status" onmouseover="showSignOut()" onmouseout="hideSignOut()">
+    <span id="user-id"><strong>starkenbury</strong></span>
+    <div style="display: none;" id="signout">
+      <a href="#" target="_top">Sign Out</a>
+    </div>
+  </div>
+-->
+  <div class="expertmode" id="expertmode">
+<!--
+     <a href="http://oerpub.org/switchmode" target="_self" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert()">
+-->
+     <a href="#" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert(); return false;">
+       <span id="basic-mode">
+         <span id="expert-helper-text" class="link-like" style="display: none;">Switch to advanced mode</span>
+       </span>
+       <span id="expert-activated" style="display: none;">
+	 <span id="expert-activated-text">
+	   You are in advanced mode. 
+           <span class="link-like">Return to basic mode.</span>
+	 </span>
+       </span>
+       <img src="helper_files/gears_gray.png" width="16" height="16"/>
+    </a>
+  </div>
+  <div class="status2">
+    <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+    <a href="#" target="_top">Sign out.</a>
+  </div>
+  </div>
+
+  <div id="header-wrap">
+    <div id="header-container">
+      <div id="header">
+        <img class="cnxlogo" src="http://oerpub.org/static/images/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+<!--
+        <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img class="sflogo" src="http://oerpub.org/static/images/sf150.png"/></a>
+-->
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+
+<div id="top-nav">
+  <div id="breadcrumbs">
+    <span><strong>1.</strong> Import module</span>
+    <span class="separator">&#187;</span>
+    <span class="current"><strong>2.</strong> Preview/Edit</span>
+    <span class="separator">&#187;</span>
+    <span><strong>3.</strong> Add Metadata and Upload</span>
+    <span class="separator">&#187;</span>
+    <span><strong>4.</strong> Sign License and Publish</span>
+  </div>
+</div>
+
+
+<div id="content">
+<div id="content-contents">
+
+<div id="steps-container">
+
+  <div id="preview-actions">
+      <input type="button" value="Edit XML" class="first" />
+      <input type="button" value="Download XML" class="last" />
+  </div>
+
+  <div id="preview-header">
+    Preview of <strong>Cooking with SPAM.doc</strong> as it will appear when uploaded as a module in Connexions.
+    <div style="font-size: .8em; margin-top: .6em;">If any changes are necessary before uploading, click the "Edit XML" link.</div>
+  </div>
+
+  <div id="preview-header2345">
+    <!--
+    <div id="preview-actions">
+      <a href="#">Edit XML</a>
+      <a href="#">Download XML</a>
+    </div>
+    -->
+<!--
+    <div id="preview-actions">
+      <a href="#">Download XML</a>
+      <a href="#">Edit XML</a>
+    </div>
+-->
+  </div>
+
+  <iframe src="spam.xhtml"> </iframe>
+
+  <div id="steps">
+    <div id="back-step">
+      <input type="button" value="&#171; Back" />
+    </div>
+    <div id="forward-steps">
+      <input type="button" value="Add Metadata and Upload &#187;"/>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <div class="footer">
+    <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+  </div>
+
+<!--
+    <div class="expertmode"><a href="http://oerpub.org/switchmode" target="_self"><img src="helper_files/gears_small.png" width="24" height="24"/></a></div>
+-->
+  </body>
+</html>
+
+
+

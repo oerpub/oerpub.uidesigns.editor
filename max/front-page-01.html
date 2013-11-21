@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+    <script src="helper_files/swordpush.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+    <script>
+function showExpert() {
+//  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'inline';
+//  }
+}
+function hideExpert() {
+//  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("expert-helper-text").style.display = 'none';
+//  }
+}
+function toggleExpert() {
+/*
+  if (document.getElementById("expert-activated").style.display == 'none' && 
+      document.getElementById("expert-helper-text").style.display == 'inline') {
+*/
+  if (document.getElementById("expert-activated").style.display == 'none') {
+    document.getElementById("basic-mode").style.display = 'none';
+    document.getElementById("expert-activated").style.display = 'inline';
+    document.getElementById("service-doc-url").style.display = 'block';
+    document.getElementById("expertmode").className += ' expert-activated';
+  } else {
+    document.getElementById("basic-mode").style.display = 'inline';
+    document.getElementById("expert-activated").style.display = 'none';
+    document.getElementById("service-doc-url").style.display = 'none';
+    document.getElementById("expertmode").className = 'expertmode';
+  }
+}
+    </script>
+
+    <style type="text/css">
+
+body{
+  font-size: .9em;
+  font-family: verdana, tahoma;
+  margin: 0;
+}
+
+a:link{
+  color: #26f;
+}
+
+a:visited{
+  color: #85d;
+}
+
+.footer{
+  text-align: center;
+  margin: 2em 0 1em;
+  padding: .5em 2em;
+  border-top: 1px solid #ddd;
+}
+
+.splashheading{
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.splashheading img{
+  vertical-align: -25px;
+}
+
+.splashbox{
+  margin-top: 1em;
+}
+
+form, input{
+  font-size: 1em;
+  font-family: verdana, tahoma;
+}
+
+div.splashbox {
+	width: 350px;
+  padding: 1em 2em;
+}
+
+div.splashbox p {
+  margin: 1em 0;
+}
+
+div.expertmode{
+  top: 0;
+  bottom: auto;
+  width: auto;
+  font-size: .7em;
+  padding: 5px;
+  text-align: right;
+  background-color: #f0f0ff;
+  border-bottom: 1px solid #d0d0f0;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-width: 0 0 1px 1px;
+  height: 16px;
+  line-height: 16px;
+}
+
+.expertmode a{
+  color: #26f;
+  color: #444;
+  text-decoration: none;
+}
+
+.expertmode span span{
+  text-decoration: underline;
+}
+
+div.expert-activated{
+  background-color: #fec;
+  border-color: #f63;
+}
+
+div.expert-activated a{
+   color: #f63;
+}
+
+.expertmode img{
+  vertical-align: -4px;
+}
+
+#expert-helper-text, #expert-activated{
+  padding: 0 .5em;
+}
+
+    </style>
+
+  </head>
+
+  <body>
+    
+    
+
+<script>
+function check_submit() {
+  passed = true;
+  names = ["username", "password"];
+  for(i in names) {
+    name = names[i];
+    x = document.forms["login_form"][name];
+    if((x.value == null) || (x.value == "")) {
+      x.style.background = '#ffce99';
+      passed = false;
+    } else {
+      x.style.background = '#ffffff';
+    }
+  }
+  return passed;
+}
+</script>
+
+  <div class="expertmode" id="expertmode">
+<!--
+     <a href="http://oerpub.org/switchmode" target="_self" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert()">
+-->
+     <a href="#" onmouseover="showExpert()" onmouseout="hideExpert()" onclick="toggleExpert(); return false;">
+       <span id="basic-mode">
+         <span id="expert-helper-text" style="display: none;">Switch to advanced mode</span>
+         <img src="helper_files/gears_gray.png" width="16" height="16"/>
+       </span>
+       <span id="expert-activated" style="display: none;">
+	 Advanced mode. 
+         <span>Return to basic mode.</span>
+       </span>
+<!--
+       <img src="helper_files/gears_small.png" width="24" height="24"/>
+-->
+    </a>
+  </div>
+  <div class="splashheading">
+    <img src="helper_files/connexions_icon.png" width="" />
+    Connexions Document Importer
+  </div>
+
+<div class="splashbox">
+  <p>You need to sign in using your Connexions username and password to use this tool.</p>
+<!--
+  <form action="http://oerpub.org/" method="post" name="login_form" onsubmit="return check_submit()">
+-->
+  <form action="http://oerpub.org/" method="post" name="asdf" onsubmit="return false();">
+  <div style="display:none;"><input id="_csrf" name="_csrf" type="hidden" value="849e52a00669a4943863ac9919dccec55abc6a20" /></div>
+  <input type="hidden" name="service_document_url" value="http://cnx.org/sword/servicedocument"/>
+  <div id="service-doc-url" style="display: none;">
+    <div class="formlabel"><label for="url">Service document URL</label></div></td>
+    <div class="formfield"><input type="text" name="url" style="width: 25em;" value="http://cnx.org/sword/servicedocument"/></div>
+  </div>
+  <center>
+    <table>
+      <tr>
+        <td><div class="formlabel"><label for="username">Username</label></div></td>
+        <td><div class="formfield"><input type="text" name="username"/></div></td>
+      </tr>
+      <tr>
+        <td><div class="formlabel"><label for="password">Password</label></div></td>
+        <td><div class="formfield"><input type="password" name="password"/></div></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="right"><input class="submit" id="form.submitted" name="form.submitted" type="submit" value="Log in" /></td>
+      </tr>
+    </table>
+  </center>
+  </form>
+  <p>If you do not yet have an account, go to
+    <a href="http://cnx.org/join_form">the Connexions site</a>
+    to create one.</p>
+</div>
+  <div class="footer">
+    <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+  </div>
+
+<!--
+    <div class="expertmode"><a href="http://oerpub.org/switchmode" target="_self"><img src="helper_files/gears_small.png" width="24" height="24"/></a></div>
+-->
+  </body>
+</html>
+
+
+

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Connexions Document Importer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script src="helper_files/jquery-1.6.4.min.js"></script>
+    <script src="helper_files/jquery.simplemodal.1.4.1.min.js"></script>
+    <script src="helper_files/googlejsapi.js"></script>
+<!--
+    <script src="helper_files/swordpush.js"></script>
+-->
+    <script src="helper_files/swordpush-max-03.js"></script>
+
+    <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
+    <link rel="shortcut icon" type="image/x-icon" href="helper_files/favicon.ico" />
+
+<!--
+    <link rel="stylesheet" href="helper_files/main.css" type="text/css" media="screen" charset="utf-8" />
+-->
+    <link rel="stylesheet" href="helper_files/main-max-03.css" type="text/css" media="screen" charset="utf-8" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="helper_files/ie6.css" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  /* Moved this portion back directly into the file because 'headerh' wasn't always correctly calculated when done from the external file. */
+
+  var winh = $(window).height();
+  var headerh = $("#header-container").outerHeight();
+  var wfnh = $("#workflownav-wrap").outerHeight();
+  var contentp = parseInt($("#content").css("paddingTop"));
+  var contentp = contentp + parseInt($("#content").css("paddingBottom"));
+  var phwh = $("#pageheader-wrap").outerHeight();
+  var ma = $("#module-actions .advanced").outerWidth();
+
+  // Make the iframe fit exactly inside the remaining space
+  $("iframe").height(winh - headerh - wfnh - contentp - phwh + 5);
+  $("iframe").width($(window).width() - 53);
+
+  // Give the page's header the correct top margin (since the elements above it are in a fixed position)
+  $("#content").css({'margin-top': headerh + wfnh});
+
+});
+
+/* Below just for this mock-up */
+
+function keyDown(event) {
+  if ($(this).value != '') {
+    $('#url-submit').removeAttr('disabled');
+  }
+  if (event.keyCode == 13) {
+    $('#file-submit').removeAttr('disabled');
+    $('#file-submit').click();
+    $('#url-submit').removeAttr('disabled');
+  }
+}
+
+function goToPreview() {
+
+  var t = setTimeout("document.location = 'preview-edit-28.html'",1500);
+
+}
+
+</script>
+
+
+  </head>
+
+  <body>
+    
+    
+  <div id="header-wrap">
+
+    <div id="header-container">
+
+      <div id="header-functions">
+        <div id="expertmode">
+          <span id="expand-advanced">
+            &#171;
+          </span>
+          <span id="basic-message" style="display: none;">
+            <span class="link-like">Switch to advanced mode</span>
+          </span>
+          <span id="advanced-message" style="display: none;">
+            You are in advanced mode. 
+            <span class="link-like">Return to basic mode.</span>
+          </span>
+        </div>
+        <div id="status">
+          <span id="user-id">You are logged in as: <strong>starkenbury</strong></span>.
+          <a href="#" target="_top">Sign out.</a>
+        </div>
+      </div>
+
+      <div id="header">
+        <img class="cnxlogo" src="helper_files/connexions_icon.png"/>
+        <h1><a href="#">Connexions Importer</a></h1>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div id="ie6-container-wrap">
+    <div id="container">
+      <div id="content">
+
+<!--
+        <div id="nav-column-wrap">
+          <div id="nav-column">
+            <ul>
+              <li id="nav-upload" class="selected">
+                <a href="#asdf" title="Upload new content"><span>Create</span></a>
+              </li>
+              <li id="nav-edit">
+                <a href="#asdf" title="Edit one of your existing modules"><span>Edit</span></a>
+              </li>
+              <li id="nav-adapt">
+               <a href="#asdf" title="Adapt any existing module"><span>Adapt</span></a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+        <div id="main-column-wrap">
+          <div id="main-column">
+-->
+
+            <div id="choose-upload">
+              <h1>
+                Create, edit, and adapt content in Connexions
+              </h1>
+              <p class="forminfo">
+                Choose one of the following to import the contents of a new or existing module. 
+              </p>
+
+              <h3>Importer tools</h3>
+              <ul class="create-new-list">
+                <li id="doc-importer">
+                  <label>
+                    <span style="visibility: hidden;" class="or-bullet">or</span> 
+                    <span class="label-text">
+                      <img src="helper_files/word-icon.gif"> <strong>Microsoft Word</strong> or 
+                      <img src="helper_files/oo-icon.gif"> <strong>Open Office</strong>
+                    </span>
+                  </label>
+                  <div class="upload-form">
+                    <input class="button" id="file-submit" name="form.submitted" value="Choose file and preview &#187;" type="submit" onclick="goToPreview();">
+                  </div>
+                </li>
+                <li id="gdoc-importer">
+                  <label>
+                    <span style="visibility: visible;" class="or-bullet">or</span> 
+                    <span class="label-text">
+                      <img src="helper_files/google-docs-22.png">
+                   </span>
+                  </label>
+                  <div class="upload-form">
+                    <input id="gdocs_resource_id" name="gdocs_resource_id" type="hidden">
+                    <input id="gdocs_access_token" name="gdocs_access_token" type="hidden">
+                    <input class="button" id="google-submit" name="form.submitted" value="Select and preview &#187;" type="submit">
+                  </div>
+                </li>
+              </ul>
+              <div class="advanced" style="display: none;">
+                <h2 class="advanced-label">
+                  Advanced
+                </h2>
+                <ul class="create-new-list">
+                  <li id="url-importer">
+                    <label>
+                      <span style="visibility: visible;" class="or-bullet">or</span> 
+                      <span class="label-text">
+                        <img src="helper_files/url-icon-01.png"/>
+                        <strong>URL</strong> <span style="font-weight: normal;">(for converting an Internet page)</span>
+                      </span>
+                    </label>
+                    <div class="upload-form">
+<!--
+                      <input id="url_text" name="url_text" style="width: 30em;" placeholder="http://www.example.com" onkeydown="if(event.keyCode == 13){$('#file-submit').removeAttr('disabled');$('#file-submit').click();document.getElementById('url-submit').disabled=false;}" "="" type="url">
+-->
+                      <input id="url_text" name="url_text" style="width: 30em;" placeholder="http://www.example.com" type="url" 
+                             onkeydown="keyDown(event)" />
+                      <input class="button" id="url-submit" name="url.submitted" value="Convert and preview &#187;" disabled="disabled" type="submit">
+                    </div>
+                  </li>
+                  <li id="latex-zip-importer">
+                    <label>
+                      <span class="or-bullet">or</span> 
+                      <span class="label-text">
+                        <img src="helper_files/zip-icon-01.png"> <strong>Module ZIP</strong> or 
+                        <img src="helper_files/tex-icon-01.png"> <strong>LaTeX</strong>
+                      </span>
+                    </label>
+                    <div class="upload-form">
+                      <p class="forminfo">
+                        Convert a LaTeX document or a module's previously downloaded ZIP.
+                      </p>
+                      <input class="button" id="file-submit" name="form.submitted" value="Choose file and preview &#187;" type="submit">
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="pleasewait" id="upload-wait" style="display: none;">
+                Your document is being processed. This may take a few moments.
+              </div>
+            </div>
+
+<!--
+          </div>
+        </div>
+-->
+
+        <div id="footer">
+          <a href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="helper_files/sf150.png" width="150"/></a>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+  </body>
+</html>
+
+
+
