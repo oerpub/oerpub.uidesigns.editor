@@ -42,7 +42,7 @@ This should move to the Picker because that is a logical place for it. Connexion
 need the functionality. 
 
 Things to include
- * a list of recent book(s)
+ * a list of recent bookshelves
  * a way to request a list of book repos in your account
  * a way to request a list of books in someone else's account (for now you have to know their id)
  * a way to specify both [owner id] [bookshelf id]
