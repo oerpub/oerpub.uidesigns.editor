@@ -36,6 +36,13 @@ below under Change Bookshelf.
 Needs to ask you for a bookshelf id, prepopulated with the one that you are forking from. For now can always go to your
 login account.
 
+Cases
+
+1. You are not logged in. -- Needs to ask you to login in to the account you want to fork the book into.
+2. You already have a fork of this book. -- Needs to say "You already have a copy of this bookshelf. [Take me there] [Cancel].
+3. You are logged in and you don't have a fork. -- Needs to ask you to supply an id for this bookshelf and supply the current id by default. 
+4. You have permission on the current book and thus get Save All instead of Fork. Do we want to have a way to fork the book anyway?
+
 ### Change bookshelf (book repository)
 
 This should move to the Picker because that is a logical place for it. Connexions can hide this as they don't
