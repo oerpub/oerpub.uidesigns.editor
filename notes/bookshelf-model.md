@@ -39,8 +39,9 @@ login account.
 Cases
 
 1. You are not logged in. -- Needs to ask you to login in to the account you want to fork the book into.
-2. You already have a fork of this book. -- Needs to say "You already have a copy of this bookshelf. [Take me there] [Cancel].
-3. You are logged in and you don't have a fork. -- Needs to ask you to supply an id for this bookshelf and supply the current id by default. 
+  * Use the new mockup*05 login screen, but remove "If you refresh ..." and remove "No thanks, ...".
+2. You already have a fork of this book. -- Needs to say "You already have a copy of this bookshelf. [Take me there] [Cancel]."
+3. You are logged in and you don't have a fork. -- Needs to ask you to supply an id for this bookshelf and supply the current id by default. "Please provide an ID for your copy." [current-id-by-default] Valid ids? - Hover says "You can use letters, numbers, and hyphens. Don't use spaces.") 
 4. You have permission on the current book and thus get Save All instead of Fork. Just add a "Fork this book" in the dropdown under "Save All".
 
 ### Change bookshelf (book repository)
