@@ -2388,7 +2388,7 @@ alert($("#db-home-link").outerWidth());
   $("#to-dashboard").live("mouseenter", function(e){
     if (!$(".edit-toc-mode").length) {
       $("#to-dashboard").addClass("to-open");
-      $("#to-dashboard").attr("title","Open content picker");
+      $("#to-dashboard").attr("title","Open bookshelf");
     }
   });
   $("#to-dashboard").live("mouseleave", function(e){
@@ -12135,7 +12135,7 @@ code{
 }
 
 #to-dashboard:after{
-  content: "Picker";
+  content: "Bookshelf";
   color: #D6F1DE;
 }
 #to-dashboard.opened:after{
@@ -13284,15 +13284,15 @@ h4 .section-copy{
       <div id="to-dashboard">
 	<div id="dashboard-header">
 
-<a href="#" id="todb-collapse" title="Hide the Content Picker" style="display: none;"><img src="content_files/collapse-box-silver-02.png"/></a>
-<a href="#" id="todb-expand" title="Open the Content Picker"><img src="content_files/expand-box-silver-02.png"/></a>
+<a href="#" id="todb-collapse" title="Hide the Bookshelf" style="display: none;"><img src="content_files/collapse-box-silver-02.png"/></a>
+<a href="#" id="todb-expand" title="Open the Bookshelf"><img src="content_files/expand-box-silver-02.png"/></a>
 
 <!--
           <a href="#" onclick="return false;" title="Return to the main dashboard" id="to-dashboard-icon">&nbsp;</a>
 -->
 	  <div id="db-home-link">
 	    <a href="#" title="Return to the main dashboard" id="back-to-dashboard">Back to Dashboard</a>
-	    <span class="secondary-link">(<a href="#" title="Open the content picker to navigate to different content" id="open-picker">Open picker</a>)</span>
+	    <span class="secondary-link">(<a href="#" title="Open the bookshelf to navigate to different content" id="open-picker">Open bookshelf</a>)</span>
 	  </div>
 <!--
           <a href="#" onclick="return false;" title="Show the contents of the dashboard" id="dashboard-open">&#187;</a>
@@ -13312,7 +13312,7 @@ h4 .section-copy{
 <option>Z-A</option>
 </select>
 -->
-	    Picker
+	    Bookshelf
 <!--
             <span id="dashboard-expand-link">(<a href="#" onclick="return false;" title="Return to the main daishboard">Full Dashboard</a>)</span>
 -->
@@ -14004,7 +14004,7 @@ You can drag modules from the folders and books in your dashboard into the book 
 Dragging in folders or books will convert them to chapters or sections, depending on where you drop them.  Modules dragged in from folders will leave pointers to their new location in 
 the book.  <a href="#asdf" onclick="return false;">Change settings</a>.
 -->
-<img title="You can drag modules from the picker into your Table of Contents.  Dragging entire folders or books will convert them to book divisions (parts, chapters, etc.)." 
+<img title="You can drag modules from the bookshelf into your Table of Contents.  Dragging entire folders or books will convert them to book divisions (parts, chapters, etc.)." 
 src="content_files/db-arrow-08.png" />
 <!--
 When you drag in items from here, folders and book will get converted to chapters or section.  Modules in folders will now point to their location in the book.  
@@ -14028,12 +14028,12 @@ When you drag in items from here, folders and book will get converted to chapter
       <li><a href="#">kathi-fletcher/sieb-physics</a></li>
     </ul>
     <p>
-      View another one:
+      View or create another one:
     </p>
     <ul>
       <li>Owner ID: <input placeholder="github-user-id" type="text"></li>
       <li>Bookshelf ID: <input placeholder="github-repository-id" type="text"></li>
-      <li style="list-style-type: none;"><button style="font-size: 1em;" type="button">Go</button></li>
+      <li style="list-style-type: none;"><button style="font-size: 1em;" type="button">Next</button></li>
     </ul>
   </div>
 </div>
