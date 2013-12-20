@@ -19,6 +19,13 @@ and the chapter/module level metadata can go into those html files.
   * Don't make authors repeat metadata. Make it easy to reuse book level metadata, and also make it possible to provide
   metadata per module.
 
+## Ideas
+
+* Duplicate info in .opf (in dc xml) and -nav.html (in schema.org)
+* Point to book level metadata in .html files in some way
+* Assume that book level metadata applies to all modules unless otherwise specified (especially if we can point to the metdata within the -nav.html file.
+* Have specifications in the module if they are different from the book level stuff.
+
 ## Background
 
 ### Connexions metadata fields
