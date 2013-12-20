@@ -4907,12 +4907,13 @@ original.find(".edit-action .icon-content").attr("title","This icon indicates th
   $("#edit-description-authors-dialog").dialog({
     width: 800,
     autoOpen: false,
-    modal: false,
+    modal: true,
     zIndex: 600,
     open: function(){
     },
     close: function(){
-      $("this").find("input").val("");
+      $("#edit-description-authors-dialog").find("input,textarea").val("").prop("checked",false);
+      $("#edit-description-authors-dialog").find("option[value=en]").val("en").prop("selected",true);
     },
     buttons: {
       "Save": function() {
@@ -16542,10 +16543,10 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
 <div class="element-options" id="edit-description-authors-dialog" title="Edit the authors and other metadata on this module" style="display: none;">
   <ul class="element-options-tabs">
     <li class="selected" id="ema-basic-tab">
-      <a href="#">Module description</a>
+      <a href="#">Description</a>
     </li>
     <li id="ema-authors-tab">
-      <a href="#">Module authors</a>
+      <a href="#">Authors</a>
     </li>
   </ul>
   <div class="element-options-contents" id="ema-basic">
