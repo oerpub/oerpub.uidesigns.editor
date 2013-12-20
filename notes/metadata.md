@@ -70,4 +70,7 @@ Ex:
     <dc:date opf:event="publication">2013-10-08</dc:date>
     <meta properties="dcterms:modified">2013-12-19</meta>
 ```
-    
+
+### Schema.org
+
+http://schema.org/Book
