@@ -26,7 +26,12 @@ and the chapter/module level metadata can go into those html files.
 * Assume that book level metadata applies to all modules unless otherwise specified (especially if we can point to the metdata within the -nav.html file.
 * Have specifications in the module if they are different from the book level stuff.
 
-## Background
+## Mockups
+
+* [http://oerpub.github.io/uidesigns/max/editor-ideas/w-editor-27.html](w-editor-27.html) shows a dialog that comes up if you click "Edit authors/description" next to the module title. It uses tabs to keep the dialog from getting too long.
+* https://github.com/oerpub/github-bookeditor/tree/mockup-toc-icons-06](branch:mockup-toc-icons-06), which shows a new "v ->" set of icons next to each book, chapter, module. The -> always opens the thing for editing. The v has a little menu with "rename, edit author/description, delete" inside it. These show up on hover over the "v" so that it is one click to get to those actions. We thus have a way to edit metadata for modules and collections, we have made opening books for editing and renaming things easier.
+
+## Metadata Format Background
 
 ### Connexions metadata fields
 
