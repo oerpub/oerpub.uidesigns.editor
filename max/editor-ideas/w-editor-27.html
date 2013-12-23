@@ -2882,6 +2882,23 @@ el = 309;
   });
 
 
+  $("#ema-authors-custom").live("click", function(e) {
+    $("#ema-authors-list").removeClass("authors-inherit");
+    $("#ema-authors-list").find("input").removeAttr("disabled");
+  });
+  $("#ema-authors-inherit").live("click", function(e) {
+    var emaa = confirm("This will remove any custom changes you've made to this module's authorship. Are you sure you want to continue?");
+    if (emaa == true) {
+      $("#ema-authors-list").addClass("authors-inherit");
+      $("#ema-authors-list").find("input").attr("disabled","disabled");
+    } else {
+      return false;
+    }
+  });
+  $("#ema-authors-list.authors-inherit *").live("click", function(e) {
+    return false;
+  });
+  
   function addExamHintIfEmpty(ce,e) {
     if (ce.parent(".example-contents").length && ce.text().trim() == '') {
       var ht = '<span class="hint-text example-hint-text">Type the text of your example here. \
@@ -13237,6 +13254,43 @@ h4 .section-copy{
   padding-left: 0;
 }
 
+.authors-inherit, .authors-inherit * {
+  color: #999 !important;
+  border-color: #999 !important;
+}
+
+.authors-inherit .headeraction {
+  display: none;
+}
+
+#roles-picker {
+  border: 0 solid #000;
+  border-width: 2px 0;
+  font-weight: bold;
+  margin: 1em 0;
+}
+.table-row-top-filled {
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+.table-row-mid {
+  text-align: center;
+}
+#roles-picker .roles-row {
+  font-weight: normal;
+}
+#ema-authors-list {
+  margin: 1em 0;
+}
+
+#roles-table {
+  margin: .5em 0 !important;
+}
+
+#roles-headers{
+  border-bottom: 1px solid #000;
+}
+
 </style>
 
 
@@ -16819,7 +16873,7 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
                                             </div>
                                         </div>
                                     </div>
-
+<!--
                                     <div id="formentry-fl" class="formentry">
                                         <div class="formlabel">
 
@@ -16869,15 +16923,46 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
 
                                         </div>
                                     </div>
-
+-->
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
   </div>
-  <div class="element-options-contents" id="ema-authors">
-    To do.
+  <div class="element-options-contents" id="ema-authors" style="display: none;">
+    <input type="radio" id="ema-authors-inherit" name="ema-authors-radio" checked="checked"/> <label for="ema-authors-inherit">Use same authors as entire book</label>&nbsp;&nbsp;
+    <input type="radio" id="ema-authors-custom" name="ema-authors-radio"/> <label for="ema-authors-custom">Use custom roles</label>
+    <div id="ema-authors-list" class="authors-inherit">
+    
+                <div class="simplemodal-data" id="roles-picker" style="">
+                    <table id="roles-table" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="table-row-top"></td>
+                                <td class="table-row-top-filled" colspan="3">Required Roles</td>
+                                <td class="table-row-top-filled" colspan="2">Optional Roles</td>
+                                <td></td>
+                            </tr>
+                            <tr id="roles-headers">
+                                <td id="" class="table-row-mid" style="text-align:left;" width="200">Username</td>
+                                <td id="" class="table-row-mid" width="110">Author</td>
+                                <td id="" class="table-row-mid" width="110">Maintainer</td>
+                                <td id="" class="table-row-mid" width="110">Copyright</td>
+                                <td id="" class="table-row-mid" width="110">Editor</td>
+                                <td id="" class="table-row-mid" width="110">Translator</td>
+                                <td id="" width="24"></td>
+                            </tr>
+                        <tr class="roles-row" user_id="starkenbury"><td id="roles-last-row-user" class="table-row-bottom">Maxine Starkenbury</td><td id="roles-last-row-authors" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" checked="checked" id="checkbox-authors-starkenbury" type="checkbox"></td><td id="roles-last-row-maintainers" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" checked="checked" id="checkbox-maintainers-starkenbury" type="checkbox"></td><td id="roles-last-row-copyright" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" checked="checked" id="checkbox-copyright-starkenbury" type="checkbox"></td><td id="roles-last-row-editors" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" id="checkbox-editors-starkenbury" type="checkbox"></td><td id="roles-last-row-translators" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" id="checkbox-translators-starkenbury" type="checkbox"></td><td id="roles-last-row-remove" style="text-align:center;"><img src="static/images/delete_icon.png" alt="Delete" id="remove-starkenbury"></td></tr></tbody>
+                    </table>
+                    <div class="headeraction" style="float:left;margin-top:5px;margin-left:0;"><span href="#" id="add-role" class="button">Add user</span></div>
+<!--
+                    <div class="headeraction" style="float:right;margin-top:5px;margin-right:26px;"><span href="#" id="cancel-roles" class="button">Cancel</span></div>
+                    <div class="headeraction" style="float:right;margin-top:5px;"><span href="#" id="submit-roles" class="button">Done</span></div>
+-->
+                </div>
+    
+    </div>
   </div>
 </div>
 
