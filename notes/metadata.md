@@ -42,6 +42,7 @@ and the chapter/module level metadata can go into those html files.
  * When a new book is created, make it easy to fill out metadata then.
  * Separate the summary into the second tab and add a toolbar to it. 
  * Add license choice to the metadata
+ * Incorporate the module/chapter/book icons from branch 06 for getting to edit/metadata/delete.
 
 ## Metadata Format Background
 
