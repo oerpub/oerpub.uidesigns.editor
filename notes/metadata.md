@@ -36,12 +36,12 @@ and the chapter/module level metadata can go into those html files.
 ### Notes from Dec. 24th meeting
 
 * Use [http://oerpub.github.io/uidesigns/max/editor-ideas/w-editor-29.html](w-editor-29.html) as the basis
-** Borrow the radio buttons from [http://oerpub.github.io/uidesigns/max/editor-ideas/w-editor-30.html](w-editor-30.html)
-** For simplicity of the model, either point to the metadata from the book, or start with a clean slate of metadata. We talked a long time about how to prepopulate with book metadata and allow individual changes, but there are many edge cases and we felt that the additional functionality wasn't worth the potential for confusion.
-** If there is no book metadata, and someone clicks to edit module metadata, first ask if they would like to edit the book metadata [edit book metadata] [continue wtih module metdata]. The wording needs a lot of work, but the idea is to encourage that the book level metadata be filled out.
-** When a new book is created, make it easy to fill out metadata then.
-** Separate the summary into the second tab and add a toolbar to it. 
-** Add license choice to the metadata
+ * Borrow the radio buttons from [http://oerpub.github.io/uidesigns/max/editor-ideas/w-editor-30.html](w-editor-30.html)
+ * For simplicity of the model, either point to the metadata from the book, or start with a clean slate of metadata. We talked a long time about how to prepopulate with book metadata and allow individual changes, but there are many edge cases and we felt that the additional functionality wasn't worth the potential for confusion.
+ * If there is no book metadata, and someone clicks to edit module metadata, first ask if they would like to edit the book metadata [edit book metadata] [continue wtih module metdata]. The wording needs a lot of work, but the idea is to encourage that the book level metadata be filled out.
+ * When a new book is created, make it easy to fill out metadata then.
+ * Separate the summary into the second tab and add a toolbar to it. 
+ * Add license choice to the metadata
 
 ## Metadata Format Background
 
