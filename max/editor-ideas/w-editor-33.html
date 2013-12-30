@@ -2902,12 +2902,14 @@ el = 309;
   $("#ema-authors-custom").live("click", function(e) {
     $("#ema-authors-list").removeClass("authors-inherit");
     $("#ema-authors-list").find("input").removeAttr("disabled");
+    $("#ema-authors-list").find(".select2-search-choice").hide();
   });
   $("#ema-authors-inherit").live("click", function(e) {
     var emaa = confirm("This will remove any custom changes you've made to this module's authorship. Are you sure you want to continue?");
     if (emaa == true) {
       $("#ema-authors-list").addClass("authors-inherit");
       $("#ema-authors-list").find("input").attr("disabled","disabled");
+      $("#ema-authors-list").find(".select2-search-choice").show();
     } else {
       return false;
     }
@@ -3132,7 +3134,12 @@ el = 309;
   }
 
   $("#cnx_module_header").live("click", function(e){
-    $("#edit-description-authors-dialog").dialog("open");
+    var bookOrModule = confirm("It appears you haven't yet set description, authors, and other metadata for the entire book yet.  We highly recommend you set these for the book before setting them for each module.  Edit the book's values first?");
+    if (bookOrModule == true) {
+        $("#edit-book-description-authors-dialog").dialog("open");
+    } else {
+      $("#edit-description-authors-dialog").dialog("open");
+    }
     return false;
   });
   
@@ -4958,7 +4965,7 @@ original.find(".edit-action .icon-content").attr("title","This icon indicates th
     }
   });
   
-  $("#edit-description-authors-dialog").dialog({
+  $("#edit-description-authors-dialog, #edit-book-description-authors-dialog").dialog({
     width: 800,
     autoOpen: false,
     modal: true,
@@ -13382,12 +13389,13 @@ h4 .section-copy{
   color: #666;
 }
 
-#edit-description-authors-dialog .formlabel {
+#edit-description-authors-dialog .formlabel, #edit-book-description-authors-dialog .formlabel {
   float: left;
   min-width: 150px;
 }
 
-#edit-description-authors-dialog input, #edit-description-authors-dialog textarea {
+#edit-description-authors-dialog input, #edit-description-authors-dialog textarea, 
+#edit-book-description-authors-dialog input, #edit-book-description-authors-dialog textarea {
 padding: 5px 0;
 border: 1px solid #aaaaaa;
 border-radius: 0;
@@ -16835,7 +16843,7 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
 <div class="element-options" id="edit-description-authors-dialog" title="Edit the authors and other metadata on this module" style="display: none;">
   <ul class="element-options-tabs">
     <li class="selected" id="ema-basic-tab">
-      <a href="#">Description</a>
+      <a href="#">Module Description</a>
     </li>
     <li id="ema-summary-tab">
       <a href="#">Summary</a>
@@ -17362,6 +17370,429 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
                 </div>
                 -->
     </div>
+  </div>
+</div>
+
+
+<div class="element-options" id="edit-book-description-authors-dialog" title="Edit the authors and other metadata on this book" style="display: none;">
+  <ul class="element-options-tabs">
+    <li class="selected" id="ebma-basic-tab">
+      <a href="#"><!-- <img src="toolbar/book-02.png"/> -->Book Description</a>
+    </li>
+    <li id="ebma-summary-tab">
+      <a href="#">Summary</a>
+    </li>
+    <li id="ebma-authors-tab">
+      <a href="#">Authors</a>
+    </li>
+  </ul>
+  <div class="element-options-contents" id="ebma-basic">
+                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                            <tr>
+                            <!--
+                                <td width="50%" valign="top">
+                                --><td>
+                                    <div id="page-title-book">
+                                    <!--
+                                        <h1>
+                                            Describe module
+                                        </h1>
+                                        -->
+                                    </div>
+                                    <div class="formentry">
+                                        <label class="formlabel">Title</label>
+                                        <span class="formfieldASDF">
+                                            <input name="title" size="60" value="Advanced Algebra II: Conceptual Explanations" type="text" class="aloha-empty">
+                                        </span>
+                                    </div>
+<!--
+    <input type="radio" id="ebma-metadata-inherit" name="ebma-metadata-radio" checked="checked"/> <label for="ebma-metadata-inherit">Use same values as entire book</label>&nbsp;&nbsp;
+    <input type="radio" id="ebma-metadata-custom" name="ebma-metadata-radio"/> <label for="ebma-metadata-custom">Use custom values</label>
+    <div id="ebma-metadata-list" class="authors-inherit">
+-->                                    
+                                    <div class="formentry" title="Select the subject categories that apply to this module.">
+                                        <label class="formlabel">Subject</label>
+                                        <div class="select2-container select2-container-multi formfield" id="s2id_autogen1-asdf"><ul class="select2-choices ui-sortable">  <!-- <li class="select2-search-choice">    <div>Mathematics and Statistics</div>    <a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-choice">    <div>Business</div>    <a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" class="select2-input" id="s2id_autogen2-asdf" style="width: 10px;">  </li>--></ul></div>
+                                    </div>
+                                    <!--
+                                                                    </td>
+                                <td width="50%" valign="top">
+                                -->
+
+
+                                    <div class="formentry" title="Select the primary language for this module.">
+                                        <div class="formlabel">Language</div>
+                                        <!--
+                                        <div class="forminfo">Select the primary language for this module.</div>
+                                        -->
+                                        <div class="formfield"><select id="language-book" name="language">
+<option value="af">Afrikaans</option>
+<option value="ay">Aymara</option>
+<option value="az">Azəri Türkçəsi</option>
+<option value="id">Bahasa Indonesia</option>
+<option value="ms">Bahasa Melayu</option>
+<option value="jw">Basa Jawi</option>
+<option value="ba">Bashkir</option>
+<option value="bh">Bihari</option>
+<option value="bi">Bislama</option>
+<option value="bs">Bosanski</option>
+<option value="br">Brezhoneg</option>
+<option value="my">Burmese</option>
+<option value="ca">Català</option>
+<option value="ch">Chamoru</option>
+<option value="co">Corsu</option>
+<option value="cy">Cymraeg</option>
+<option value="da">Dansk</option>
+<option value="de">Deutsch</option>
+<option value="et">Eesti</option>
+<option selected="selected" value="en">English</option>
+<option value="es">Español</option>
+<option value="eo">Esperanto</option>
+<option value="eu">Euskara</option>
+<option value="fj">Fiji</option>
+<option value="fr">Français</option>
+<option value="fy">Frysk</option>
+<option value="fo">Føroyska</option>
+<option value="ga">Gaeilge</option>
+<option value="gv">Gaelg</option>
+<option value="gl">Galego</option>
+<option value="kl">Greenlandic</option>
+<option value="gn">Guarani</option>
+<option value="gd">Gàidhlig</option>
+<option value="hr">Hrvatski</option>
+<option value="ia">Interlingua</option>
+<option value="ie">Interlingue</option>
+<option value="ik">Inupiak</option>
+<option value="it">Italiano</option>
+<option value="kw">Kernewek</option>
+<option value="rn">Kirundi</option>
+<option value="sw">Kiswahili</option>
+<option value="rw">Kiyarwanda</option>
+<option value="ku">Kurdí</option>
+<option value="oc">Languedoc</option>
+<option value="la">Latin</option>
+<option value="lv">Latviešu</option>
+<option value="to">Lea faka-Tonga</option>
+<option value="lt">Lietuviskai</option>
+<option value="li">Limburgs</option>
+<option value="ln">Lingala</option>
+<option value="lb">Lëtzebuergesch</option>
+<option value="hu">Magyar</option>
+<option value="mg">Malagasy</option>
+<option value="mt">Malti</option>
+<option value="mi">Maori</option>
+<option value="mo">Moldavian</option>
+<option value="na">Nauru</option>
+<option value="nl">Nederlands</option>
+<option value="no">Norsk</option>
+<option value="se">Northern Sámi</option>
+<option value="nn">Nynorsk</option>
+<option value="om">Oromo</option>
+<option value="pl">Polski</option>
+<option value="pt">Português</option>
+<option value="qu">Quechua</option>
+<option value="ro">Română</option>
+<option value="rm">Rumantsch</option>
+<option value="sm">Samoan</option>
+<option value="sg">Sangho</option>
+<option value="sh">Serbo-Croatian</option>
+<option value="st">Sesotho</option>
+<option value="tn">Setswana</option>
+<option value="sn">Shona</option>
+<option value="sq">Shqip</option>
+<option value="sd">Sindhi</option>
+<option value="si">Singhalese</option>
+<option value="ss">Siswati</option>
+<option value="sk">Slovenčina</option>
+<option value="sl">Slovenščina</option>
+<option value="so">Somali</option>
+<option value="su">Sudanese</option>
+<option value="fi">Suomi</option>
+<option value="sv">Svenska</option>
+<option value="tl">Tagalog</option>
+<option value="vi">Tiếng Việt</option>
+<option value="ts">Tsonga</option>
+<option value="tw">Twi</option>
+<option value="tr">Türkçe</option>
+<option value="ug">Uigur</option>
+<option value="vo">Volapük</option>
+<option value="wa">Walon</option>
+<option value="wo">Wolof</option>
+<option value="yo">Yorùbá</option>
+<option value="za">Zhuang</option>
+<option value="xh">isiXhosa</option>
+<option value="zu">isiZulu</option>
+<option value="jbo">lojban</option>
+<option value="is">Íslenska</option>
+<option value="cs">Čeština</option>
+<option value="el">Ελληνικά</option>
+<option value="uz">Ўзбекча</option>
+<option value="be">Беларускі</option>
+<option value="bg">Български</option>
+<option value="ky">Кыргыз</option>
+<option value="mk">Македонски</option>
+<option value="mn">Монгол</option>
+<option value="ru">Русский</option>
+<option value="tg">Тоҷики</option>
+<option value="uk">Українська</option>
+<option value="ab">бызшәа</option>
+<option value="aa">магIарул мацI</option>
+<option value="sr">српски</option>
+<option value="tt">татарча</option>
+<option value="tk">түркmенче</option>
+<option value="hy">Հայերէն</option>
+<option value="he">עברית</option>
+<option value="yi">ײִדיש</option>
+<option value="ur">اردو</option>
+<option value="ar">العربية</option>
+<option value="fa">فارسی</option>
+<option value="ha">هَوُس</option>
+<option value="ps">پښتو</option>
+<option value="ks">काऽशुर</option>
+<option value="ne">नेपाली</option>
+<option value="mr">मराठी</option>
+<option value="sa">संस्कृत</option>
+<option value="hi">हिंदी</option>
+<option value="as">অসমিয়া</option>
+<option value="bn">বাংলা</option>
+<option value="pa">ਪੰਜਾਬੀ</option>
+<option value="gu">ગુજરાતી</option>
+<option value="or">ଓଡ଼ିଆ</option>
+<option value="ta">தமிழ</option>
+<option value="te">తెలుగు</option>
+<option value="kn">ಕನ್ನಡ</option>
+<option value="ml">മലയാളം</option>
+<option value="th">ไทย</option>
+<option value="lo">ພາສາລາວ</option>
+<option value="bo">བོད་སྐད་</option>
+<option value="dz">རྫོང་ཁ</option>
+<option value="ka">ქართული</option>
+<option value="ti">ትግርኛ</option>
+<option value="am">አማርኛ</option>
+<option value="iu">ᐃᓄᒃᑎᑐᑦ</option>
+<option value="km">ខ្មែរ</option>
+<option value="zh">中文</option>
+<option value="ja">日本語</option>
+<option value="ko">한국어</option>
+<option value="kk">ﻗﺎﺯﺍﻗﺸﺎ</option>
+</select></div>
+                                    </div>
+                                    <div class="formentry" title="Enter each keyword on its own line. Keywords are not displayed on the content, but are used behind the scenes to help people find it in searches.">
+                                        <div class="formlabel">Keywords</div>
+                                        <!--
+                                        <div class="forminfo">Enter each keyword on its own
+                                            line. Keywords are not displayed on the content, but
+                                            are used behind the scenes to help people find it in
+                                            searches.</div>
+                                            -->
+                                        <div class="formfield">
+                                        <!--
+                                            <textarea name="keywords" rows="2" cols="30"></textarea>
+                                            -->
+                                            <div class="select2-container select2-container-multi" id="s2id_autogen3-asdf"><ul class="select2-choices ui-sortable">  <!-- <li class="select2-search-choice">    <div>exponents</div>    <a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-choice">    <div>algebra</div>    <a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" class="select2-input" id="s2id_autogen4" style="width: 10px;">  </li> --></ul></div>
+                                        </div>
+                                    </div>
+                                    <div class="formentry" id="formentry-ga-book">
+                                        <div class="formlabel">
+                                            <!--
+                                            <input
+                                                type="checkbox" id="google_code_opener-book"
+                                                name="google_code_opener"/>
+                                                -->
+                                            Google Analytics
+                                        </div>
+                                        <div class="errortext" style="display: none;">
+                                            The tracking code you entered is not a valid format.
+                                        </div>
+                                        <div id="ga-field-book" style="display: block;">
+                                        <!--
+                                            <div class="forminfo">Enter a Google Analytics Tracking Code (e.g. UA-xxxxxxx-x) for this content to track usage.</div>
+                                            -->
+                                            <div class="formfield">
+                                                <input type="text" name="google_code" size="60"
+                                                value="" placeholder="Enter a Google Analytics Code to track views on this module"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="formentry">
+                                        <div class="formlabel">
+                                            License
+                                        </div>
+                                        <div class="formfield">                                    
+        <select id="metadata-license-book">
+          <option>Choose a license</option>
+          <option>Creative Commons Attribution - CC-BY</option>
+          <option>Creative Commons Attribution-NoDerivs - CC BY-ND</option>
+          <option>Creative Commons Attribution-ShareAlike - CC BY-SA</option>
+          <option>Creative Commons Attribution-NonCommercial - CC BY-NC</option>
+          <option>Creative Commons Attribution-NonCommercial-ShareAlike - CC BY-NC-SA</option>
+          <option>Creative Commons Attribution-NonCommercial-NoDerivs - CC BY-NC-ND</option>
+          <option>Public domain</option>
+          <option>other</option>
+        </select>
+                                        </div>
+                                    </div>
+<!--
+</div>
+-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+  </div>
+  
+  <div class="element-options-contents" id="ebma-summary" style="display: none;">
+                                    <div class="formentry" title="Enter a summary of the module.">
+                                        <div class="formlabel">Summary</div>
+                                        <!--
+                                        <div class="forminfo">Enter a summary of the module.</div>
+                                        -->
+                                        
+                                        
+                                        <div id="summary-toolbar">
+  <div class="btn-toolbar2" style="margin: 0;">
+  <div id="summary-icon-set">
+<!--
+  <span class="toolbar-function toolbar-dd toolbar-text-menu disabled" id="toolbar-format-text">
+    <a class="toolbar-text" href="#" title="Change formatting">Text Format</a>
+    <a class="toolbar-icon" href="#" title="Change formatting">
+    </a>
+  </span>
+-->
+  <span class="toolbar-function" id="summary-toolbar-bold">
+    <a class="toolbar-icon" href="#" title="Bold (Ctrl + B)">
+    </a>
+  </span>
+  <span class="toolbar-function" id="summary-toolbar-italics">
+    <a class="toolbar-icon" href="#" title="Italics (Ctrl + I)">
+    </a>
+  </span>
+  <span class="toolbar-function" id="summary-toolbar-underline">
+    <a class="toolbar-icon" href="#" title="Underline (Ctrl + U)">
+    </a>
+  </span>
+  <span class="toolbar-function" id="summary-toolbar-superscript">
+    <a class="toolbar-icon" href="#" title="Superscript">
+    </a>
+  </span>
+  <span class="toolbar-function" id="summary-toolbar-subscript">
+    <a class="toolbar-icon" href="#" title="Subscript">
+    </a>
+  </span>
+  <span class="separator">  </span>
+  <span class="toolbar-function" id="summary-toolbar-link">
+    <a class="toolbar-icon" href="#" title="Link">
+    </a>
+  </span>
+  <!--
+  <span class="toolbar-function" id="summary-toolbar-footnote">
+    <a class="toolbar-icon" href="#" title="Footnote">
+    </a>
+  </span>
+  -->
+  <span class="separator">  </span>
+  <span class="toolbar-function" id="summary-toolbar-unorderedlist">
+    <a class="toolbar-icon" href="#" title="Unordered list">
+    </a>
+  </span>
+  <span class="toolbar-function" id="summary-toolbar-orderedlist">
+    <a class="toolbar-icon" href="#" title="Ordered list">
+    </a>
+  </span>
+  <span class="toolbar-function toolbar-dd" id="summary-toolbar-olist-options">
+    <a class="toolbar-icon" href="#" title="Choose numbering style">
+    </a>
+  </span>
+  <span class="toolbar-function disabled" id="summary-toolbar-indent">
+    <a class="toolbar-icon" href="#" title="Indent list item (move right)">
+    </a>
+  </span>
+  <span class="toolbar-function disabled" id="summary-toolbar-unindent">
+    <a class="toolbar-icon" href="#" title="Unindent list item (move left)">
+    </a>
+  </span>
+
+  </div>
+  </div>
+</div>
+                                        
+                                        
+                                        
+                                        
+                                        <div class="formfield" style="margin-left: 150px;">
+                                            <textarea name="summary" rows="4" cols="58"></textarea>
+                                        </div>
+                                        <br/><br/><br/><br/><br/>
+                                    </div>
+  </div>
+  <div class="element-options-contents" id="ebma-authors" style="display: none;">
+  <!--
+    <input type="radio" id="ebma-authors-inherit" name="ebma-authors-radio" checked="checked"/> <label for="ebma-authors-inherit">Use same authors as entire book</label>&nbsp;&nbsp;
+    <input type="radio" id="ebma-authors-custom" name="ebma-authors-radio"/> <label for="ebma-authors-custom">Use custom roles</label>
+    <div id="ebma-authors-list" class="authors-inherit">
+    -->
+    
+                                    <div class="formentry">
+                                        <div class="formlabel">Authors</div>
+                                        <!--
+                                        <div class="forminfo">Enter each keyword on its own
+                                            line. Keywords are not displayed on the content, but
+                                            are used behind the scenes to help people find it in
+                                            searches.</div>
+                                            -->
+                                        <div class="formfield">
+                                            <div class="select2-container select2-container-multi" id="s2id_autogen3-adsf"><ul class="select2-choices ui-sortable">  <!--<li class="select2-search-choice">    <div>Maxine Starkenbury</div>    <a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" class="select2-input" id="s2id_autogen4" style="width: 10px;">  </li>--></ul></div>
+                                        </div>
+                                    </div>
+                                    <div class="formentry">
+                                        <div class="formlabel">Copyright Holders</div>
+                                        <div class="formfield">
+                                            <div class="select2-container select2-container-multi" id="s2id_autogen3"><ul class="select2-choices ui-sortable">  <!--<li class="select2-search-choice">    <div>Maxine Starkenbury</div>    <a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" class="select2-input" id="s2id_autogen4" style="width: 10px;">  </li>--></ul></div>
+                                        </div>
+                                    </div>
+                                    <div class="formentry">
+                                        <div class="formlabel">Editors (optional)</div>
+                                        <div class="formfield">
+                                            <div class="select2-container select2-container-multi" id="s2id_autogen3"><ul class="select2-choices ui-sortable">  <li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" class="select2-input" id="s2id_autogen4" style="width: 10px;">  </li></ul></div>
+                                        </div>
+                                    </div>
+                                    <div class="formentry">
+                                        <div class="formlabel">Translators (optional)</div>
+                                        <div class="formfield">
+                                            <div class="select2-container select2-container-multi" id="s2id_autogen3"><ul class="select2-choices ui-sortable">  <li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" class="select2-input" id="s2id_autogen4" style="width: 10px;">  </li></ul></div>
+                                        </div>
+                                    </div>
+<!--    
+                <div class="simplemodal-data" id="roles-picker" style="">
+                    <table id="roles-table" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="table-row-top"></td>
+                                <td class="table-row-top-filled" colspan="3">Required Roles</td>
+                                <td class="table-row-top-filled" colspan="2">Optional Roles</td>
+                                <td></td>
+                            </tr>
+                            <tr id="roles-headers">
+                                <td id="" class="table-row-mid" style="text-align:left;" width="200">Username</td>
+                                <td id="" class="table-row-mid" width="110">Author</td>
+                                <td id="" class="table-row-mid" width="110">Maintainer</td>
+                                <td id="" class="table-row-mid" width="110">Copyright</td>
+                                <td id="" class="table-row-mid" width="110">Editor</td>
+                                <td id="" class="table-row-mid" width="110">Translator</td>
+                                <td id="" width="24"></td>
+                            </tr>
+                        <tr class="roles-row" user_id="starkenbury"><td id="roles-last-row-user" class="table-row-bottom">Maxine Starkenbury</td><td id="roles-last-row-authors" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" checked="checked" id="checkbox-authors-starkenbury" type="checkbox"></td><td id="roles-last-row-maintainers" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" checked="checked" id="checkbox-maintainers-starkenbury" type="checkbox"></td><td id="roles-last-row-copyright" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" checked="checked" id="checkbox-copyright-starkenbury" type="checkbox"></td><td id="roles-last-row-editors" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" id="checkbox-editors-starkenbury" type="checkbox"></td><td id="roles-last-row-translators" class="table-row-bottom" style="text-align:center;"><input disabled="disabled" id="checkbox-translators-starkenbury" type="checkbox"></td><td id="roles-last-row-remove" style="text-align:center;"><img src="static/images/delete_icon.png" alt="Delete" id="remove-starkenbury"></td></tr></tbody>
+                    </table>
+                    <div class="headeraction" style="float:left;margin-top:5px;margin-left:0;"><span href="#" id="add-role" class="button">Add user</span></div>
+                </div>
+                -->
+                
+    <!--
+    </div>
+    -->
   </div>
 </div>
 
