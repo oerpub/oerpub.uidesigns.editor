@@ -36,6 +36,13 @@
 
     <!-- Max writes: This doesn't need to be the Connexions X ... but it was useful to have something there when making these mock-ups. -->
     <link rel="shortcut icon" type="image/x-icon" href="helper_files/oerpub-logo-03.ico?" />
+    
+    <!-- FontAwesome and Bootsrap -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
 
 <link type="text/css" href="content_files/document-in-oerpub-01.css" media="screen" title="newlook" rel="stylesheet"/>
 
@@ -3133,6 +3140,7 @@ el = 309;
     $("#term-is-required").data('definition',def).dialog("open");
   }
 
+  /*
   $("#cnx_module_header").live("click", function(e){
     var bookOrModule = confirm("It appears you haven't yet set description, authors, and other metadata for the entire book yet.  We highly recommend you set these for the book before setting them for each module.  Edit the book's values first?");
     if (bookOrModule == true) {
@@ -3140,6 +3148,19 @@ el = 309;
     } else {
       $("#edit-description-authors-dialog").dialog("open");
     }
+    return false;
+  });
+  */
+  $("#cnx_module_header").live("click", function(e){
+    $("#book-or-module").dialog("open");
+    /*
+    var bookOrModule = confirm("It appears you haven't yet set description, authors, and other metadata for the entire book yet.  We highly recommend you set these for the book before setting them for each module.  Edit the book's values first?");
+    if (bookOrModule == true) {
+        $("#edit-book-description-authors-dialog").dialog("open");
+    } else {
+      $("#edit-description-authors-dialog").dialog("open");
+    }
+    */
     return false;
   });
   
@@ -3638,21 +3659,41 @@ $(function() {
     $(this).prepend('<span class="change-location-2" title="Edit/rename this module" data-cltype="module"><a href="#"><img src="content_files/pencil-03.png" width="12"/></a></span>')
     $(this).prepend('<span class="change-location-3" title="Delete this module"><a href="#"><img src="content_files/remove-element-08.png"/></a></span>')
 */
-    $(this).prepend('<span class="change-location-4" data-cltype="module"><span href="#" title="Edit this module"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+//    $(this).prepend('<span class="change-location-4" data-cltype="module"><span href="#" title="Edit this module"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+      $(this).prepend('<span class="toc-icon fa fa-stack pull-right" title="Go edit this module"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-arrow-right fa-stack-1x"></i></span>\
+      <span class="pull-right dropdown">\
+  <span href="" class="pull-right dropdown-toggle toc-icon" data-toggle="dropdown" title="Rename/delete this module">\
+    <i class="fa fa-pencil"></i>\
+  </span>\
+  <ul class="dropdown-menu">\
+    <li>\
+      <button type="button" class="btn btn-link"><i class="fa-pencil"></i> Rename this module</button>\
+    </li>\
+    <li>\
+      <button type="button" class="btn btn-link><i class="fa-pencil"></i> Edit description/authors</button>\
+    </li>\
+    <li>\
+      <button type="button" class="btn btn-link"><i class="icon-remove"></i> Delete this module</button>\
+    </li>\
+  </ul>\
+</span>\
+      ');
   });
   $("#cnx_course_navigation li:not(.cnx_current) a").each(function(e){
 /*
     $(this).before('<span class="change-location-3" title="Delete this module"><a href="#"><img src="content_files/remove-element-08.png"/></a></span>')
     $(this).before('<span class="change-location-2" title="Edit/rename this module" data-cltype="module"><a href="#"><img src="content_files/pencil-03.png" width="12"/></a></span>')
 */
-    $(this).before('<span class="change-location-4" data-cltype="module"><span href="#" title="Edit this module"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+//    $(this).before('<span class="change-location-4" data-cltype="module"><span href="#" title="Edit this module"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+      $(this).prepend('<span class="toc-icon fa fa-stack pull-right" title="Go edit this module"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-arrow-right fa-stack-1x"></i></span>');
   });
   $("#cnx_course_navigation .cnx_chapter_header").each(function(e){
 /*
     $(this).before('<span class="change-location-3" title="Delete this division"><a href="#"><img src="content_files/remove-element-08.png"/></a></span>')
     $(this).before('<span class="change-location-2" title="Rename this division" data-cltype="division"><a href="#"><img src="content_files/pencil-03.png" width="12"/></a></span>')
 */    
-    $(this).before('<span class="change-location-4" data-cltype="division"><span href="#" title="Edit this division"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+//    $(this).before('<span class="change-location-4" data-cltype="division"><span href="#" title="Edit this division"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+      $(this).prepend('<span class="toc-icon fa fa-stack pull-right" title="Go edit this division"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-arrow-right fa-stack-1x"></i></span>');
   });
   $("#cnx_course_navigation #current .change-location-2, #cnx_course_navigation #current .change-location-3").remove();
   $("#dashboard-contents li[data-media-type='application/vnd.org.cnx.collection'] > .editor-node-body").each(function(e){
@@ -3660,14 +3701,16 @@ $(function() {
     $(this).prepend('<span class="change-location-2" title="Edit/rename this book" data-cltype="book"><a href="#"><img src="content_files/pencil-03.png" width="12"/></a></span>')
     $(this).prepend('<span class="change-location-3" title="Delete this book"><a href="#"><img src="content_files/remove-element-08.png"/></a></span>')
 */
-    $(this).prepend('<span class="change-location-4" data-cltype="book"><span href="#" title="Edit this book"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+//    $(this).prepend('<span class="change-location-4" data-cltype="book"><span href="#" title="Edit this book"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+      $(this).prepend('<span class="toc-icon fa fa-stack pull-right" title="Go edit this book"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-arrow-right fa-stack-1x"></i></span>');
   });
   $("#dashboard-contents li[data-media-type='application/vnd.org.cnx.folder'] > .editor-node-body").each(function(e){
 /*
     $(this).prepend('<span class="change-location-2" title="Rename this folder" data-cltype="folder"><a href="#"><img src="content_files/pencil-03.png" width="12"/></a></span>')
     $(this).prepend('<span class="change-location-3" title="Delete this folder"><a href="#"><img src="content_files/remove-element-08.png"/></a></span>')
 */
-    $(this).prepend('<span class="change-location-4" data-cltype="folder"><span href="#" title="Edit this folder"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+//    $(this).prepend('<span class="change-location-4" data-cltype="folder"><span href="#" title="Edit this folder"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+      $(this).prepend('<span class="toc-icon fa fa-stack pull-right" title="Go edit this folder"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-arrow-right fa-stack-1x"></i></span>');
   });
   $("#dashboard-contents li, #cnx_course_navigation li").live("mouseenter", function(e){
 /*
@@ -3681,29 +3724,37 @@ $(function() {
       if (!$(this) == thiscl2.find(".cl2-menu")) $(this).remove();
     });
     */
+    /*
     var thiscl4 = $(this).find(".change-location-4").first();
     $(".cl4-menu").each(function(){
       if (!$(this) == thiscl4.find(".cl4-menu")) $(this).remove();
+    });
+    */
+    var thisTocIcon = $(this).find(".toc-icon").first();
+    $(".dropdown-menu").each(function(){
+      if (!$(this) == thisTocIcon.find(".dropdown-menu")) $(this).remove();
     });
     $(this).find(".change-location").first().css("visibility","visible");
     $(this).find(".change-location-2").first().css("visibility","visible");
     $(this).find(".change-location-3").first().css("visibility","visible");
     $(this).find(".change-location-4").first().css("visibility","visible");
+    $(this).find(".toc-icon").first().css("visibility","visible");
     e.stopPropagation();
   });
   $("#dashboard-contents li, #cnx_course_navigation li").live("mouseleave", function(e){
   /*
     if (!$(".cl2-menu").length) {
-  */
     if (!$(".cl4-menu").length) {
+  */
+  //  if ($this.find(".dropdown-menu").is(":visible")) {
       moduleLeave($(this),e);
-    }
+  //  }
   });
   function moduleLeave (m,e) {
     $(".change-location").css("visibility","hidden");
     $(".change-location-2").css("visibility","hidden");
     $(".change-location-3").css("visibility","hidden");
-    $(".change-location-4").css("visibility","hidden");
+    $(".change-location-4, .toc-icon").css("visibility","hidden");
   }
   $(".change-location").click(function(e){
     return false;
@@ -4988,6 +5039,29 @@ original.find(".edit-action .icon-content").attr("title","This icon indicates th
     }
   });
 
+  $("#book-or-module").dialog({
+    width: 800,
+    autoOpen: false,
+    modal: true,
+    zIndex: 600,
+    open: function(){
+    },
+    close: function(){
+    },
+    buttons: {
+      "Yes, edit book information first": function() {
+        $( this ).dialog("close");
+        $("#edit-book-description-authors-dialog").dialog("open");
+      },
+      "No thanks, just let me edit the module information": function() {
+        $( this ).dialog("close");
+        $("#edit-description-authors-dialog").dialog("open");
+      },
+      Cancel: function() {
+        $( this ).dialog("close");
+      }
+    }
+  });
   
   $("#glossary-confirm-move").dialog({
     width: 600,
@@ -7637,12 +7711,12 @@ display: none;
 */
 
 
-.btn-toolbar [class^="icon-"]{
+.toolbar .btn-toolbar [class^="icon-"]{
   height: 30px !important;
   width: 31px !important;
   background-image: url(toolbar/toolbar-sprite-08.png);
 }
-.dropdown-toggle{
+.toolbar .dropdown-toggle{
   height: 33px;
   width: 6px
 }
@@ -7656,7 +7730,7 @@ display: none;
   line-height: normal;
   padding: 0;
 }
-.dropdown-menu{
+.toolbar .dropdown-menu{
   box-shadow: 0 3px 5px rgba(0,0,0,.12);
 }
 .btn:hover .icon-table-insert{ background-position: -453px -68px; }
@@ -11212,7 +11286,8 @@ text-align: left;
   position: relative;
 }
 
-.dropdown-toggle{
+
+.toolbar .dropdown-toggle{
   display: inline-block;
   height: 33px;
   width: 17px;
@@ -11221,12 +11296,8 @@ text-align: left;
   background-repeat: no-repeat;
   margin-right: 2px;
   cursor: pointer;
-/*
-  border-left: 1px dotted #aaa;
-  border-right: 1px dotted #aaa;
-*/
 }
-.toolbar-dropdown.selected .dropdown-toggle{
+.toolbar .toolbar-dropdown.selected .dropdown-toggle{
 /*
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
   background-color: rgb(230, 230, 230);
@@ -11235,7 +11306,7 @@ text-align: left;
 
 }
 
-.dropdown-toggle:hover{
+.toolbar .dropdown-toggle:hover{
 /*
   background-color: #a8d6f3;
   background-color: #aad7f4;
@@ -11243,8 +11314,7 @@ text-align: left;
 */
   background-image: url(toolbar/arrow-down-black-07.png);
 }
-
-.dropdown-menu{
+.toolbar .dropdown-menu{
   display: inline-block;
   display: none;
   position: absolute;
@@ -11253,12 +11323,10 @@ text-align: left;
   margin-top: -3px;
   margin-right: 2px;
   border: 1px solid #b9b9b9;
-/*
   border-bottom-color: #999;
   border-right-color: #999;
-*/
 }
-.dropdown-menu, .toolbar-dropdown.selected .dropdown-toggle{
+.toolbar .dropdown-menu, .toolbar .toolbar-dropdown.selected .dropdown-toggle{
   background-color: #e2e2e2;
   box-shadow: 0px 0px 5px #aaa;
   box-shadow: 3px 3px 5px #aaa;
@@ -11266,7 +11334,7 @@ text-align: left;
   letter-spacing: normal;
   word-spacing: normal;
 }
-.dropdown-menu:before{
+.toolbar .dropdown-menu:before{
   content: "";
   position: absolute;
   top: -4px;
@@ -11275,9 +11343,6 @@ text-align: left;
   width: 15px;
   height: 5px;
   background-color: #e2e2e2;
-/*
-  border-right: 1px solid #999;
-*/
 }
 
 .ordered-list-type li{
@@ -12652,7 +12717,7 @@ h4.cnx_current{
   background-color: #fff !important;
 }
 */
-#cnx_course_navigation #current span{
+#cnx_course_navigation #current > span{
   background-image: url(content_files/right-arrow-orange-01.png);
   background-position: right 6px;
   background-color: #C5DAE9;
@@ -13126,6 +13191,8 @@ text-align: right;
   display: none;
 }
 
+.
+
 .change-location, .change-location-2, .change-location-3, .change-location-4{
   color: #369;
   float: right;
@@ -13136,6 +13203,15 @@ text-align: right;
   z-index: 600;
   margin-right: .5em;
   margin-left: .25em;
+}
+.toc-icon{
+  font-size: 8px;
+  color: #000;
+  pointer: cursor !important;
+  visibility: hidden;
+}
+.toc-icon .fa-stack-1x{
+  color: #fff;
 }
 
 .change-location-3{
@@ -14841,7 +14917,7 @@ Show tools again
 </div>
 
 
-<div id="toolbar">
+<div id="toolbar" class="toolbar">
   <div class="btn-toolbar2" style="margin: 0;">
 
   <span class="iconlike" id="hints">
@@ -16840,6 +16916,14 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
   </div>
 </div>
 
+<div id="book-or-module" title="" style="display: none;">
+  <div>
+    <p>
+      It appears you haven't yet set description, authors, and other metadata for the entire book yet.  We highly recommend you set these for the book before setting them for each module.  Edit the book's values first?
+    </p>
+  </div>
+</div>
+
 <div class="element-options" id="edit-description-authors-dialog" title="Edit the authors and other metadata on this module" style="display: none;">
   <ul class="element-options-tabs">
     <li class="selected" id="ema-basic-tab">
@@ -17234,7 +17318,7 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
                                         -->
                                         
                                         
-                                        <div id="summary-toolbar">
+                                        <div id="summary-toolbar" class="toolbar">
   <div class="btn-toolbar2" style="margin: 0;">
   <div id="summary-icon-set">
 <!--
