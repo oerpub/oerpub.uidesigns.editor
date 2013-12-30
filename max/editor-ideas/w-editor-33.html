@@ -2906,6 +2906,22 @@ el = 309;
   });
   */
 
+  $(".edit-title").live("focus", function(e){ 
+    $(this).addClass("focused");
+  });
+  $(".edit-title").live("blur", function(e){ 
+    $(this).removeClass("focused");
+  });
+  $(".edit-title").live("keyup", function(e) {
+    console.log("typing");
+    if ($(this).text().trim() == '') {
+      $(this).addClass("empty-title");
+      $(this).html("&nbsp;");
+    } else {
+      $(this).removeClass("empty-title");
+    }
+  });
+  
   $("#ema-authors-custom").live("click", function(e) {
     $("#ema-authors-list").removeClass("authors-inherit");
     $("#ema-authors-list").find("input").removeAttr("disabled");
@@ -5022,6 +5038,7 @@ original.find(".edit-action .icon-content").attr("title","This icon indicates th
     modal: true,
     zIndex: 600,
     open: function(){
+//      $("#edit-book-title").focus();
     },
     close: function(){
     /*
@@ -13614,6 +13631,35 @@ display: inline-block;
 html{
   font-size: 1em; /* stupid bootstrap */
 }
+
+.edit-title{
+  font-weight: normal;
+  color: #0E807D;
+  font-weight: bold;
+  min-width: 500px;
+  display: inline-block;
+  padding: .1em .3em;
+}
+.edit-title:after{
+  content: "click to edit";
+  font-size: .7em;
+  padding-left: .5em;
+  font-weight: normal;
+  color: #aaa;
+  font-style: italic;
+}
+.edit-title:hover:after, .edit-title.focused:after{
+  content: "";
+}
+#edit-book-title{
+  color: #0E807D;
+}
+#edit-module-title{
+  color: #E16C26;
+}
+.edit-title:hover, .edit-title.focused, .edit-title.empty-title{
+  background-color: #eee;
+}
 </style>
 
 
@@ -16928,15 +16974,23 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
 </div>
 
 <div class="element-options" id="edit-description-authors-dialog" title="Edit the authors and other metadata on this module" style="display: none;">
+
+  <div style="margin: .5em 0;">
+  <!--
+    <h3 style="display: inline; font-size: 1.25em; font-weight: bold;">Laws of Exponents</h3> (<span>click to edit</span>)
+    <input name="title" size="60" value="Laws of Exponents" type="text" class="aloha-empty" style="font-weigh: bold; font-size: 1.2em; display: none;">
+    -->
+    <h3 style="display: inline; font-size: 1.25em; font-weight: bold;">Title (required): <span contenteditable="true" id="edit-module-title" class="edit-title">Laws of Exponents</span></h3>
+  </div>
   <ul class="element-options-tabs">
     <li class="selected" id="ema-basic-tab">
-      <a href="#">Module Description</a>
-    </li>
-    <li id="ema-summary-tab">
-      <a href="#">Summary</a>
+      <a href="#">About</a>
     </li>
     <li id="ema-authors-tab">
       <a href="#">Authors</a>
+    </li>
+    <li id="ema-summary-tab">
+      <a href="#">Summary</a>
     </li>
   </ul>
   <div class="element-options-contents" id="ema-basic">
@@ -16953,12 +17007,14 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
                                         </h1>
                                         -->
                                     </div>
+                                    <!--
                                     <div class="formentry">
                                         <label class="formlabel">Title</label>
                                         <span class="formfieldASDF">
                                             <input name="title" size="60" value="Laws of Exponents" type="text" class="aloha-empty">
                                         </span>
                                     </div>
+                                    -->
     <input type="radio" id="ema-metadata-inherit" name="ema-metadata-radio" checked="checked"/> <label for="ema-metadata-inherit">Use same values as entire book</label>&nbsp;&nbsp;
     <input type="radio" id="ema-metadata-custom" name="ema-metadata-radio"/> <label for="ema-metadata-custom">Use custom values</label>
     <div id="ema-metadata-list" class="authors-inherit">
@@ -17392,9 +17448,9 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
                                         
                                         
                                         <div class="formfield" style="margin-left: 150px;">
-                                            <textarea name="summary" rows="4" cols="58"></textarea>
+                                            <textarea name="summary" rows="6" cols="58"></textarea>
                                         </div>
-                                        <br/><br/><br/><br/><br/>
+                                        <br/><br/>
                                     </div>
   </div>
   <div class="element-options-contents" id="ema-authors" style="display: none;">
@@ -17462,15 +17518,25 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
 
 
 <div class="element-options" id="edit-book-description-authors-dialog" title="Edit the authors and other metadata on this book" style="display: none;">
+
+<div style="margin: .5em 0;">
+<!--
+  <h3 style="display: inline; font-size: 1.25em; font-weight: bold;">Advanced Algebra II: Conceptual Explanations</h3> (<span>click to edit</span>)
+  -->
+  <h3 style="display: inline; font-size: 1.25em; font-weight: bold;">Title (required): <span contenteditable="true" id="edit-book-title" class="edit-title">Advanced Algebra II: Conceptual Explanations</span></h3>
+  <!--
+  <input name="title" size="60" value="Advanced Algebra II: Conceptual Explanations" type="text" class="aloha-empty" style="font-weigh: bold; font-size: 1.2em; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;">
+  -->
+</div>
   <ul class="element-options-tabs">
     <li class="selected" id="ebma-basic-tab">
-      <a href="#"><!-- <img src="toolbar/book-02.png"/> -->Book Description</a>
-    </li>
-    <li id="ebma-summary-tab">
-      <a href="#">Summary</a>
+      <a href="#"><!-- <img src="toolbar/book-02.png"/> -->About</a>
     </li>
     <li id="ebma-authors-tab">
       <a href="#">Authors</a>
+    </li>
+    <li id="ebma-summary-tab">
+      <a href="#">Summary</a>
     </li>
   </ul>
   <div class="element-options-contents" id="ebma-basic">
@@ -17487,12 +17553,14 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
                                         </h1>
                                         -->
                                     </div>
+                                    <!--
                                     <div class="formentry">
                                         <label class="formlabel">Title</label>
                                         <span class="formfieldASDF">
                                             <input name="title" size="60" value="Advanced Algebra II: Conceptual Explanations" type="text" class="aloha-empty">
                                         </span>
                                     </div>
+                                    -->
 <!--
     <input type="radio" id="ebma-metadata-inherit" name="ebma-metadata-radio" checked="checked"/> <label for="ebma-metadata-inherit">Use same values as entire book</label>&nbsp;&nbsp;
     <input type="radio" id="ebma-metadata-custom" name="ebma-metadata-radio"/> <label for="ebma-metadata-custom">Use custom values</label>
@@ -17810,9 +17878,9 @@ type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess=
                                         
                                         
                                         <div class="formfield" style="margin-left: 150px;">
-                                            <textarea name="summary" rows="4" cols="58"></textarea>
+                                            <textarea name="summary" rows="6" cols="58"></textarea>
                                         </div>
-                                        <br/><br/><br/><br/><br/>
+                                        <br/>
                                     </div>
   </div>
   <div class="element-options-contents" id="ebma-authors" style="display: none;">
@@ -17937,7 +18005,7 @@ border: 1px solid #137139;
           <h1 class="content-editable" contentEditable="true">Linear and Time-Invariant Systems</h1>
 -->
           <div id="metadata-in-doc">
-            Click to edit title, description, authors, etc.
+            Click to edit title, authors, license, etc.
           </div>
           <h1>Laws of Exponents</h1>
           <!--
