@@ -39,10 +39,11 @@
     
     <!-- FontAwesome and Bootsrap -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <!--
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
+    -->
 
 <link type="text/css" href="content_files/document-in-oerpub-01.css" media="screen" title="newlook" rel="stylesheet"/>
 
@@ -3676,6 +3677,7 @@ $(function() {
     $(this).prepend('<span class="change-location-3" title="Delete this module"><a href="#"><img src="content_files/remove-element-08.png"/></a></span>')
 */
 //    $(this).prepend('<span class="change-location-4" data-cltype="module"><span href="#" title="Edit this module"><img src="content_files/fa-expand-arrow-01.png"/></span></span>');
+/*
       $(this).prepend('<span class="toc-icon fa fa-stack pull-right" title="Go edit this module"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-arrow-right fa-stack-1x"></i></span>\
       <span class="pull-right dropdown">\
   <span href="" class="pull-right dropdown-toggle toc-icon" data-toggle="dropdown" title="Rename/delete this module">\
@@ -3694,6 +3696,8 @@ $(function() {
   </ul>\
 </span>\
       ');
+      */
+      $(this).prepend('<span class="toc-icon fa fa-stack pull-right" title="Go edit this module"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-arrow-right fa-stack-1x"></i></span>');
   });
   $("#cnx_course_navigation li:not(.cnx_current) a").each(function(e){
 /*
