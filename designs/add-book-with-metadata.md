@@ -4,7 +4,7 @@ Design for adding basic metadata at the time a new book is created.
 
 ### Step 1. Add new book
 
-![Add new book from Bookshelf](images/add-new-book.png)
+![Add new book from Bookshelf](http://oerpub.github.io/uidesigns/designs/images/add-new-book.png)
 
 Should be no change from existing implementation.
 
