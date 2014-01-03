@@ -51,7 +51,7 @@ To activate the metadata dialog so you can see all the parts, click on the modul
 - [ ] Inside subject and keywords, do light gray italics instructions. This is not on the mockup. "Use comma, or tab to separate"
 - [ ] Language : Use the list here - http://remix.oerpub.org/metadata .
 - [ ] Google Analytics: If this could work like it does on remix, and have a check box that unfolds the value. [google-analytics.png](images/google-analytics.png) [ga-unfolded.png](images/ga-unfolded.png) 
-- [ ] License: Use the same values as in the image uploader. [license.png](images/license.png)
+- [ ] License: Use the same values as in the image uploader. [licenses.png](images/licenses.png)
  
 #### Tab 2: Authors
 
