@@ -15,19 +15,18 @@ Metadata Value | Expression in OPF | Example
 ----------- | -------------------- | ------------
 title       | dc:title             | ```<dc:title>Title of the book</dc:title>```
 github repo | dc:identifier        | ```<dc:identifier id="uid">http://github.com/oerpub/demo-book/content/demo-book.opf</dc:identifier> ```
-author      | dc:creator with role=aut | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>
-    <meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>
-	<meta refines="#creator01" property="display-seq">1</meta>
-	<meta refines="#creator01" property="custom:github-id">oerpub</meta>```
-editor      | dc:creator with role=edt
-translator  | dc:creator with role=trl
-illustrator | dc:creator with role=ill
+author      | dc:creator with role=aut | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>```
+author order | meta property="display-seq" |```<meta refines="#creator01" property="display-seq">1</meta>```
+author account | meta property="custom:github-id" | ```<meta refines="#creator01" property="custom:github-id">oerpub</meta>```
+editor      | dc:creator with role=edt | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">edt</meta>```
+translator  | dc:creator with role=trl | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">trl</meta>```
+illustrator | dc:creator with role=ill | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">ill</meta>```
 copyright holder | meta dcterms:rightsHolder | ```<meta property="dcterms:rightsHolder">Mister Owner</meta>```
 language	| dc:language | ```<dc:language  xsi:type="dcterms:RFC4646">en</dc:language>```
 license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
-license URL | meta schema:useRightsUrl | 
+license URL | meta schema:useRightsUrl | ```<meta property="schema:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>```
 subject		| dc:subject xsi:type={cnx or oercommons} | ```<dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema">Humanities</dc:subject>```
-keyword		| dc:subject
+keyword		| dc:subject | ```<dc:subject>Amphibians</dc:subject>```
 derived from | meta schema:isBasedOnUrl | ```<meta property="schema:isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>```
 
 Note: In order to use the meta values from schema.org and the custom github-id, the schema and custom prefixes must declares in the package element. The need for "schema" may change because schema may become a reserved prefix in EPUB 3.01 and then won't have to be declared.
