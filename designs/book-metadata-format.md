@@ -11,10 +11,10 @@
 
 ### Mapping Table
 
-Metadata Value | Expression in OPF 
------------ | :-----------:
-title       | ```dc:title``` 
-github repo | dc:identifier
+Metadata Value | Expression in OPF | Example
+----------- | -------------------- | ------------
+title       | dc:title             | ```<dc:title>Title of the book</dc:title>```
+github repo | dc:identifier        | ```<dc:identifier id="uid">http://github.com/{owner-id}/{repo-id}/content/{this-file}.opf</dc:identifier> ```
 author      | dc:creator with role=aut
 editor      | dc:creator with role=edt
 translator  | dc:creator with role=trl
@@ -22,10 +22,12 @@ illustrator | dc:creator with role=ill
 copyright holder | meta dcterms:rightsHolder 
 language	| dc:language
 license		| dc:rights
-license URL | meta schema:useRightsUrl note: must declare schema in prefixes
-subject		| dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema"
+license URL | meta schema:useRightsUrl 
+subject		| dc:subject xsi:type={cnx or oercommons} | dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema"
 keyword		| dc:subject
-derived from | meta schema:isBasedOnUrl note: must declare schema in prefixes
+derived from | meta schema:isBasedOnUrl 
+
+Note: In order to use the meta values from schema.org, the schema prefix must declares in the package element. This may change because schema may become a reserved prefix in EPUB 3.01 and then won't have to be declared.
 
 ### Full Example
 
