@@ -14,25 +14,29 @@
 Metadata Value | Expression in OPF | Example
 ----------- | -------------------- | ------------
 title       | dc:title             | ```<dc:title>Title of the book</dc:title>```
-github repo | dc:identifier        | ```<dc:identifier id="uid">http://github.com/{owner-id}/{repo-id}/content/{this-file}.opf</dc:identifier> ```
-author      | dc:creator with role=aut
+github repo | dc:identifier        | ```<dc:identifier id="uid">http://github.com/oerpub/demo-book/content/demo-book.opf</dc:identifier> ```
+author      | dc:creator with role=aut | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>
+    <meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>
+	<meta refines="#creator01" property="display-seq">1</meta>
+	<meta refines="#creator01" property="custom:github-id">oerpub</meta>```
 editor      | dc:creator with role=edt
 translator  | dc:creator with role=trl
 illustrator | dc:creator with role=ill
-copyright holder | meta dcterms:rightsHolder 
-language	| dc:language
-license		| dc:rights
-license URL | meta schema:useRightsUrl 
-subject		| dc:subject xsi:type={cnx or oercommons} | dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema"
+copyright holder | meta dcterms:rightsHolder | ```<meta property="dcterms:rightsHolder">Mister Owner</meta>```
+language	| dc:language | ```<dc:language  xsi:type="dcterms:RFC4646">en</dc:language>```
+license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
+license URL | meta schema:useRightsUrl | 
+subject		| dc:subject xsi:type={cnx or oercommons} | ```<dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema">Humanities</dc:subject>```
 keyword		| dc:subject
-derived from | meta schema:isBasedOnUrl 
+derived from | meta schema:isBasedOnUrl | ```<meta property="schema:isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>```
 
-Note: In order to use the meta values from schema.org, the schema prefix must declares in the package element. This may change because schema may become a reserved prefix in EPUB 3.01 and then won't have to be declared.
+Note: In order to use the meta values from schema.org and the custom github-id, the schema and custom prefixes must declares in the package element. The need for "schema" may change because schema may become a reserved prefix in EPUB 3.01 and then won't have to be declared.
 
 ### Full Example
 
 ```
-<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifer="uid"	prefix="schema: http://schema.org">
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifer="uid"	prefix="schema: http://schema.org
+          custom: http://github.com/oerpub/github-bookeditor">
  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:identifier id="uid">http://github.com/{owner-id}/{repo-id}/content/{this-file}.opf</dc:identifier>
     <dc:title>Title of the book</dc:title>
@@ -59,7 +63,7 @@ Note: In order to use the meta values from schema.org, the schema prefix must de
 <dc:creator id="creator01" opf:file-as"Caroll, Lewis">Lewis Carroll</dc:creator>
 <meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>
 <meta refines="#creator01" property="display-seq">1</meta>
-<meta refines="#createor01" property="github-id">lewcar</meta>
+<meta refines="#createor01" property="custom:github-id">lewcar</meta>
     
 <dc:creator id="creator02">John Tenniel</dc:creator>
 <meta refines="#creator02" property="role" scheme="marc:relators">ill</meta>
