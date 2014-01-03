@@ -25,7 +25,7 @@ I think their should be no changes from the existing implementation, except poss
 
 ### Step 4. Request metadata
 
-Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/max/editor-ideas/w-editor-33.html)
+Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/max/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
 
 This is the same metadata collection dialog that will come up from various other interactions, but it has a couple of variations from the mockup when it comes from "Create new book". 
 
@@ -43,10 +43,16 @@ To activate the metadata dialog so you can see all the parts, click on the modul
 
 #### Tab 1: About
 
-![Book metadata: Tab 1](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab1-about.png "Make sure to change Save to Next") 
+![Book metadata: Tab 1](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab1-about.png "Make sure to change Save to Next") : Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/max/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
 
-- [ ] To be done
-
+- [ ] Modal title done. "Edit the authors and other metadata on this book"
+- [ ] Editable title area done. "Title (required): \<title\>" click to edit, highlights on hover
+- [ ] Implement subject and keywords entry. Comma, tab, or enter, should all separate entries. The entries should then work like gmail addresses, or the author ids on the connexions beta.
+- [ ] Inside subject and keywords, do light gray italics instructions. This is not on the mockup. "Use comma, or tab to separate"
+- [ ] Language : Use the list here - http://remix.oerpub.org/metadata .
+- [ ] Google Analytics: If this could work like it does on remix, and have a check box that unfolds the value. (images/google-analytics.png) (images/ga-unfolded.png) 
+- [ ] License: Use the same values as in the image uploader. (images/license.png)
+ 
 #### Tab 2: Authors
 
 ![Book metadata: Tab 2](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab2-authors.png "Make sure to change Save to Next") 
