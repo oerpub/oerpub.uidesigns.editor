@@ -92,13 +92,11 @@ author      | author | ```<meta id="author01" itemprop="author">Sample Author</m
 author order | meta property="display-seq" |```<meta refines="author01" property="display-seq">1</meta>```
 author account | meta property="custom:github-id" | ```<meta refines="#author01" property="custom:github-id">oerpub</meta>```
 publisher      | publisher | ```<meta itemprop="publisher">Sample Publisher</meta>```
-
 editor      | editor | ```<meta itemprop="editor">Sample Editor</meta>```
 translator  | contributor, refined | ```<meta id="translator01"itemprop="contributor">Sample Translator</dc:creator>```<br />```<meta refines="#translator01" property="role" scheme="marc:relators">trl</meta>```
 illustrator | illustrator | ```<meta itemprop="illustrator">Sample Illustrator</meta>```
 copyright holder | copyrightHolder | ```<meta itemprop="copyrightHolder">Mister Owner</meta>```
 language	| inLanguage | ```<meta itemprop="inLanguage" content="en"  itemtype="dcterms:RFC4646">English</meta>```
-
 license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
 license URL | useRightsUrl | ```<meta itemprop="useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>```
 subject		| dc:subject xsi:type={cnx or oercommons} | ```<dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema">Humanities</dc:subject>```
@@ -113,19 +111,18 @@ date modified | dateModified | ```<meta itemprop="dateModified">2013-11-15</meta
 <html itemscope
 	itemtype="http://schema.org/Book"
 	itemid="http://github.com/oerpub/demo-book/content/demo-book-nav.html" >
-<head>
-	<meta itemprop="name">The title of the book - maybe should go in the body</meta>
-</head>
-<body><!--?xml version="1.0" encoding="UTF-8"?-->
-  <h1 itemprop="name"> Demo Book </h1>
-  <h1>Table of Contents</h1>
-<nav>
-<ol>
-<li>
-<a href="demo-book-module1-79117edc-0ec8-40aa-8226-575a3949f25f.html">Introduction to Accounting Tricks</a>
-</li>
-</ol>
-</nav>
-</body>
+	<head>
+		<meta itemprop="name">The title of the book - maybe should go in the body</meta>
+	</head>
+	<body><!--?xml version="1.0" encoding="UTF-8"?-->
+  		<h1 itemprop="name"> Demo Book </h1>
+  		<h1>Table of Contents</h1>
+		<nav>
+			<ol>
+				<li><a href="demo-book-module1-79117edc-0ec8-40aa-8226-575a3949f25f.html">Introduction to Accounting Tricks</a>
+				</li>
+			</ol>
+		</nav>
+	</body>
 </html>
 ```
