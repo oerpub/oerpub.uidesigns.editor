@@ -25,21 +25,22 @@ translator  | dc:creator with role=trl | ```<dc:creator id="#creator01" opf:file
 illustrator | dc:creator with role=ill | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">ill</meta>```
 copyright holder | meta dcterms:rightsHolder | ```<meta property="dcterms:rightsHolder">Mister Owner</meta>```
 language	| dc:language | ```<dc:language  xsi:type="dcterms:RFC4646">en</dc:language>```
-license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
-license URL | meta schema:useRightsUrl | ```<meta property="schema:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>```
 subject		| dc:subject xsi:type={cnx or oercommons} | ```<dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema">Humanities</dc:subject>```
 keyword		| dc:subject | ```<dc:subject>Amphibians</dc:subject>```
 derived from | meta schema:isBasedOnUrl | ```<meta property="schema:isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>```
 date created | dc:date w event="publication | ```<dc:date opf:event="publication">2013-10-08 {date when new book created}</dc:date>```
 date modified | meta dcterms:modified | ```<meta properties="dcterms:modified">2013-12-19 {date of last edit}</meta>```
+license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
+license URL | meta lrmi:useRightsUrl | ```<meta property="lrmi:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>``` <br \> or ```<link rel="lrmi:useRightsUrl href="http://creativecommons.org/licenses/by/4.0/" />```
 
-Note: In order to use the meta values from schema.org and the custom github-id, the schema and custom prefixes must declares in the package element. The need for "schema" may change because schema may become a reserved prefix in EPUB 3.01 and then won't have to be declared.
+Note: In order to use the meta values from schema.org, lrmi \(for the rights URL which hasn't made it into schema.org\) and the custom github-id, the schema and custom prefixes must declares in the package element. The need for "schema" may change because schema may become a reserved prefix in EPUB 3.01 and then won't have to be declared.
 
 ### Example OPF file metadata
 
 ```
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifer="uid"	
 	prefix="schema: http://schema.org
+		  lrmi: http://http://www.lrmi.net/the-specification
           custom: http://github.com/oerpub/github-bookeditor">
  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:identifier id="uid">http://github.com/oerpub/demo-book/content/demo-book.opf</dc:identifier>
@@ -87,13 +88,12 @@ translator  | contributor, refined | ```<meta id="translator01"itemprop="contrib
 illustrator | illustrator | ```<meta itemprop="illustrator">Sample Illustrator</meta>```
 copyright holder | copyrightHolder | ```<meta itemprop="copyrightHolder">Mister Owner</meta>```
 language	| inLanguage | ```<meta itemprop="inLanguage" content="en"  itemtype="dcterms:RFC4646">English</meta>```
-license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
-license URL | useRightsUrl | ```<meta itemprop="useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>```
 subject		| about | ```<meta itemprop="about">Humanities</meta>```
-keyword		| keywords | ```<meta itemprop="keywords">Amphibians</meta>```
-derived from | isBasedOnUrl | ```<meta itemprop="isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>```
+keyword		| keywords | ```<meta itemprop="keywords">Amphibians</meta>```derived from | isBasedOnUrl | ```<meta itemprop="isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>```
 date created | dateCreated | ```<meta itemprop="dateCreated">2013-10-08</meta>```
 date modified | dateModified | ```<meta itemprop="dateModified">2013-11-15</meta>```
+license		| meta dc:rights | ```<meta property="dc:license" content="CC-BY 4.0" />```
+license URL | meta lrmi:useRightsUrl | ```<meta property="lrmi:useRightsUrl" content="http://creativecommons.org/licenses/by/4.0/" />``` <br /> or ```<link rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/" />```
 
 ### Example -nav file
 

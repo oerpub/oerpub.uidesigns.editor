@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html> <!-- This is required in HTML5 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+<html version="HTML+RDFa 1.1" xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:lrmi="http://lrmi.net/the-specification"
+> <!-- Because schema.org has no expressions for encoding license, we are using Dublin Core for this instead and encoding as RDFa -->
   <head itemscope="itemscope" itemtype="http://schema.org/Book">
   	<title itemprop="name">Siyavula Physics for Grade 12</title> <!-- Note that title is required in the head element in HTML5 -->
+  	<meta property="dc:license" content="CC-BY 4.0" />
+  	<link rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/"/>
   </head>
   <body><h1>Table of Contents</h1>
-	<nav epub:type="toc"> <!-- The W3C validator says that attributes from epub are not allowed here. -->
+	<nav epub:type="toc"> <!-- The W3C validator says that attributes from epub are not allowed here. Is this required from -->
 		<ol>
 			<li>
 				<a href="Project-intro.html">Introduction to this editor and project</a>
