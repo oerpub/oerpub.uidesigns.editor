@@ -97,26 +97,4 @@ date modified | dateModified | ```<meta itemprop="dateModified">2013-11-15</meta
 
 ### Example -nav file
 
-```
-<html itemscope itemtype="http://schema.org/Book"
-	itemid="http://github.com/oerpub/demo-book/content/demo-book-nav.html" >
-	<head>
-		<meta itemprop="name">The title of the book - maybe should go in the body</meta>
-	</head>
-	<body><!--?xml version="1.0" encoding="UTF-8"?-->
-		<div class="book-title" itemprop="name">The title of the book</div>
-		<div class="byline">By: <span itemprop="author" id="author-01">OERPUB</span></div>
-		<meta refines="author-01" property="custom:github-id" content="oerpub" />
-		<div class="book-summary" itemprop="about">This is a brief summary of this book.</div>
-
-  		<h1 itemprop="name"> Demo Book </h1>
-  		<h1>Table of Contents</h1>
-		<nav>
-			<ol>
-				<li><a href="demo-book-module1-79117edc-0ec8-40aa-8226-575a3949f25f.html">Introduction to Accounting Tricks</a>
-				</li>
-			</ol>
-		</nav>
-	</body>
-</html>
-```
+[Sample file](sample-with-microdata-nav.html)
