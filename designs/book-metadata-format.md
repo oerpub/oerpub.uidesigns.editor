@@ -1,24 +1,25 @@
 # Book metadata format
 
-## In the OPF file
+## Metadata in the OPF file
 
 *References*
 * [EPUB3 OPF Metadata reference](http://www.idpf.org/epub/30/spec/epub30-publications.html#sec-metadata-elem)
-* [Marc relator terms](http://www.loc.gov/marc/relators/relaterm.html): Author- aut,Illustrator- ill, Editor- edt, Translator- trl
+* [Marc relator terms](http://www.loc.gov/marc/relators/relaterm.html): Author- aut, Illustrator- ill, Editor- edt, Translator- trl, Publisher- pbl
 * Connexions MDML - can't find one because rhaptos.org is gone
 * [LRMI/Schema.org](http://www.lrmi.net/the-specification)
 * [Accessibility metadata from schema.org](http://www.idpf.org/accessibility/guidelines/content/meta/schema.org.php) This is what I used to determine the format for using the LRMI/Schema.org fields that we need.
 
-### Mapping Table
+### Mapping table for OPF
 
 Metadata Value | Expression in OPF | Example
 ----------- | -------------------- | ------------
 title       | dc:title             | ```<dc:title>Title of the book</dc:title>```
 github repo | dc:identifier        | ```<dc:identifier id="uid">http://github.com/oerpub/demo-book/content/demo-book.opf</dc:identifier> ```
-summary/abstract | dc:description |
+summary/abstract | dc:description | ```<dc:description> *summary/abstract with markup escaped* </dc:description>```
 author      | dc:creator with role=aut | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>```
 author order | meta property="display-seq" |```<meta refines="#creator01" property="display-seq">1</meta>```
 author account | meta property="custom:github-id" | ```<meta refines="#creator01" property="custom:github-id">oerpub</meta>```
+publisher | dc:creator with role=pbl | ```<dc:creator id="#creator01" opf:file-as="Publisher, Sample">Sample Publisher</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">pbl</meta>```
 editor      | dc:creator with role=edt | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">edt</meta>```
 translator  | dc:creator with role=trl | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">trl</meta>```
 illustrator | dc:creator with role=ill | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">ill</meta>```
@@ -34,60 +35,49 @@ date modified | meta dcterms:modified | ```<meta properties="dcterms:modified">2
 
 Note: In order to use the meta values from schema.org and the custom github-id, the schema and custom prefixes must declares in the package element. The need for "schema" may change because schema may become a reserved prefix in EPUB 3.01 and then won't have to be declared.
 
-### Full Example
+### Example OPF file metadata
 
 ```
-<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifer="uid"	prefix="schema: http://schema.org
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifer="uid"	
+	prefix="schema: http://schema.org
           custom: http://github.com/oerpub/github-bookeditor">
  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-    <dc:identifier id="uid">http://github.com/{owner-id}/{repo-id}/content/{this-file}.opf</dc:identifier>
+    <dc:identifier id="uid">http://github.com/oerpub/demo-book/content/demo-book.opf</dc:identifier>
     <dc:title>Title of the book</dc:title>
     <dc:language  xsi:type="dcterms:RFC4646">en</dc:language>
-    <dc:description>This book is about something or other.</dc:description>
-    <dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>
-    <meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>
-	<meta refines="#creator01" property="display-seq">1</meta>
-	<meta refines="#creator01" property="custom:github-id">oerpub</meta>
+    <dc:description>This book is a demo. If there were markup in here, it would need to be properly escaped.</dc:description>
+    <dc:creator id="#creator-01" opf:file-as="Author, Sample">Sample Author</dc:creator>
+    <meta refines="#creator-01" property="role" scheme="marc:relators">aut</meta>
+	<meta refines="#creator-01" property="display-seq">1</meta>
+	<meta refines="#creator-01" property="custom:github-id">oerpub</meta>
+	<dc:creator id="#creator-02" opf:file-as="Author2, Sample2">Sample2 Author2</dc:creator>
+    <meta refines="#creator-02" property="role" scheme="marc:relators">aut</meta>
+	<meta refines="#creator-02" property="display-seq">2</meta>
     <dc:rights>Creative Commons Attribution 4.0</dc:rights>
     <meta property="schema:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>
-    <meta property="dcterms:rightsHolder">{Copy right holder name}</meta>
+    <meta property="dcterms:rightsHolder">OERPUB</meta>
     <meta property="schema:isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>
-    <dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema" id="subject">{subject}</dc:subject>
-    <dc:subject>{keyword 1}</dc:subject>
-    <dc:subject>{keyword 2, etc.}</dc:subject>
-    <dc:description>{Summary with any markup escaped}</dc:description>
+    <dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema" id="subject">Humanities</dc:subject>
+    <dc:subject>demo content</dc:subject>
+    <dc:subject>art deco</dc:subject>
     <dc:date opf:event="publication">2013-10-08 {date when new book created}</dc:date>
     <meta properties="dcterms:modified">2013-12-19 {date of last edit}</meta>
 </metadata>
 ```
 
-### Extended author example with an illustrator and with a github-id. 
-
-```
-<dc:creator id="creator01" opf:file-as"Caroll, Lewis">Lewis Carroll</dc:creator>
-<meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>
-<meta refines="#creator01" property="display-seq">1</meta>
-<meta refines="#createor01" property="custom:github-id">lewcar</meta>
-    
-<dc:creator id="creator02">John Tenniel</dc:creator>
-<meta refines="#creator02" property="role" scheme="marc:relators">ill</meta>
-<meta refines="#creator02" property="display-seq">2</meta>
-
-```
-
-## In the nav file \(-nav.html\) file.
+## Metadata in the nav file \(-nav.html\) file.
 
 Because the Nav file can also be used as a simple way to view the book on the web, we want to duplicate the metadata in the -nav file so that readers finding the book on the web this way will also have access to all the metadata.
 
-To be as compatible as possible with others, we will use schema.org and microdata. I think that all the metadata will need to go in the head as \<meta\> tags, since the nav is the table of contents, and thus the itemscope will be on the \<html\> tag. 
+To be as compatible as possible with others, we will use schema.org and microdata. If possible, it would be great to be able to include some of the metadata in the body, like the book title, authors, and summary. We have to make sure that the epub reader can handle to nav file metadata. 
 
-### Mapping Table
+### Mapping table for the nav file
 
 Metadata Value | Expression in OPF | Example
 ----------- | -------------------- | ------------
 title       | name            | ```<meta itemprop="name">Title of the book</meta>```
 github book id | url       | ```<meta itemprop="url">http://github.com/oerpub/demo-book/content/demo-book.opf</meta> ```
-summary/abstract | about | Maybe this should go in the body of the nav file. Need to see what is legal there.
+summary/abstract | description | Maybe this should go in the body of the nav file. Need to see what is legal there.
 author      | author | ```<meta id="author01" itemprop="author">Sample Author</meta>```
 author order | meta property="display-seq" |```<meta refines="author01" property="display-seq">1</meta>```
 author account | meta property="custom:github-id" | ```<meta refines="#author01" property="custom:github-id">oerpub</meta>```
@@ -99,22 +89,26 @@ copyright holder | copyrightHolder | ```<meta itemprop="copyrightHolder">Mister 
 language	| inLanguage | ```<meta itemprop="inLanguage" content="en"  itemtype="dcterms:RFC4646">English</meta>```
 license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
 license URL | useRightsUrl | ```<meta itemprop="useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>```
-subject		| dc:subject xsi:type={cnx or oercommons} | ```<dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema">Humanities</dc:subject>```
-keyword		| dc:subject | ```<dc:subject>Amphibians</dc:subject>```
+subject		| about | ```<meta itemprop="about">Humanities</meta>```
+keyword		| keywords | ```<meta itemprop="keywords">Amphibians</meta>```
 derived from | isBasedOnUrl | ```<meta itemprop="isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>```
 date created | dateCreated | ```<meta itemprop="dateCreated">2013-10-08</meta>```
 date modified | dateModified | ```<meta itemprop="dateModified">2013-11-15</meta>```
 
-### Example
+### Example -nav file
 
 ```
-<html itemscope
-	itemtype="http://schema.org/Book"
+<html itemscope itemtype="http://schema.org/Book"
 	itemid="http://github.com/oerpub/demo-book/content/demo-book-nav.html" >
 	<head>
 		<meta itemprop="name">The title of the book - maybe should go in the body</meta>
 	</head>
 	<body><!--?xml version="1.0" encoding="UTF-8"?-->
+		<div class="book-title" itemprop="name">The title of the book</div>
+		<div class="byline">By: <span itemprop="author" id="author-01">OERPUB</span></div>
+		<meta refines="author-01" property="custom:github-id" content="oerpub" />
+		<div class="book-summary" itemprop="about">This is a brief summary of this book.</div>
+
   		<h1 itemprop="name"> Demo Book </h1>
   		<h1>Table of Contents</h1>
 		<nav>
