@@ -44,10 +44,11 @@ To activate the metadata dialog so you can see all the parts, click on the modul
 
 #### Tab 1: About
 
-![Book metadata: Tab 1](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab1-about.png "Make sure to change Save to Next") : Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
+![Book metadata: Tab 1](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab1-about.png "Make sure to change Save to Next") Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
 
 - [ ] Modal title done. "Edit the authors and other metadata on this book"
 - [ ] Editable title area done. "Title (required): \<title\>" click to edit, highlights on hover
+- [ ] Title color matches the book title color in the TOC.
 - [ ] Implement subject and keywords entry. Comma, tab, or enter, should all separate entries. The entries should then work like gmail addresses, or the author ids on the connexions beta.
 - [ ] Inside subject and keywords, do light gray italics instructions. This is not on the mockup. "Use comma, or tab to separate"
 - [ ] Language : Use the list here - http://remix.oerpub.org/metadata .
@@ -57,15 +58,17 @@ To activate the metadata dialog so you can see all the parts, click on the modul
  
 #### Tab 2: Authors
 
-![Book metadata: Tab 2](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab2-authors.png "Make sure to change Save to Next") 
+![Book metadata: Tab 2](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab2-authors.png "Make sure to change Save to Next") Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
 
 - [ ] Implement authors, copyright holders, editors, and translators. Use the same entry mechanism as for subjects and keywords. 
-- [ ] Add help text within the author field. (See subjects and keywords)
+- [ ] Add help text within the author field. \(See subjects and keywords\)
+- [ ] Add "Publisher \(optional\)" beneath "Copyright Holder" \(these aren't in the mockup\)
+- [ ] Add "Illustrator \(optional\)" at the end \(these aren't in the mockup\)
 - [ ] Change "Save" to "Next", advance to next tab
 
 #### Tab 3: Summary
 
-![Book metadata: Tab 3](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab3-summary.png "Make sure to change Save to Save Information") 
+![Book metadata: Tab 3](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab3-summary.png "Make sure to change Save to Save Information") Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
 
 - [ ] Implement mini-formatting toolbar for the summary.  
 - [ ] Make sure can enter multiple paragraphs.
@@ -74,8 +77,17 @@ To activate the metadata dialog so you can see all the parts, click on the modul
 
 ### Step 5.A Save metadata in the .opf file
 
-Not done yet.
+- [ ] Use this format [book-metadata-format](http://oerpub.github.io/uidesigns/designs/book-metadata-format.md)
+- [ ] As add things to the opf, test the editor and test the reader to make sure that they are still working. 
 
 ### Step 5.B Save metadata in the -nav.html file
 
-Not done yet.
+Still being designed.
+
+### Content saves should update the modified date in the metadata
+
+ie. ```<meta properties="dcterms:modified">2013-12-19</meta>```
+
+ - [ ] Update in the opf file.
+ - [ ] Update in the nav file.
+ 
