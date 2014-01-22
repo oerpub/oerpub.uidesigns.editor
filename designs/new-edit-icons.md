@@ -1,8 +1,8 @@
-# Design: Consistent edit content/edit metadata/rename/delete icons   
+## Design: Consistent edit content/edit metadata/rename/delete icons   
 
 Design for making the icons in the bookshelf and toc consistent, functional, and efficient.
 
-## Goals
+### Goals
 
 1. Pick bootstrap icons to use
 2. Have just two icons show up on each item.
@@ -11,7 +11,7 @@ Design for making the icons in the bookshelf and toc consistent, functional, and
   b. Opening books, chapters, and modules for editing by clicking on the arrow ->.
 4. Provide a way to edit module and book metadata
 
-## Basic Design
+### Basic Design
 
 ![Icons for edit/rename/etc](http://oerpub.github.io/uidesigns/designs/images/ss-of-toc-icons-and-menu-01.png)
 
@@ -44,7 +44,7 @@ Note that the mockup isn't exactly like the current editor. The shelf is called 
 - [ ] Clicking on the right arrow opens the book in the TOC and unfolds the selected division and opens the first module of the book division in the editor
 - [ ] Clicking on the book division title unfolds the book division in the picker and the TOC.
 
-### Step 4. Module icosns behavior
+### Step 4. Module icons behavior
 
 - [ ] Hover over the down arrow opens a menu
 - [ ] "Rename this module" inside the menu \(down arrow\)
