@@ -1,93 +1,56 @@
-# Design: Add New Book with Metadata 
+# Design: Consistent edit content/edit metadata/rename/delete icons   
 
-Design for adding basic metadata at the time a new book is created.
+Design for making the icons in the bookshelf and toc consistent, functional, and efficient.
 
-### Step 1. Add new book
+## Goals
 
-![Add new book from Bookshelf](http://oerpub.github.io/uidesigns/designs/images/add-new-book.png)
+1. Pick bootstrap icons to use
+2. Have just two icons show up on each item.
+3. Make common activities doable with one click.
+  a. Unfolding books and chapters to see inside them by clicking on the title.
+  b. Opening books, chapters, and modules for editing by clicking on the arrow ->.
+4. Provide a way to edit module and book metadata
 
-Should be no change from existing implementation.
+## Basic Design
 
-### Step 2. Request title
+![Icons for edit/rename/etc](http://oerpub.github.io/uidesigns/designs/images/ss-of-toc-icons-and-menu-01.png)
 
-![Add book title](http://oerpub.github.io/uidesigns/designs/images/add-book-title.png "Make sure to change OK to Next")
+Note that the mockup isn't exactly like the current editor. The shelf is called the picker in the mockups and various other differences. Anything unrelated to the icons should be ignored.
 
-- [ ] Change "OK" to "Next" on the title request, since we are going to request metadata before finishing.
-- [ ] Change "What title would you like to use for this?" to "What title would you like to use for this book?"
+### Step 1. Global design and variations checklist
 
-### Step 3. Save book
+- [ ] Find and add the icons that Max used. They are on [mockup-toc-icons-06](https://github.com/oerpub/github-bookeditor/tree/mockup-toc-icons-06) I think.
+- [ ] Move delete under the arrow "->".
+- [ ] Use new icons on everything in the shelf/workspace and in the TOC
+- [ ] Variation: Change "Edit description/authors" to "Edit authors, license, etc." to be consistent with the in-module metadata mechanism \(on a separate issue\).
 
-Save \<title\>.opf, \<title\>-nav.html, \<title\>-module1.html
+### Step 2. Book icons behavior
 
-I think their should be no changes from the existing implementation, except possibly adding part of the book title to module1's title so we don't end up with a bunch of module1's.
+- [ ] Hover over the down arrow opens a menu
+- [ ] "Rename this book" inside the menu \(down arrow\) 
+- [ ] "Edit authors, license, etc." inside the menu 
+- [ ] "Delete this book" inside the menu 
+- [ ] Hover over the right arrow says "Go edit this book"
+- [ ] Clicking on the right arrow opens the book in the TOC and the first module of the book in the editor
+- [ ] Clicking on the book title unfolds the book in the picker and either does nothing, or opens the metadata editor, whichever is easier.
 
-- [ ] Add book title to module 1.
+### Step 3. Book division / folder icons behavior
 
-### Step 4. Request metadata
+- [ ] Hover over the down arrow opens a menu
+- [ ] "Rename this module" inside the menu \(down arrow\)
+- [ ] No metadata editing should show up
+- [ ] "Delete this module" inside the menu \(down arrow\)
+- [ ] Hover over the right arrow says "Go edit this book division"
+- [ ] Clicking on the right arrow opens the book in the TOC and unfolds the selected division and opens the first module of the book division in the editor
+- [ ] Clicking on the book division title unfolds the book division in the picker and the TOC.
 
-Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
+### Step 4. Module icosns behavior
 
-This is the same metadata collection dialog that will come up from various other interactions, but it has a couple of variations from the mockup when it comes from "Create new book". 
+- [ ] Hover over the down arrow opens a menu
+- [ ] "Rename this module" inside the menu \(down arrow\)
+- [ ] "Edit authors, license, etc." inside the menu \(down arrow\)
+- [ ] "Delete this module" inside the menu \(down arrow\)
+- [ ] Hover over the right arrow says "Go edit this module"
+- [ ] Clicking on the right arrow opens the book in the TOC and opens the module in the editor, unfolding whatever divisions are necessary
+- [ ] Clicking on the module title \(which looks like a link\) opens the module for editing as described above.
 
-To activate the metadata dialog so you can see all the parts, click on the module title, "Laws of Exponents" in orange on the editable area and choose "Yes, edit book information first". \(Implementing module metadata will be described in a separate design doc.\)
-
-#### Variations from the mockup
-
-- [ ] 1. Instead of "Save", use "Next" and forward to the tab to the right. About -> Authors, Authors -> Summary.
-- [ ] 2. On the right most tab, "Summary", say "Save".
-
-#### Notes relevant to all the tabs
-
-- [ ] 1. The author can click on the tabs to move through them in addition to using the "Next" button. 
-- [ ] 2. If the author cancels, no new metadata will be saved, but the book will still be created since that happens after the title is entered.
-- [ ] Cancel should have a confirmation since you could lose a lot of work. "Are you sure you want to cancel? The title, authors, and other information about this book will retain their previous values."
-
-#### Tab 1: About
-
-![Book metadata: Tab 1](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab1-about.png "Make sure to change Save to Next") Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
-
-- [ ] Modal title done. "Edit the authors and other metadata on this book"
-- [ ] Editable title area done. "Title (required): \<title\>" click to edit, highlights on hover
-- [ ] Title color matches the book title color in the TOC.
-- [ ] Implement subject and keywords entry. Comma, tab, or enter, should all separate entries. The entries should then work like gmail addresses, or the author ids on the connexions beta.
-- [ ] Inside subject and keywords, do light gray italics instructions. This is not on the mockup. "Use comma, or tab to separate"
-- [ ] Language : Use the list here - http://remix.oerpub.org/metadata .
-- [ ] Google Analytics: If this could work like it does on remix, and have a check box that unfolds the value. [google-analytics.png](http://oerpub.github.io/uidesigns/designs/images/google-analytics.png) [ga-unfolded.png](http://oerpub.github.io/uidesigns/designs/images/ga-unfolded.png) 
-- [ ] License: Use the same values as in the image uploader. [licenses.png](http://oerpub.github.io/uidesigns/designs/images/licenses.png)
-- [ ] Change "Save" to "Next", advance to next tab
- 
-#### Tab 2: Authors
-
-![Book metadata: Tab 2](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab2-authors.png "Make sure to change Save to Next") Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
-
-- [ ] Implement authors, copyright holders, editors, and translators. Use the same entry mechanism as for subjects and keywords. 
-- [ ] Add help text within the author field. \(See subjects and keywords\)
-- [ ] Add "Publisher \(optional\)" beneath "Copyright Holder" \(these aren't in the mockup\)
-- [ ] Add "Illustrator \(optional\)" at the end \(these aren't in the mockup\)
-- [ ] Change "Save" to "Next", advance to next tab
-
-#### Tab 3: Summary
-
-![Book metadata: Tab 3](http://oerpub.github.io/uidesigns/designs/images/book-metadata-tab3-summary.png "Make sure to change Save to Save Information") Mockup (View in Firefox): [w-editor-33.html](http://oerpub.github.io/uidesigns/mockups/editor-ideas/w-editor-33.html) : Click on module title area to see dialog.
-
-- [ ] Implement mini-formatting toolbar for the summary.  
-- [ ] Make sure can enter multiple paragraphs.
-- [ ] Make entry box big enough to fill the tab reasonably.
-- [ ] Make entry box stretchy.
-
-### Step 5.A Save metadata in the .opf file
-
-- [ ] Use this format [book-metadata-format](http://oerpub.github.io/uidesigns/designs/book-metadata-format.md)
-- [ ] As add things to the opf, test the editor and test the reader to make sure that they are still working. 
-
-### Step 5.B Save metadata in the -nav.html file
-
-Still being designed.
-
-### Content saves should update the modified date in the metadata
-
-ie. ```<meta properties="dcterms:modified">2013-12-19</meta>```
-
- - [ ] Update in the opf file.
- - [ ] Update in the nav file.
- 
