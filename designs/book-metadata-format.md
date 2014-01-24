@@ -77,7 +77,13 @@ Because the Nav file can also be used as a simple way to view the book on the we
 
 To be as compatible as possible with others, we will use schema.org and microdata. If possible, it would be great to be able to include as much as possible of the metadata in the body, like the book title, authors, and summary. We have to make sure that the epub reader can handle adding these to the nav file.
 
-In the table below, we are just showing the meta representations, but will include examples that use in-body microdata also. 
+In the table below, we are just showing the meta representations, but the sample file linked at the bottom includes examples that use in-body microdata also.
+
+The following should go into the body as long as the reader can handle them \(or be made to\).
+* Title
+* Authors
+* Publisher
+* Abstract/Summary \(the description field\) 
 
 ### Mapping table for the nav file
 
@@ -86,7 +92,7 @@ Metadata Value | Expression in OPF | Example
 title       | name            | ```<meta itemprop="name" content="Title of the book" />```
 github book id | url       | ```<meta itemprop="url" content="http://github.com/oerpub/demo-book/content/demo-book.opf" /> ```
 language	| inLanguage | ```<meta itemprop="inLanguage" content="en"  itemtype="dcterms:RFC4646" content="English" />```
-summary/abstract | description | Maybe this should go in the body of the nav file. Need to see what is legal there.
+summary/abstract | description |  ```<meta itemprop="description" content="Everything you always wanted to know about metadata but were afraid to ask." />```
 author      | author | ```<meta id="author01" itemprop="author" content="Sample Author" />```
 author order | meta property="display-seq" |```<meta refines="author01" property="display-seq" content="1" />```
 author account | meta property="custom:github-id" | ```<meta refines="#author01" property="custom:github-id" content="oerpub" />```

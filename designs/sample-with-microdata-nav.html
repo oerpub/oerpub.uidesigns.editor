@@ -3,12 +3,26 @@
 <html version="HTML+RDFa 1.1" xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:lrmi="http://lrmi.net/the-specification"
 > <!-- Because schema.org has no expressions for encoding license, we are using Dublin Core for this instead and encoding as RDFa -->
   <head itemscope="itemscope" itemtype="http://schema.org/Book">
-  	<title itemprop="name">Siyavula Physics for Grade 12</title> <!-- Note that title is required in the head element in HTML5 -->
-  	<meta property="dc:license" content="CC-BY 4.0" />
+  	<title>Siyavula Physics for Grade 12</title> <!-- Note that title is required in the head element in HTML5 -->
+  	<meta name="dc:license" content="CC-BY 4.0" />
   	<link rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/"/>
+  	<meta itemprop="inLanguage" content="en">
+  	<meta itemprop="url" content="http://github.com/oerpub/siyavula-book/content/siyavula-book.opf" />
+  	<meta itemprop="accessibilityFeature" content="MathML" />
+  	<meta itemprop="accessibilityFeature" content="alternativeText" />
+  	<meta itemprop="keywords" content="Physics" />
+  	<meta itemprop="keywords" content="South Africa" />
+  	<meta itemprop="about" content="Science and Mathematics" />
+  	<meta itemprop="dateCreated" content="2013-10-08" />
+  	<meta itemprop="dateModified" content="2014-01-08" />
   </head>
-  <body><h1>Table of Contents</h1>
-	<nav epub:type="toc"> <!-- The W3C validator says that attributes from epub are not allowed here. Is this required from -->
+  <body itemscope="itemscope" itemtype="http://schema.org/Book">
+  	<h1 itemprop="name">Siyavula Physics for Grade 12</h1>
+  	<span class="authors">By: <span itemprop="author">Mark Horner</span> and <span itemprop="author">Sarah Blyth</span></span>
+  	<span class="publisher">Published By: <span itemprop="publisher">Siyavula</span></span>
+  	<p itemprop="description">Covers twelfth grade physics and all the stuff that students should know before taking their comprehensive exams. </p>
+  	<h1>Table of Contents</h1>
+	<nav epub:type="toc"> <!-- The W3C validator says that attributes from epub are not allowed here. -->
 		<ol>
 			<li>
 				<a href="Project-intro.html">Introduction to this editor and project</a>
