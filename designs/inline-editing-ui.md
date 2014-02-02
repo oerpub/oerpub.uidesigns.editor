@@ -16,22 +16,24 @@ The designs for the editor include the ability to add semantic tags to text with
 
 ### Basic Design
 
+*Menu icon*
 ![Menu icon](http://oerpub.github.io/uidesigns/designs/images/inline-hovering-over-inline.png)
 
+*Menu*
 ![Menu opened](http://oerpub.github.io/uidesigns/designs/images/inline-menu-clicked.png)
 
 ### Highlighting some text in the body.
 
 ![Menu icon](http://oerpub.github.io/uidesigns/designs/images/inline-highlighting-text.png)
 
-![Menu icon hovered](http://oerpub.github.io/uidesigns/designs/images/inline-hover-over-menu-icon.png)
-
-- [ ] Content selected highlights 
+- [ ] Selected content appears highlighted 
 - [ ] Orange menu circle comes up to the left and pointing down as long as there is room for the menu to come up.
 - [ ] Orange circle points up if the menu needs to go up to fit in the window.
 - [ ] If you hover over the orange circle it says, "Click menu for more formatting options"
 
 ### Hovering over an emphasized or semantic inline element
+
+![Menu icon hovered](http://oerpub.github.io/uidesigns/designs/images/inline-hover-over-menu-icon.png)
 
 - [ ] Content inside the emphasis or semantic region highlights
 - [ ] The rest is the same as above
