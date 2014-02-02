@@ -16,10 +16,12 @@ The designs for the editor include the ability to add semantic tags to text with
 
 ### Basic Design
 
-*Menu icon*
+**Menu icon**
+
 ![Menu icon](http://oerpub.github.io/uidesigns/designs/images/inline-hovering-over-inline.png)
 
-*Menu*
+**Menu**
+
 ![Menu opened](http://oerpub.github.io/uidesigns/designs/images/inline-menu-clicked.png)
 
 ### Highlighting some text in the body.
