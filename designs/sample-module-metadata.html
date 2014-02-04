@@ -49,9 +49,10 @@ xmlns:lrmi="http://lrmi.net/the-specification"
     <!-- Comma separated itemprops validate. I don't know if they are really OK or not. -->
     <!-- For modules in the editor, the metadata is encapsulated in a div with data-type="metadata" 
     so that it can be treated specially. We will hide all the metadata except for the title for now. 
+    
     In order to do this in an accessible way, it is important that the styles be explicitly set to 
     visibility:hidden or display:none so that screen readers do not read the content that sighted
-    readers are not seeing. -->
+    readers are not seeing. I took this advice from http://webaim.org/techniques/css/invisiblecontent/ -->
     <h1 data-type="title" itemprop="name">Momentum</h1>
     <div class="contributors">
       <div class="authors">By: 
