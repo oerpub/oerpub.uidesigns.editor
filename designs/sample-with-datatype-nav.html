@@ -2,7 +2,8 @@
 <!DOCTYPE html> <!-- This is required in HTML5 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:lrmi="http://lrmi.net/the-specification"
 > 
-<!-- Because schema.org has no expressions for encoding license, we are using Dublin Core for this instead and encoding as RDFa -->
+<!-- Because schema.org has no expressions for encoding license, 
+     we are using Dublin Core for this instead and encoding as RDFa -->
 
 <!-- For EPUB parsing/validation python should only care about data-* attributes. Other attributes are for discoverability and compatibility with schema.org . -->
 
@@ -23,20 +24,25 @@
 </head>
 
 <!-- 
-  Why there are three different descriptors on some elements
+  "Why there are three different descriptors on some elements"?
 
-  @class is used strictly for styling and placement of information. In some cases the class may be used to supress display of information. For instance, the summary of a section of a book could be distracting when reading the whole book and might be suppressed.
+  `@class` is used strictly for styling and placement of information.
+  In some cases the class may be used to supress display of information.
+  For instance, the summary of a section of a book could be distracting 
+  when reading the whole book and might be suppressed.
 
-  @itemprop is used to conform to external metadata standards, like Schema.org and Dublin Core.
+  `@itemprop` is used to conform to external metadata standards, like Schema.org and Dublin Core.
 
-  @data-type is used to make processing of elements easier within particular systems, like the oerpub editor, and the Connexions publishing system.
+  `@data-type` is used to make processing of elements easier within particular systems,
+  like the oerpub editor, and the Connexions publishing system.
 -->
 
 <body itemscope="itemscope" itemtype="http://schema.org/Book"> 
   <!-- Meta elements are definitely allowed in the body of the content if they use "itemprop" -->
   <!-- Comma separated itemprops validate. I don't know if they are really OK or not. -->
   <div data-type="metadata">
-    <!-- For modules in the editor, the metadata should be encapsulated in a div so that it can be pulled out of the main content editable. -->
+    <!-- For modules in the editor, the metadata should be encapsulated in
+         a div so that it can be pulled out of the main content editable. -->
     <h1 data-type="title" itemprop="name">Siyavula Physics for Grade 12</h1>
       
     <div class="authors">
@@ -46,7 +52,9 @@
       <span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author"><a data-type="openstax-id" itemprop="url" href="https://cnx.org/member_profile/sarblyth">Sarah Blyth</a></span>
       Edited by: <span data-type="editor" itemprop="editor">I. M. Picky</span>
       Illustrated by: <span data-type="illustrator" itemprop="illustrator">Francis Hablar</span>
-      <!-- Schema.org doesn't have translator. Rather than really contorting to try and use something like marc:relators, for now, just use our own data-type, and use the more generic "contributor" from schema.org. -->
+      <!-- Schema.org doesn't have translator.
+           Rather than really contorting to try and use something like marc:relators, 
+           for now, just use our own data-type, and use the more generic "contributor" from schema.org. -->
       Translated by: <span data-type="translator" itemprop="contributor">Francis Hablar</span>
 
     </div>
@@ -77,7 +85,10 @@
 
   </div>
 
-  <nav itemprop="epub:type" content="toc"> <!-- The W3C validator says that attributes from epub are not allowed here. Will the reader work without epub:type="toc"? Can we encode it in microdata instead? -->
+  <!-- The W3C validator says that attributes from epub are not allowed here. 
+       Will the reader work without epub:type="toc"? 
+       Can we encode it in microdata instead? -->
+  <nav itemprop="epub:type" content="toc"> 
     <ol>
       <li>
         <a href="Project-intro.html">Introduction to this editor and project</a>
