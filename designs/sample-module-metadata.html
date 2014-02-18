@@ -10,6 +10,7 @@ xmlns:lrmi="http://lrmi.net/the-specification"
 
 <!-- This validates as HTML5 using the [W3C valiator](http://validator.w3.org/check) as of its 
   first checkin and Feb 18, 2014 1:05p -->
+
 <head itemscope="itemscope" itemtype="http://schema.org/Book">
   <title>Momentum</title> <!-- Note that title is required in the head element 
   in HTML5. Copy the itemprop="name" element from the body on save. -->
@@ -109,7 +110,10 @@ xmlns:lrmi="http://lrmi.net/the-specification"
       </div>
       <div class="license">Licensed:
         <!-- Using Dublin Core, Learning Resource Metadata Initiative (LRMI), and RDFA to encode license 
-             information, because Schema.org doesn't support, and no Dublin Core vocabs availalbe yet. -->
+             information, because Schema.org doesn't support, and no Dublin Core vocabs availalbe yet. 
+             Need to include these namespaces as attributes on the <html> element: 
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+             xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:lrmi="http://lrmi.net/the-specification"-->
         <a data-type="license" rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/">
           <span property="dc:license">CC-By 4.0</span>
         </a> 
@@ -126,7 +130,7 @@ xmlns:lrmi="http://lrmi.net/the-specification"
 
 <!-- This is the actual content in the module. The math causes three warnings in the validator. It
   doesn't like the mo's with empty comments in them.-->
-<h1>Momentum</h1>
+<h1>Introduction to Momentum</h1>
 
 <p>Momentum is a physical quantity which is closely related to forces. Momentum is 
         a property which applies to moving objects, in fact it is mass in motion. If something 
