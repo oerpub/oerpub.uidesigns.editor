@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html> <!-- This is required in HTML5 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:lrmi="http://lrmi.net/the-specification"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" 
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" 
+xmlns:lrmi="http://lrmi.net/the-specification"
 > 
-<!-- Because schema.org has no expressions for encoding license, 
-     we are using Dublin Core for this instead and encoding as RDFa -->
-
 <!-- For EPUB parsing/validation python should only care about data-* attributes. Other attributes are for discoverability and compatibility with schema.org . -->
 
-<!-- This validates as HTML5 using the [W3C valiator](http://validator.w3.org/check) as of its first checkin -->
+<!-- This validates as HTML5 using the [W3C valiator](http://validator.w3.org/check) as of Feb. 18, 2014, 1:40p -->
 <head itemscope="itemscope" itemtype="http://schema.org/Book">
-  <title>Siyavula Physics for Grade 12</title> <!-- Note that title is required in the head element in HTML5 -->
-  <meta data-type="langugage" itemprop="inLanguage" content="en" /> <!-- Testing meta in body -->
-  <meta itemprop="url" content="http://github.com/oerpub/siyavula-book/content/siyavula-book.opf" />
+  <title>Siyavula Physics for Grade 12</title> <!-- Note that title is required in the head element in HTML5, Copy the name element from the <div data-type="metadata"> element in the body -->
+  <meta data-type="langugage" itemprop="inLanguage" content="en" /> 
+
+  <!-- It is perfectly fine to have two of any property. See http://www.w3.org/TR/2009/WD-html5-20090825/microdata.html (search for "flavor"). We are going to include one that points to the .opf
+  for use when the content is being rendered in an ebook reader, and one that points to the nav html
+  file for when the content is being viewed directly on the web. -->
+  <meta itemprop="url" data-type="epub" content="http://github.com/oerpub/siyavula-book/content/siyavula-book.opf" /> 
+  <meta itemprop="url" data-type="web" content="http://github.com/oerpub/siyavula-book/content/siyavula-book-nav.html" /> 
+
   <!-- These are for discoverability of accessible content. -->
   <meta itemprop="accessibilityFeature" content="MathML" />
   <meta itemprop="accessibilityFeature" content="LaTeX" />
@@ -39,24 +44,28 @@
 
 <body itemscope="itemscope" itemtype="http://schema.org/Book"> 
   <!-- Meta elements are definitely allowed in the body of the content if they use "itemprop" -->
-  <!-- Comma separated itemprops validate. I don't know if they are really OK or not. -->
+  <!-- Comma separated itemprops validate, but this microdata draft suggest that space separation is what should be used: http://www.w3.org/TR/2009/WD-html5-20090825/microdata.html (search for "favorite-fruit") -->
   <div data-type="metadata">
-    <!-- For modules in the editor, the metadata should be encapsulated in
-         a div so that it can be pulled out of the main content editable. -->
+
     <h1 data-type="title" itemprop="name">Siyavula Physics for Grade 12</h1>
       
-    <div class="authors">
-      By: 
-      <!-- How about using a url to specify author ids in the systems where the content is published? See below. --> 
-      <span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author"><a data-type="github-id" itemprop="url" href="https://github.com/marknewlyn">Mark Horner</a></span> and
-      <span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author"><a data-type="openstax-id" itemprop="url" href="https://cnx.org/member_profile/sarblyth">Sarah Blyth</a></span>
-      Edited by: <span data-type="editor" itemprop="editor">I. M. Picky</span>
-      Illustrated by: <span data-type="illustrator" itemprop="illustrator">Francis Hablar</span>
-      <!-- Schema.org doesn't have translator.
-           Rather than really contorting to try and use something like marc:relators, 
-           for now, just use our own data-type, and use the more generic "contributor" from schema.org. -->
-      Translated by: <span data-type="translator" itemprop="contributor">Francis Hablar</span>
-
+    <div class="contributors">
+      <div class="authors">By: 
+      <!-- How about using a url to specify author ids in the systems where the content is published? 
+      See below. --> 
+        <span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author">
+          <a data-type="github-id" itemprop="url" href="https://github.com/marknewlyn">Mark Horner</a></span> and
+        <span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author">
+          <a data-type="openstax-id" itemprop="url" href="https://cnx.org/member_profile/sarblyth">Sarah Blyth</a>
+        </span>
+      </div>
+      <div class="editors">Edited by: <span data-type="editor" itemprop="editor">I. M. Picky</span></div>
+      <div class="illustrators">Illustrated by: <span data-type="illustrator" itemprop="illustrator">Pablo Pollack
+        </span></div>
+      <!-- Schema.org doesn't have translator. Rather than really contorting to try and use something l
+      ike marc:relators, for now, just use our own data-type, and use the more generic "contributor" from 
+      schema.org. -->
+      <div class="translators">Translated by: <span data-type="translator" itemprop="contributor">Francis Hablar</span></div>
     </div>
 
     <div class="publishers">Published By: 
@@ -68,26 +77,36 @@
     </div>
 
     <div class="permissions">
-      <p class="copyright">Copyright: 
+      <div class="copyright">Copyright: 
         <span data-type="copyright-holder" itemprop="copyrightHolder">Siyavula</span>
-      </p>
-      <p class="license">Licensed:
-        <a data-type="license" itemprop="dc:license,lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/">CC-By 4.0</a> </p>
+      </div>
+      <div class="license">Licensed:
+        <!-- Using Dublin Core, Learning Resource Metadata Initiative (LRMI), and RDFA to encode license 
+             information, because Schema.org doesn't support, and no Dublin Core vocabs availalbe yet. 
+             Need to include these namespaces as attributes on the <html> element: 
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+             xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:lrmi="http://lrmi.net/the-specification"-->
+        <a data-type="license" rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/">
+          <span property="dc:license">CC-By 4.0</span>
+        </a> 
+      </div>
     </div>
 
-    <div data-type="description" itemprop="description" class="description">
-      <p>Covers twelfth grade physics and all the stuff that students should know before taking their comprehensive exams. </p>
+    <div class="keywords">Keywords: <span data-type="keyword" itemprop="keywords">Physics</span>,
+      <span data-type="keyword" itemprop="keywords">South Africa</span>
     </div>
- 
-    <div data-type="keyword" itemprop="keywords">Physics</div>
-    <div data-type="keyword" itemprop="keywords">South Africa</div>
-    <div data-type="subject" itemprop="about">Science and Mathematics</div>
+    <div class="subject">Subject: <span data-type="subject" itemprop="about">Science and Mathematics</span></div>
+    <div data-type="description" itemprop="description" class="description"><p class="summary">
+      Summary: Covers twelfth grade physics and all the stuff that students should know before taking their comprehensive exams. </p>
+    </div>
 
   </div>
 
   <!-- The W3C validator says that attributes from epub are not allowed here. 
        Will the reader work without epub:type="toc"? 
-       Can we encode it in microdata instead? -->
+       Can we encode it in microdata instead? See below
+       for an idea. -->
+  <h1>Table of Contents</h1>
   <nav itemprop="epub:type" content="toc"> 
     <ol>
       <li>
