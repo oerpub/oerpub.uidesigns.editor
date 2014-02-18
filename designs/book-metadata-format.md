@@ -1,4 +1,4 @@
-# Book metadata format
+# Book and book sections metadata formats
 
 ## Metadata in the OPF file
 
@@ -8,6 +8,16 @@
 * Connexions MDML - can't find one because rhaptos.org is gone
 * [LRMI/Schema.org](http://www.lrmi.net/the-specification)
 * [Accessibility metadata from schema.org](http://www.idpf.org/accessibility/guidelines/content/meta/schema.org.php) This is what I used to determine the format for using the LRMI/Schema.org fields that we need.
+
+### Namespace declarations needed in the OPF
+
+```
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifer="uid"  
+    prefix="schema: http://schema.org
+          lrmi: http://http://www.lrmi.net/the-specification
+          custom: http://github.com/oerpub/github-bookeditor">
+ <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+```
 
 ### Mapping table for OPF
 
@@ -60,7 +70,7 @@ Note: In order to use the meta values from schema.org, lrmi \(for the rights URL
     <meta refines="#creator-02" property="role" scheme="marc:relators">aut</meta>
 	<meta refines="#creator-02" property="display-seq">2</meta>
     <dc:rights>Creative Commons Attribution 4.0</dc:rights>
-    <meta property="schema:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>
+    <meta property="lrmi:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>
     <meta property="dcterms:rightsHolder">OERPUB</meta>
     <meta property="schema:isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>
     <dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema" id="subject">Humanities</dc:subject>
@@ -71,11 +81,12 @@ Note: In order to use the meta values from schema.org, lrmi \(for the rights URL
 </metadata>
 ```
 
-## Metadata in the nav file \(-nav.html\) file.
+## Metadata in the nav file \(-nav.html\) file and module .html files.
 
 Because the Nav file can also be used as a simple way to view the book on the web, we want to duplicate the metadata in the -nav file so that readers finding the book on the web this way will also have access to all the metadata. We can also use this specification to put metadata into individual components \(html\) of the books that might be reused elsewhere.
 
-To be as compatible as possible with others, we will use schema.org and microdata. If possible, it would be great to be able to include as much as possible of the metadata in the body, like the book title, authors, and summary. We have to make sure that the epub reader can handle adding these to the nav file.
+To be as compatible as possible with others, we will use schema.org and microdata where available and include
+visible metadata in the body of the content, for example book title, authors, and summary. We have to make sure that the epub reader can handle adding these to the nav file.
 
 In the table below, we are just showing the meta representations, but the sample file linked at the bottom includes examples that use in-body microdata also.
 
@@ -85,26 +96,42 @@ The following should go into the body as long as the reader can handle them \(or
 * Publisher
 * Abstract/Summary \(the description field\) 
 
-### Mapping table for the nav file
+### Namespace declarations needed.
 
-Metadata Value | Expression in OPF | Example
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" 
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" 
+xmlns:lrmi="http://lrmi.net/the-specification"
+> 
+
+### Mapping table for the nav file and module metadata
+
+To make processing the values easier, in addition to the schema.org microdata properties, data-type values are given for each metadata value. See the linked samples below for an example encoding for the -nav file and for a module. 
+
+For the -nav file, the Schema.org itemtype should be http://schema.org/Book and for modules, the Schema.org type should be http://schema.org/CreativeWork. 
+
+Where it makes sense, the metadata is included directly in the body of the content. In the samples, notice that most of the metadata is in a metadata block within the html body. Different contexts may choose to show or hide the metadata. 
+
+Metadata Value | Expression in html | Example
+            |  itemprop, data-type  | 
 ----------- | -------------------- | ------------
-title       | name            | ```<meta itemprop="name" content="Title of the book" />```
-github book id | url       | ```<meta itemprop="url" content="http://github.com/oerpub/demo-book/content/demo-book.opf" /> ```
-language	| inLanguage | ```<meta itemprop="inLanguage" content="en"  itemtype="dcterms:RFC4646" content="English" />```
-summary/abstract | description |  ```<meta itemprop="description" content="Everything you always wanted to know about metadata but were afraid to ask." />```
-author      | author | ```<meta id="author01" itemprop="author" content="Sample Author" />```
-author order | meta property="display-seq" |```<meta refines="author01" property="display-seq" content="1" />```
-author account | meta property="custom:github-id" | ```<meta refines="#author01" property="custom:github-id" content="oerpub" />```
-subject		| about | ```<meta itemprop="about" content="Humanities" />```
-keyword		| keywords | ```<meta itemprop="keywords" content="Amphibians" />```derived from | isBasedOnUrl | ```<meta itemprop="isBasedOnUrl" content="http://github.com/oerpub/empty-book/content/empty-book.opf" />```
-license		| meta dc:rights | ```<meta property="dc:license" content="CC-BY 4.0" />```
-license URL | meta lrmi:useRightsUrl | ```<meta property="lrmi:useRightsUrl" content="http://creativecommons.org/licenses/by/4.0/" />``` <br /> or ```<link rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/" />```
-publisher      | publisher | ```<meta itemprop="publisher" content="Sample Publisher" />```
-editor      | editor | ```<meta itemprop="editor" content="Sample Editor" />```
-translator  | contributor, refined | ```<meta id="translator01"itemprop="contributor" content="Sample Translator</dc:creator>```<br />```<meta refines="#translator01" property="role" scheme="marc:relators" content="trl" />```
-illustrator | illustrator | ```<meta itemprop="illustrator" content="Sample Illustrator" />```
-copyright holder | copyrightHolder | ```<meta itemprop="copyrightHolder" content="Mister Owner" />```
+title       | name, title            | ```<h1 data-type="title" itemprop="name">Title of the book or module </h1>```
+github book epub id | url       | ```<meta itemprop="url" content="http://github.com/oerpub/demo-book/content/demo-book.opf" /> ```
+github book web id | url       | ```<meta itemprop="url" content="http://github.com/oerpub/demo-book/content/demo-book-nav.html" /> ```
+github module id | url       | ```<meta itemprop="url" content="http://github.com/oerpub/demo-book/content/introduction-to-demos.html" /> ```
+language	| inLanguage, language | ```<meta data-type="language" itemprop="inLanguage" content="en"/>```
+summary/abstract | description, description |  ```<div data-type="description" itemprop="description">Everything you always wanted to know about metadata but were afraid to ask. </div>```
+keyword		| keywords,keyword | ```<span itemprop="keywords" data-type="keyword">Amphibians</span>```
+derived from | isBasedOnUrl,based-on | ```<a data-type="based-on" itemprop="isBasedOnURL" href="http://github.com/oerpub/empty-book/content/forked-from-book.opf>Physics for Highschool</a>```
+
+license		| dc:license and lrmi:useRightsURL, license | ```<a data-type="license" rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/"><span property="dc:license">CC-By 4.0</span></a>```
+author      | author, author | ```<span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author">Sample Author</span>```
+author account | url, github-id | ```<a data-type=github-id itemprop="url" href="http://github.com/oerpub">{author as above}</a>```
+subject     | about | ```<meta itemprop="about" content="Humanities" />```
+publisher      | publisher,publisher | like author
+editor      | editor, editor | like author
+illustrator | illustrator | like author
+copyright holder | copyrightHolder | like author
+translator  | contributor,translator | ```<span data-type="translator" itemprop="contributor">Francis Hablar</span>```
 date created | dateCreated | ```<meta itemprop="dateCreated" content="2013-10-08" />```
 date modified | dateModified | ```<meta itemprop="dateModified" content="2013-11-15" />```
 accessibility metadata | | 
@@ -113,6 +140,7 @@ described images | accessiblityFeature:alternativeText | ```<meta itemprop="acce
 structural navigation | accessiblityFeature:structuralNavigation | ```<meta itemprop="accessibilityFeature" content="structuralNavigation" />```
 video captions | accessiblityFeature:captions | ```<meta itemprop="accessibilityFeature" content="captions" />```
 
-### Example -nav file
+### Example -nav.html and module.html files
 
-[Sample file](sample-with-microdata-nav.html)
+[Sample nav file](sample-book-nav.html)
+[Sample module file](sample-module-metadata.html)
