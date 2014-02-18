@@ -98,10 +98,11 @@ The following should go into the body as long as the reader can handle them \(or
 
 ### Namespace declarations needed.
 
+```
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" 
 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" 
-xmlns:lrmi="http://lrmi.net/the-specification"
-> 
+xmlns:lrmi="http://lrmi.net/the-specification">
+``` 
 
 ### Mapping table for the nav file and module metadata
 
