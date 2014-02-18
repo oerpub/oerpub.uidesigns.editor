@@ -141,5 +141,5 @@ video captions | accessiblityFeature:captions | ```<meta itemprop="accessibility
 
 ### Example -nav.html and module.html files
 
-[Sample nav file](sample-book-nav.html)
-[Sample module file](sample-module-metadata.html)
+ * [Sample nav file](sample-book-nav.html)
+ * [Sample module file](sample-module-metadata.html)
