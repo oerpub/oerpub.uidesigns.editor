@@ -4,36 +4,12 @@
 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" 
 xmlns:lrmi="http://lrmi.net/the-specification"
 > 
-<!-- Licensing comment: still under construction.
-
-  Because schema.org has no expressions for encoding license, we are using Dublin Core and LRMI to 
-  encode license and using namespaced itemprop's. I have seen one example that uses xml namespaces 
-  and then appends to the itemprop name 'itemprop="dc:license"', and then I have seen other examples that
-  use "itemtype" to point where the namespace would have pointed.  
-
-  Ex. with RDFA
-
-  Ex. with xmlns
-  <div class="license">Licensed:
-    <a data-type="license" itemprop="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/">
-      <span itemprop="dc:license">CC-By 4.0</span>
-    </a> 
-  </div>
-
-  Ex. with "itemtype"
-  <div class="license">Licensed:
-    <a data-type="license" itemscope="itemscope" itemtype="http://lrmi.net/the-specification"  itemprop="useRightsURL" href="http://creativecommons.org/licenses/by/4.0/">
-      <span itemscope="itemscope" itemtype="http://purl.org/dc/elements/1.1/" itemprop="license">CC-By 4.0</span>
-    </a> 
-  </div>
-
--->
 
 <!-- For EPUB parsing/validation python should only care about data-* attributes. 
   Other attributes are for discoverability and compatibility with schema.org . -->
 
 <!-- This validates as HTML5 using the [W3C valiator](http://validator.w3.org/check) as of its 
-  first checkin -->
+  first checkin and Feb 18, 2014 1:05p -->
 <head itemscope="itemscope" itemtype="http://schema.org/Book">
   <title>Momentum</title> <!-- Note that title is required in the head element 
   in HTML5. Copy the itemprop="name" element from the body on save. -->
@@ -72,7 +48,7 @@ xmlns:lrmi="http://lrmi.net/the-specification"
 
   <!-- This is the metadata block -->
   <div data-type="metadata" itemscope="itemscope" itemtype="http://schema.org/CreativeWork">
-     <!-- ******************************************* -->
+    <!-- ******************************************* -->
     <!-- Copied from head when editing within Aloha in order to allow metadata editing within 
     Aloha editor. Move back to the head on save. Meta elements are definitely allowed in the 
     body of the content if they use "itemprop". -->
@@ -101,6 +77,7 @@ xmlns:lrmi="http://lrmi.net/the-specification"
     visibility:hidden or display:none so that screen readers do not read the content that sighted
     readers are not seeing. I took this advice from 
     http://webaim.org/techniques/css/invisiblecontent/ -->
+    
     <h1 data-type="title" itemprop="name">Momentum</h1>
     <div class="contributors">
       <div class="authors">By: 
@@ -131,9 +108,10 @@ xmlns:lrmi="http://lrmi.net/the-specification"
         <span data-type="copyright-holder" itemprop="copyrightHolder">Siyavula</span>
       </div>
       <div class="license">Licensed:
-        <!-- For links, the itemprop always refers to the url, thus the need for a span to hold the property
-        pertaining to the text inside the node. -->
-        <a data-type="license" itemprop="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/"><span itemprop="dc:license">CC-By 4.0</span>
+        <!-- Using Dublin Core, Learning Resource Metadata Initiative (LRMI), and RDFA to encode license 
+             information, because Schema.org doesn't support, and no Dublin Core vocabs availalbe yet. -->
+        <a data-type="license" rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/">
+          <span property="dc:license">CC-By 4.0</span>
         </a> 
       </div>
     </div>
