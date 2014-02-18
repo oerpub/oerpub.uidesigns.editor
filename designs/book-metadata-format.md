@@ -42,7 +42,7 @@ illustrator | dc:creator with role=ill | ```<dc:creator id="#creator01" opf:file
 copyright holder | meta dcterms:rightsHolder | ```<meta property="dcterms:rightsHolder">Mister Owner</meta>```
 date created | dc:date w event="publication | ```<dc:date opf:event="publication">2013-10-08 {date when new book created}</dc:date>```
 date modified | meta dcterms:modified | ```<meta properties="dcterms:modified">2013-12-19 {date of last edit}</meta>```
-accessibility metadata | | 
+   | **accessibility metadata** | 
 mathml | meta schema:acessibilityFeature:MathML | ```<meta property="schema:accessibilityFeature">MathML</meta>```
 image descriptions | meta schema:acessibilityFeature:alternativeText | ```<meta property="schema:accessibilityFeature">alternativeText</meta>```
 structural nav | meta schema:acessibilityFeature:structuralNavigation | ```<meta property="schema:accessibilityFeature">structuralNavigation</meta>```
@@ -112,9 +112,8 @@ For the -nav file, the Schema.org itemtype should be http://schema.org/Book and 
 
 Where it makes sense, the metadata is included directly in the body of the content. In the samples, notice that most of the metadata is in a metadata block within the html body. Different contexts may choose to show or hide the metadata. 
 
-Metadata Value | Expression in html | Example
-            |  itemprop, data-type  | 
------------ | -------------------- | ------------
+Metadata Value | Expression in html <br> itemprop, data-type | Example
+:-----------: | :----------------: | :------------
 title       | name, title            | ```<h1 data-type="title" itemprop="name">Title of the book or module </h1>```
 github book epub id | url       | ```<meta itemprop="url" content="http://github.com/oerpub/demo-book/content/demo-book.opf" /> ```
 github book web id | url       | ```<meta itemprop="url" content="http://github.com/oerpub/demo-book/content/demo-book-nav.html" /> ```
@@ -123,7 +122,6 @@ language	| inLanguage, language | ```<meta data-type="language" itemprop="inLang
 summary/abstract | description, description |  ```<div data-type="description" itemprop="description">Everything you always wanted to know about metadata but were afraid to ask. </div>```
 keyword		| keywords,keyword | ```<span itemprop="keywords" data-type="keyword">Amphibians</span>```
 derived from | isBasedOnUrl,based-on | ```<a data-type="based-on" itemprop="isBasedOnURL" href="http://github.com/oerpub/empty-book/content/forked-from-book.opf>Physics for Highschool</a>```
-
 license		| dc:license and lrmi:useRightsURL, license | ```<a data-type="license" rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/"><span property="dc:license">CC-By 4.0</span></a>```
 author      | author, author | ```<span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author">Sample Author</span>```
 author account | url, github-id | ```<a data-type=github-id itemprop="url" href="http://github.com/oerpub">{author as above}</a>```
@@ -135,7 +133,7 @@ copyright holder | copyrightHolder | like author
 translator  | contributor,translator | ```<span data-type="translator" itemprop="contributor">Francis Hablar</span>```
 date created | dateCreated | ```<meta itemprop="dateCreated" content="2013-10-08" />```
 date modified | dateModified | ```<meta itemprop="dateModified" content="2013-11-15" />```
-accessibility metadata | | 
+   | **accessibility metadata** | 
 mathml | accessiblityFeature:mathML | ```<meta itemprop="accessibilityFeature" content="MathML" />```
 described images | accessiblityFeature:alternativeText | ```<meta itemprop="accessibilityFeature" content="alternativeText" />```
 structural navigation | accessiblityFeature:structuralNavigation | ```<meta itemprop="accessibilityFeature" content="structuralNavigation" />```
