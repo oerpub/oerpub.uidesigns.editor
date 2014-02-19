@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html> <!-- This is required in HTML5 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" 
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" 
+xmlns:lrmi="http://lrmi.net/the-specification"
+> 
+
+<head itemscope="itemscope" itemtype="http://schema.org/Book">
+  <title>Momentum</title> 
+  <meta data-type="langugage" itemprop="inLanguage" content="en" /> 
+  <meta itemprop="url" content="http://github.com/oerpub/demo-book/content/sample-module.html" />
+</head>
+<body>
+
+<figure data-type="embed" itemscope="itemscope" itemtype="http://schema.org/CreativeWork">
+  <div data-type="title">Watch this video and learn.</div>
+  <!-- The iframe that youtube returns has two problems that the w3c validator complains about. 
+  1. allowfullscreen  needs a value. 2. youtube returns a frameborder, and the validator
+  says to use CSS instead. -->
+  <div data-type="alternates"> 
+    <iframe width="420" height="315" src="//www.youtube.com/embed/01viXRa8Hqg?rel=0" allowfullscreen="allowfullscreen"></iframe>
+    <div> <!-- What class/type should we put on these? class="online", class="offline"? -->
+      <!-- oEmbed will return a thumbnail image. For now, we can use that as an alternate. -->
+      <img height="344" width="480" src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" />
+      <p>The video is available at http://www.youtube.com/watch?v=SmOwn_OEJTo.</p> <!-- oEmbed "url" or 
+      the url that the author originally input if no "url" is returned. -->
+    </div>
+  </div>  
+  <meta itemprop="url" content="http://www.youtube.com/watch?v=SmOwn_OEJTo"/> <!-- oEmbed "url" or the url 
+  that the author originally input if no "url" is returned. -->
+  <span itemscope="itemscope" itemtype="http://schema.org/Person" itemprop="author">
+      <meta itemprop="name" content="Mr. Bees" /> <!-- oEmbed "author" -->
+      <meta itemprop="url" content="http://www.flickr.com/photos/bees/" /> <!-- oEmbed "author_url" -->
+  </span>
+  <meta itemprop="accessibilityFeature" content="captions" />
+  <!-- figcaption must either be first or last. It cannot go in the middle of the figure. -->
+  <figcaption>
+   Something in the caption.
+  </figcaption>
+</figure>
+
+</body>
+</html>
