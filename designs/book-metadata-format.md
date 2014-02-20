@@ -32,8 +32,8 @@ author order | meta property="display-seq" |```<meta refines="#creator01" proper
 author account | meta property="custom:github-id" | ```<meta refines="#creator01" property="custom:github-id">oerpub</meta>```
 subject		| dc:subject xsi:type={cnx or oercommons} | ```<dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema">Humanities</dc:subject>```
 keyword		| dc:subject | ```<dc:subject>Amphibians</dc:subject>```
-license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0</dc:rights>```
-license URL | meta lrmi:useRightsUrl | ```<meta property="lrmi:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>``` <br \> or ```<link rel="lrmi:useRightsUrl href="http://creativecommons.org/licenses/by/4.0/" />```
+license		| dc:rights | ```<dc:rights>Creative Commons Attribution 4.0 License</dc:rights>```
+license URL | rel=license | ```<link rel="license" href="http://creativecommons.org/licenses/by/4.0/" />```
 derived from | meta schema:isBasedOnUrl | ```<meta property="schema:isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>```
 publisher | dc:creator with role=pbl | ```<dc:creator id="#creator01" opf:file-as="Publisher, Sample">Sample Publisher</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">pbl</meta>```
 editor      | dc:creator with role=edt | ```<dc:creator id="#creator01" opf:file-as="Author, Sample">Sample Author</dc:creator>```<br />```<meta refines="#creator01" property="role" scheme="marc:relators">edt</meta>```
@@ -69,8 +69,8 @@ Note: In order to use the meta values from schema.org, lrmi \(for the rights URL
 	<dc:creator id="#creator-02" opf:file-as="Author2, Sample2">Sample2 Author2</dc:creator>
     <meta refines="#creator-02" property="role" scheme="marc:relators">aut</meta>
 	<meta refines="#creator-02" property="display-seq">2</meta>
-    <dc:rights>Creative Commons Attribution 4.0</dc:rights>
-    <meta property="lrmi:useRightsUrl">http://creativecommons.org/licenses/by/4.0/</meta>
+    <dc:rights>Creative Commons Attribution 4.0 License</dc:rights>
+    <link rel="license" href="http://creativecommons.org/licenses/by/4.0/"/>
     <meta property="dcterms:rightsHolder">OERPUB</meta>
     <meta property="schema:isBasedOnUrl">http://github.com/oerpub/empty-book/content/empty-book.opf</meta>
     <dc:subject xsi:type="http://github.com/Connexions/rhaptos.cnxmlutils/rhaptos/cnxmlutils/schema" id="subject">Humanities</dc:subject>
@@ -122,7 +122,7 @@ language	| inLanguage, language | ```<meta data-type="language" itemprop="inLang
 summary/abstract | description, description |  ```<div data-type="description" itemprop="description">Everything you always wanted to know about metadata but were afraid to ask. </div>```
 keyword		| keywords,keyword | ```<span itemprop="keywords" data-type="keyword">Amphibians</span>```
 derived from | isBasedOnUrl,based-on | ```<a data-type="based-on" itemprop="isBasedOnURL" href="http://github.com/oerpub/empty-book/content/forked-from-book.opf>Physics for Highschool</a>```
-license		| dc:license and lrmi:useRightsURL, license | ```<a data-type="license" rel="lrmi:useRightsURL" href="http://creativecommons.org/licenses/by/4.0/"><span property="dc:license">CC-By 4.0</span></a>```
+license		| rel="license" | ```<a data-type="license" rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 License</a>```
 author      | author, author | ```<span itemscope="itemscope" itemtype="http://schema.org/Person" data-type="author" itemprop="author">Sample Author</span>```
 author account | url, github-id | ```<a data-type=github-id itemprop="url" href="http://github.com/oerpub">{author as above}</a>```
 subject     | about | ```<meta itemprop="about" content="Humanities" />```
