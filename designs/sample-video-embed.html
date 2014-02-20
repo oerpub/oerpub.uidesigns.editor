@@ -9,6 +9,7 @@ xmlns:lrmi="http://lrmi.net/the-specification"
   <title>Momentum</title> 
   <meta data-type="langugage" itemprop="inLanguage" content="en" /> 
   <meta itemprop="url" content="http://github.com/oerpub/demo-book/content/sample-module.html" />
+  <link rel="stylesheet" type="text/css"  href="samples.css" />
 </head>
 <body>
 
@@ -18,18 +19,24 @@ xmlns:lrmi="http://lrmi.net/the-specification"
   1. allowfullscreen  needs a value. 2. youtube returns a frameborder, and the validator
   says to use CSS instead. -->
   <div data-type="alternates"> 
-    <iframe width="420" height="315" src="//www.youtube.com/embed/01viXRa8Hqg?rel=0" allowfullscreen="allowfullscreen"></iframe>
+    <iframe data-type="online" width="420" height="315" 
+    src="http://www.youtube.com/embed/01viXRa8Hqg?rel=0" allowfullscreen="allowfullscreen">
+    </iframe>
     <div data-type="offline"> <!-- What class/type should we put on these? class="online", 
       class="offline"? class="source" -->
+
       <!-- oEmbed will return a thumbnail image. For now, we can use that as an alternate. -->
+      
       <!-- The span below is a hack, because browsers will try to fetch the image even though it isn't
-      needed while online. -->
-      <span data-type="offline" data-element="img" data-height="344" data-width="480" data-src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" data-alt="Swedish Chef  Squirrel Stew thumbnail" /> <!-- the alt text comes from oembed <title> + "thumbnail" -->
-      <!-- <img height="344" width="480" src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" alt="Swedish Chef  Squirrel Stew thumbnail" /> -->
+      needed while online, so we put the image within a span. -->
+      <!-- <span data-type="image" data-height="344" data-width="480" data-src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" data-alt="Swedish Chef  Squirrel Stew thumbnail" /> --> 
+      <!-- the alt text comes from oembed <title> + "thumbnail" --> 
+      
+      <img height="344" width="480" src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" alt="Swedish Chef  Squirrel Stew thumbnail" />
       <p>The video is available at http://www.youtube.com/watch?v=SmOwn_OEJTo.</p> <!-- oEmbed "url" or 
       the url that the author originally input if no "url" is returned. -->
     </div>
-  </div>  
+  </div>
   <meta itemprop="url" content="http://www.youtube.com/watch?v=SmOwn_OEJTo"/> <!-- oEmbed "url" or the url 
   that the author originally input if no "url" is returned. -->
   <span itemscope="itemscope" itemtype="http://schema.org/Person" itemprop="author">
