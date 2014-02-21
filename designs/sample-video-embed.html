@@ -22,23 +22,18 @@ xmlns:lrmi="http://lrmi.net/the-specification"
     <iframe data-type="online" width="420" height="315" 
     src="http://www.youtube.com/embed/01viXRa8Hqg?rel=0" allowfullscreen="allowfullscreen">
     </iframe>
-    <div data-type="offline"> <!-- What class/type should we put on these? class="online", 
-      class="offline"? class="source" -->
-
-      <!-- oEmbed will return a thumbnail image. For now, we can use that as an alternate. -->
-      
-      <!-- The span below is a hack, because browsers will try to fetch the image even though it isn't
-      needed while online, so we put the image within a span. -->
-      <!-- <span data-type="image" data-height="344" data-width="480" data-src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" data-alt="Swedish Chef  Squirrel Stew thumbnail" /> --> 
-      <!-- the alt text comes from oembed <title> + "thumbnail" --> 
-      
-      <img height="344" width="480" src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" alt="Swedish Chef  Squirrel Stew thumbnail" />
-      <p>The video is available at http://www.youtube.com/watch?v=SmOwn_OEJTo.</p> <!-- oEmbed "url" or 
+    <div data-type="offline"> 
+      <!-- oEmbed will return a thumbnail image. For now, we can use that as an alternate. 
+          If no thumbnail is included, then don't include this image tag, just the <p> -->
+      <img height="344" width="480" src="http://i1.ytimg.com/vi/01viXRa8Hqg/hqdefault.jpg" 
+        alt="Swedish Chef  Squirrel Stew thumbnail" /> <!-- the alt text comes from oembed 
+          <title> + "thumbnail" --> 
+      <p>The media is available at http://www.youtube.com/watch?v=SmOwn_OEJTo.</p> <!-- oEmbed "url" or 
       the url that the author originally input if no "url" is returned. -->
     </div>
   </div>
-  <meta itemprop="url" content="http://www.youtube.com/watch?v=SmOwn_OEJTo"/> <!-- oEmbed "url" or the url 
-  that the author originally input if no "url" is returned. -->
+  <meta itemprop="url" content="http://www.youtube.com/watch?v=SmOwn_OEJTo"/> <!-- oEmbed "url" 
+    or the url that the author originally input if no "url" is returned. -->
   <span itemscope="itemscope" itemtype="http://schema.org/Person" itemprop="author">
       <meta itemprop="name" content="Mr. Bees" /> <!-- oEmbed "author" -->
       <meta itemprop="url" content="http://www.flickr.com/photos/bees/" /> <!-- oEmbed "author_url" -->
@@ -47,7 +42,7 @@ xmlns:lrmi="http://lrmi.net/the-specification"
   http://api.a11ymetadata.org/captions/youtubeid=Y2IJb1YnAmQ/youtube/ returns 'true' -->
   <!-- figcaption must either be first or last. It cannot go in the middle of the figure. -->
   <figcaption>
-   Something in the caption.
+    <a href="http://www.youtube.com/watch?v=SmOwn_OEJTo">Source</a>: by <a href="http://www.flickr.com/photos/bees/">Mr. Bees</a>
   </figcaption>
 </figure>
 
