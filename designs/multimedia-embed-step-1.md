@@ -64,6 +64,8 @@ of oembed providers plus a bunch extra.
 
 ### Step 1: First page of the dialog for the URL
 
+- [ ] Arrow shows in the doc where the media will go.
+
 **Variations from the mockup**
 
 - [ ] Title of the dialog should say "Add video, slides or other media"
