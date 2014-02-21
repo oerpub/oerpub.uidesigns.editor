@@ -42,7 +42,10 @@ xmlns:lrmi="http://lrmi.net/the-specification"
   http://api.a11ymetadata.org/captions/youtubeid=Y2IJb1YnAmQ/youtube/ returns 'true' -->
   <!-- figcaption must either be first or last. It cannot go in the middle of the figure. -->
   <figcaption>
-    <a href="http://www.youtube.com/watch?v=SmOwn_OEJTo">Source</a>: by <a href="http://www.flickr.com/photos/bees/">Mr. Bees</a>
+    <a itemprop="url" href="http://www.youtube.com/watch?v=SmOwn_OEJTo">Source</a>: by 
+    <a itemprop="author" href="http://www.flickr.com/photos/bees/">Mr. Bees</a>  <!-- These are
+    potentially redundant with the meta's above, but since the author might delete this
+    in the UI, we leave both in. -->
   </figcaption>
 </figure>
 
